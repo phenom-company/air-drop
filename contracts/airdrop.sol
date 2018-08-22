@@ -199,9 +199,11 @@ contract StandardToken is Ownable, ERC20 {
   * @dev The Standard token constructor determines the total supply of tokens.
   */
   constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public {
-    totalSupply = _totalSupply; //balances msg.sender
+    totalSupply = _totalSupply;
+    balances[msg.sender] = _totalSupply;
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
+    emit Transfer(address(0), msg.sender, _totalSupply);
   }
 
   /**
