@@ -1,12 +1,14 @@
-var StandardToken = artifacts.require("StandardToken");
-var config = require('./config.json');
+const StandardToken = artifacts.require("StandardToken");
+const MintableToken = artifacts.require("MintableToken");
+const config = require('./config.json');
 
-var totalSupply = config.totalSupply;
-var nameOfToken = config.nameOfToken;
-var symbolOfToken = config.symbolOfToken;
+const totalSupply = config.totalSupply;
+const nameOfToken = config.nameOfToken;
+const symbolOfToken = config.symbolOfToken;
 
 module.exports = function(deployer) {
 	deployer.deploy([
-		[StandardToken, totalSupply, nameOfToken, symbolOfToken, {overwrite: false}]
+		[StandardToken, totalSupply, nameOfToken, symbolOfToken, {overwrite: false}],
+		[MintableToken, nameOfToken, symbolOfToken, {overwrite: false}]
 		]);
 };

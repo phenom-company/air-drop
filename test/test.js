@@ -1,4 +1,5 @@
 const StandardToken = artifacts.require("StandardToken");
+const MintableToken = artifacts.require("MintableToken");
 const config = require('../migrations/config.json');
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const totalSupply = config.totalSupply;
@@ -17,7 +18,12 @@ async function assertRevert(promise) {
     }
 };
 
-contract('StandardToken', function ([owner, holder, notHolder, recipient]) {
+contract('StandardToken', function (accounts) {
+
+	const owner = accounts[0];
+	const holder = accounts[1];
+	const notHolder = accounts[2];
+	const recipient = accounts[3];
 
     beforeEach(async function () {
         this.standardToken = await StandardToken.new(totalSupply, nameOfToken, symbolOfToken, {from: owner});
@@ -52,15 +58,15 @@ contract('StandardToken', function ([owner, holder, notHolder, recipient]) {
                 this.standardToken.transfer(holder, 100, {from: owner});
                 const balance = await this.standardToken.balanceOf(holder);
                 assert.equal(balance, 100);
-            })
-        })
+            });
+        });
     });
 
     describe('transfer', function () {
 
         beforeEach('transfer tokens to holder', async function() {
             await this.standardToken.transfer(holder, 100, {from: owner});
-        })
+        });
             
         describe('when the recipient is not the zero address', function () {
             const to = recipient;
@@ -103,7 +109,7 @@ contract('StandardToken', function ([owner, holder, notHolder, recipient]) {
     describe('approve', function () {
         beforeEach('transfer tokens to holder', async function() {
             await this.standardToken.transfer(holder, 100, {from: owner});
-        })
+        });
 
         const spender = recipient;
 
@@ -226,8 +232,67 @@ contract('StandardToken', function ([owner, holder, notHolder, recipient]) {
             });
         });
     });
+	describe('airdrop', function () {
+		const generateBalances = function (accountsLength) {
+			const values = [];
+			for (var i = 0; i < accountsLength; i++) {
+				values.push(Math.floor(Math.random() * 10 + 1));
+			}
+			return values;
+		};
+		const addresses = accounts;
+		const values = generateBalances(addresses.length);
+
+        describe('owner should be able to airdrop', function() {
+            it('yes', async function() {
+                await this.standardToken.airdrop(addresses, values, {from: owner});
+            	async function aaa() {
+	            	const results = [];
+					addresses.forEach(function (acc) {
+						results.push(this.standardToken.balanceOf(acc));
+					});
+					return Promise.all(results);
+				};
+
+				async function bbb(responces) {
+					const counter = 0;
+					responces.forEach(function (responce) {
+						// For each account check if balance is valid
+						assert(responce.toNumber() == values[counter],
+						'balance of ' + addresses[counter] + ' is not valid');
+						counter++;
+					});
+            	};
+            	for (var i = 0; i < addresses.length; i++) {
+					console.log(addresses[i]);
+					console.log(values[i]);
+				};
+        	});
+    	});
+	});
 });
 
+/*contract('MintableToken', function ([owner, holder, notHolder, recipient]) {
+
+    beforeEach(async function () {
+        this.mintableToken = await MintableToken.new(nameOfToken, symbolOfToken, {from: owner});
+    });
+
+    describe('total supply and owner', function () {
+    	it('owner was set incorrectly', async function() {		    	
+    		const trueOwner = await this.standardToken.owner();       	
+	    	assert.equal(owner, trueOwner);
+	    });
+        it('should have initial total supply 1000000', async function () {
+            const totalSupply = await this.standardToken.totalSupply();
+            assert.equal(totalSupply, 1000000);
+        });
+
+        it('owner should have initial balance 1000000', async function () {
+            const ownerBalance = await this.standardToken.balanceOf(owner);
+            assert.equal(ownerBalance, 1000000);
+        });      
+    });*/
 
 /*var senderBalance = await StandardTokenContract.balanceOf(recipient);
     			console.log(senderBalance);

@@ -211,10 +211,10 @@ contract StandardToken is Ownable, ERC20 {
   /**
   * @dev Sends the tokens to a list of addresses.
   */
-  function airdrop(address[] _adresses, uint256[] _values) public onlyOwner returns (bool) {
-        require(_adresses.length == _values.length);
-        for (uint256 i = 0; i < _adresses.length; i++) {
-            require(transfer(_adresses[i], _values[i]));
+  function airdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
+        require(_addresses.length == _values.length);
+        for (uint256 i = 0; i < _addresses.length; i++) {
+            require(transfer(_addresses[i], _values[i]));
         }
         return true;
   }
@@ -260,10 +260,10 @@ contract MintableToken is Ownable, ERC20 {
   /**
   * @dev Sends the tokens to a list of addresses.
   */
-  function mintableAirdrop(address[] _adresses, uint256[] _values) public onlyOwner returns (bool) {
-        require(_adresses.length == _values.length);
-        for (uint256 i = 0; i < _adresses.length; i++) {
-            require(mintTokens(_adresses[i], _values[i]));
+  function mintableAirdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
+        require(_addresses.length == _values.length);
+        for (uint256 i = 0; i < _addresses.length; i++) {
+            require(mintTokens(_addresses[i], _values[i]));
         }
         return true;
   }
