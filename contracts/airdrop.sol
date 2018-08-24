@@ -127,6 +127,7 @@ contract ERC20 {
   *   @return true if the transfer was successful 
   */
   function transfer(address _to, uint _amount) public returns (bool) {
+      require(_to != address(0) && _to != address(this));
       balances[msg.sender] = balances[msg.sender].sub(_amount);     
       balances[_to] = balances[_to].add(_amount);
       emit Transfer(msg.sender, _to, _amount);
@@ -144,6 +145,7 @@ contract ERC20 {
   *   @return true if the transfer was successful
   */
   function transferFrom(address _from, address _to, uint _amount) public returns (bool) {
+      require(_to != address(0) && _to != address(this));
       balances[_from] = balances[_from].sub(_amount);
       allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);
       balances[_to] = balances[_to].add(_amount);
@@ -199,7 +201,7 @@ contract StandardToken is Ownable, ERC20 {
   * @dev The Standard token constructor determines the total supply of tokens.
   */
   constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public {
-    totalSupply = _totalSupply;
+    totalSupply = _totalSupply; //1000000
     balances[msg.sender] = _totalSupply;
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
@@ -248,6 +250,7 @@ contract MintableToken is Ownable, ERC20 {
   */
   function mintTokens(address _holder, uint _value) internal canMint onlyOwner returns (bool) {
      require(_value > 0);
+     require(_holder != address(0));
      balances[_holder] = balances[_holder].add(_value);
      totalSupply = totalSupply.add(_value);
      emit Mint(_holder, _value);
