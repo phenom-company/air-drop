@@ -1,8 +1,8 @@
 const StandardToken = artifacts.require("StandardToken");
 const MintableToken = artifacts.require("MintableToken");
+const TokenCreator = artifacts.require("TokenCreator");
 const config = require('../migrations/config.json');
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-const totalSupply = config.totalSupply;
 const nameOfToken = config.nameOfToken;
 const symbolOfToken = config.symbolOfToken;
 
@@ -20,6 +20,7 @@ async function assertRevert(promise) {
 
 contract('StandardToken', function (accounts) {
 
+	const totalSupply = config.totalSupply;
 	const owner = accounts[0];
 	const holder = accounts[1];
 	const notHolder = accounts[2];
@@ -233,6 +234,7 @@ contract('StandardToken', function (accounts) {
         });
     });
 	describe('airdrop', function () {
+
 		const generateBalances = function (accountsLength) {
 			const values = [];
 			for (var i = 0; i < accountsLength; i++) {
@@ -242,6 +244,13 @@ contract('StandardToken', function (accounts) {
 		};
 		const addresses = accounts;
 		const values = generateBalances(addresses.length);
+
+		describe('when the length of the address list and value list are not equal', function () {
+            it('reverts', async function () {
+        		const values = generateBalances(addresses.length - 1);
+                await assertRevert(this.standardToken.airdrop(addresses, values, {from: owner}));
+            });
+        });
 
         describe('owner should be able to airdrop', function() {
             it('yes', async function() {
@@ -263,7 +272,7 @@ contract('StandardToken', function (accounts) {
 						counter++;
 					});
             	};
-            	for (var i = 0; i < addresses.length; i++) {
+            	for (var i = 0; i < 3; i++) {
 					console.log(addresses[i]);
 					console.log(values[i]);
 				};
@@ -272,31 +281,139 @@ contract('StandardToken', function (accounts) {
 	});
 });
 
-/*contract('MintableToken', function ([owner, holder, notHolder, recipient]) {
+contract('MintableToken', function (accounts) {
+
+	const owner = accounts[0];
+	const holder = accounts[1];
+	const notHolder = accounts[2];
+	const recipient = accounts[3];
 
     beforeEach(async function () {
         this.mintableToken = await MintableToken.new(nameOfToken, symbolOfToken, {from: owner});
     });
 
-    describe('total supply and owner', function () {
+    describe('owner', function () {
     	it('owner was set incorrectly', async function() {		    	
-    		const trueOwner = await this.standardToken.owner();       	
+    		const trueOwner = await this.mintableToken.owner();       	
 	    	assert.equal(owner, trueOwner);
-	    });
-        it('should have initial total supply 1000000', async function () {
-            const totalSupply = await this.standardToken.totalSupply();
-            assert.equal(totalSupply, 1000000);
+	    });     
+    });
+    
+    describe('mintTokens', function () {
+
+        describe('when data is entered incorrectly', function () {
+            describe('when value <= 0', function () {
+                const value = 0;
+                it('reverts', async function () {
+                    await assertRevert(this.mintableToken.mintTokens(holder, value, {from: owner}));
+                });
+            });
+            describe('when holder is the zero address', function () {
+            	const value = 100;
+                it('reverts', async function () {
+                    await assertRevert(this.mintableToken.mintTokens(ZERO_ADDRESS, value, {from: owner}));
+                });
+            });
+        });
+        describe('when mint of tokens was correctly', function () {
+                const value = 100;
+                it('the balance of the holder and total supply was increased', async function () {
+                	await this.mintableToken.mintTokens(holder, value, {from: owner});
+                	const holderBalance = await this.mintableToken.balanceOf(holder);
+                	const totalSupply = await this.mintableToken.totalSupply();
+                    assert.equal(holderBalance, value);  
+                    assert.equal(totalSupply, value);    
+                });
+        });
+    });
+
+    describe('mintableAirdrop', function () {
+
+        const generateBalances = function (accountsLength) {
+			const values = [];
+			for (var i = 0; i < accountsLength; i++) {
+				values.push(Math.floor(Math.random() * 10 + 1));
+			}
+			return values;
+		};
+		const addresses = accounts;
+		const values = generateBalances(addresses.length);
+
+		describe('when the length of the address list and value list are not equal', function () {
+            it('reverts', async function () {
+        		const values = generateBalances(addresses.length - 1);
+                await assertRevert(this.mintableToken.mintableAirdrop(addresses, values, {from: owner}));
+            });
         });
 
-        it('owner should have initial balance 1000000', async function () {
-            const ownerBalance = await this.standardToken.balanceOf(owner);
-            assert.equal(ownerBalance, 1000000);
-        });      
-    });*/
+        describe('owner should be able to airdrop', function() {
+            it('yes', async function() {
+                await this.mintableToken.mintableAirdrop(addresses, values, {from: owner});
+            	async function aaa() {
+	            	const results = [];
+					addresses.forEach(function (acc) {
+						results.push(this.mintableToken.balanceOf(acc));
+					});
+					return Promise.all(results);
+				};
 
-/*var senderBalance = await StandardTokenContract.balanceOf(recipient);
-    			console.log(senderBalance);
-    			var senderBalance = await StandardTokenContract.balanceOf(holder);
-    			console.log(senderBalance);
-    			var senderBalance = await StandardTokenContract.balanceOf(Owner);
-    			console.log(senderBalance);*/
+				async function bbb(responces) {
+					const counter = 0;
+					responces.forEach(function (responce) {
+						// For each account check if balance is valid
+						assert(responce.toNumber() == values[counter],
+						'balance of ' + addresses[counter] + ' is not valid');
+						counter++;
+					});
+            	};
+            	for (var i = 0; i < 3; i++) {
+					console.log(addresses[i]);
+					console.log(values[i]);
+				};
+        	});
+    	});
+    });
+    describe('when minting was finished', function () {
+    	
+    	describe('minting finished', function () {
+            it('ok', async function () {
+            	await this.mintableToken.finishMinting({from: owner});
+            	const mintingFinished = await this.mintableToken.mintingFinished();
+                assert.equal(mintingFinished, true);    
+            });
+        });
+
+        describe('minting is not possible', function () {
+            it('reverts', async function () {
+            	await this.mintableToken.finishMinting({from: owner});
+            	await assertRevert(this.mintableToken.mintTokens(holder, 100, {from: owner}));   
+            });
+        });
+    });
+});
+
+contract('TokenCreator', function (accounts) {
+
+	const owner = accounts[0];
+
+    beforeEach(async function () {
+        this.tokenCreator = await TokenCreator.new({from: owner});
+    });
+
+    describe('standard token was create', function () {
+    	const totalSupply = config.totalSupply;
+    	it('ok', async function() {		    	
+    		const tokenAddress = await this.tokenCreator.createStandardToken(totalSupply, nameOfToken, symbolOfToken, {from: owner});       	
+	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
+	    	console.log(tokenAddress);
+	    });     
+    });
+
+    describe('mintable token was create', function () {
+    	it('ok', async function() {		    	
+    		const tokenAddress = await this.tokenCreator.createMintableToken(nameOfToken, symbolOfToken, {from: owner});       	
+	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
+	    	console.log(tokenAddress);
+	    });     
+    });  
+});

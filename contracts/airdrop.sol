@@ -248,7 +248,7 @@ contract MintableToken is Ownable, ERC20 {
   *   @param _holder       beneficiary address the tokens will be issued to
   *   @param _value        number of tokens to issue
   */
-  function mintTokens(address _holder, uint _value) internal canMint onlyOwner returns (bool) {
+  function mintTokens(address _holder, uint _value) public canMint onlyOwner returns (bool) {
      require(_value > 0);
      require(_holder != address(0));
      balances[_holder] = balances[_holder].add(_value);
