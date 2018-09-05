@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Airdrop</title>
+	<script type="text/javascript" src="js/truffle-contract.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div class="container" id="app">
+		<h1 class="text-center">Airdrop</h1>
+		<nav class="nav nav-pills nav-justified">
+			<a class="nav-item nav-link active" v-on:click="makeActive('createActive')">Create new wallet</a>
+			<a class="nav-item nav-link" v-on:click="makeActive('addActive')">Add existing wallet</a>
+			<a class="nav-item nav-link" v-on:click="makeActive('viewActive')">View my wallet info</a>
+			<a class="nav-item nav-link" v-on:click="makeActive('historyActive')">Transactions history</a>
+			<a class="nav-item nav-link" v-on:click="makeActive('signActive')">Sign/unsign transaction</a>
+		</nav>
+		<div class="row">
+			<div class="col-md-8 col-md-push-2" id="create" v-show="isActiveTab('createActive')">
+				<h3>Create wallet</h3>
+				<div class="form-group">
+					<label for="confirms">Required confirmations:</label>
+			        <input type="text" class="form-control" id="confirms">
+			    </div>
+			    <div class="form-group">
+					<label for="signers">Signers:</label>
+			        <input type="text" class="form-control" id="signers">
+			    </div>
+		        <button id="unlock" class="btn">Unlock accout</button>	
+		        <button id="create-wallet" class="btn btn-primary">Create wallet</button>
+		        <span>Address of wallet: {{ getWalletProperty(wallets.length - 1, 'address') }}</span>
+			</div>
+			<div class="col-md-8 col-md-push-2" id="add" v-show="isActiveTab('addActive')">
+				<h3>Add already existing wallet</h3>
+				<div class="form-group">
+		            <label for="existing-option">Wallet address or your address:</label>
+		            <select class="form-control" v-model="addSelect">
+		                <option value="wallet address">Wallet address</option>
+		                <option value="my address">My address</option>
+		            </select>
+	            </div>
+	            <div class="form-group">
+					<label for="existing-address">Existing address goes here:</label>
+					<input type="text" class="form-control" id="existing-address" v-model="addAddress">
+				</div>
+	            <button class="btn btn-primary" @click="addWallet()">Add</button>
+			</div>
+
+			<div class="col-md-8 col-md-push-2" id="view" v-show="isActiveTab('viewActive')">
+				<h3>View wallet info</h3>
+				<h4>Known wallets:</h4>
+				<ul id="known-wallets" class="list-group">
+					<li v-for="(wallet, index) in wallets" class="list-group-item">
+						Address: {{ wallet.address }}
+						Ether balance: {{ wallet.ethBalance }}
+						<button v-on:click="refreshWalletInfo(index)">Refresh</button>
+						<button v-on:click="wallets.splice(index, 1)">Delete</button>
+					</li>
+				</ul>
+				<h4>Wallet info:</h4>
+				<div id="viewInfo">
+					<select v-model="selectedWalletIndex" class="form-control" @change="setCurrentWalletAddress()">
+						<option disabled value=0>Select wallet</option>
+						<option v-for="wallet of wallets" v-bind:value="wallets.indexOf(wallet)">
+						{{ wallet.address }}
+						</option>
+					</select>
+					<ul class="list-group">
+						<li class="list-group-item">Address: {{ getSelectedWalletProp('address') }}</li>
+						<li class="list-group-item">Signers: {{ join(getSelectedWalletProp('signers')) }}</li>
+						<li class="list-group-item">Value: {{ getSelectedWalletProp('ethBalance') }}</li>
+						<li class="list-group-item">Confirmations: {{ getSelectedWalletProp('requiredConfirmations') }}</li>
+					</ul>
+					</h4>Token info:</h4>
+					<input type="text" v-model="tokenAddress" placeholder="token address">
+					<button v-on:click="getTokenInfo()" class="btn btn-info"> 
+						Get info
+					</button>
+					<ul class="list-group">
+						<li class="list-group-item">Address: {{ tokenInfo.address }}</li>
+						<li class="list-group-item">Balance: {{ tokenInfo.balance }}</li>
+						<li class="list-group-item">Name: {{ tokenInfo.name }}</li>
+						<li class="list-group-item">Symbol: {{ tokenInfo.symbol }}</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="col-md-8 col-md-push-2" id="history" v-show="isActiveTab('historyActive')">
+				<h3>View transactions history</h3>
+				<input type="checkbox" id="checkbox1" v-model="pendingTransfersBox">
+				<label for="checkbox1">Pending</label>
+				<input type="checkbox" id="checkbox2" v-model="doneTransfersBox">
+				<label for="checkbox2">Done</label>
+				<input type="checkbox" id="checkbox3" v-model="tokenTransfersBox">
+				<label for="checkbox3">Token transfers</label>
+				<input type="checkbox" id="checkbox4" v-model="etherTransfersBox">
+				<label for="checkbox4">Ether transfers</label>
+				<input v-model="tailSize" placeholder="number of last transactions">
+				<button v-on:click="getTransactions()" class="btn btn-info">
+					Get transactions
+				</button>
+				<ul class="list-group">
+					<li v-for="tx of transactions" class="list-group-item">
+						<ul class="list-group">
+							<li v-for="(value, key) in tx" class="list-group-item">
+								{{ key }} {{ value }}
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-md-8 col-md-push-2" id="sign" v-show="isActiveTab('signActive')">
+				<h3>Sign/unsign transactions</h3>
+				<label for="tx-id">Transaction id:</label>
+				<input type="text" id="tx-id" v-model="txId" class="form-control">
+				<button v-on:click="getTransactionById()" class="btn btn-info">
+					Get transaction
+				</button>
+				<ul class="list-group">
+					<li v-for="(value, key) in currentTx" class="list-group-item">
+						{{ key }}: {{ value }}
+					</li>
+				</ul>
+				<button class="btn btn-primary" v-on:click="signTransaction()">
+					Sign
+				</button>
+				<button class="btn btn-primary" v-on:click="unsignTransaction()">
+					Unsign
+				</button>
+				<div>Current wallet: {{ getSelectedWalletProp('address') }}</div>
+				<label for="address-to">Address:</label>
+				<input type="text" v-model="txToAddress" class="form-control" placeholder="address to" id="address-to">
+				<select class="form-control" v-model="isEther">
+					<option value="ether">Ether</option>
+					<option value="">Token</option>
+				</select>
+				<label for="token-address" v-show="!Boolean(isEther)">Token address:</label>
+				<input type="text" v-show="!Boolean(isEther)" v-model="txTokenAddress" class="form-control" placeholder="contract address" id="token-address">
+				<label for="amount">Amount:</label>
+				<input type="text" v-model="txAmount" class="form-control" id="amount">
+				<button v-on:click="createTransaction()" class="btn btn-primary">
+					Create transaction
+				</button>
+				<div>
+					Transaction id: {{ createdTxId }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+	<script src="js/app.js"></script>
+	<script src="js/vueApp.js"></script>
+</body>
+</html>

@@ -81,7 +81,7 @@ contract Ownable {
    * account.
    */
   constructor() public {
-    owner = msg.sender;
+    owner = tx.origin;
   }
 
   /**
@@ -201,11 +201,11 @@ contract StandardToken is Ownable, ERC20 {
   * @dev The Standard token constructor determines the total supply of tokens.
   */
   constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public {
-    totalSupply = _totalSupply; //1000000
-    balances[msg.sender] = _totalSupply;
+    totalSupply = _totalSupply;
+    balances[tx.origin] = _totalSupply;
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
-    emit Transfer(address(0), msg.sender, _totalSupply);
+    emit Transfer(address(0), tx.origin, _totalSupply);
   }
 
   /**
@@ -294,15 +294,15 @@ contract TokenCreator {
   
   function createStandardToken(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public returns (address) {
     address token = new StandardToken(_totalSupply, _nameOfToken, _symbolOfToken);
-    tokens[msg.sender].push(token);
-    emit TokenCreated(msg.sender, token);
+    tokens[tx.origin].push(token);
+    emit TokenCreated(tx.origin, token);
     return token;
   }
 
   function createMintableToken(string _nameOfToken, string _symbolOfToken) public returns (address) {
     address token = new MintableToken(_nameOfToken, _symbolOfToken);
-    tokens[msg.sender].push(token);
-    emit TokenCreated(msg.sender, token);
+    tokens[tx.origin].push(token);
+    emit TokenCreated(tx.origin, token);
     return token;
   }
 
