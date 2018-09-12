@@ -1,15 +1,6 @@
-function initWeb3() {
-	if (typeof web3 !== 'undefined') {
- 		web3 = new Web3(web3.currentProvider);
-		} else {
- 		// set the provider you want from Web3.providers
- 		web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
- 		alert('ВНИМАНИЕ! Для работы с сайтом необходимо скачать расширение для браузера \'MetaMask\' и авторизоваться!');
-	}
-}
-initWeb3();
-const abi = [{
-	"constant": true,
+[
+    {
+      "constant": true,
       "inputs": [
         {
           "name": "",
@@ -116,44 +107,5 @@ const abi = [{
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
-}];
-const TokenCreator = web3.eth.contract(abi);
-// initiate contract for an address
-const tokenCreatorInstance = TokenCreator.at('0x002726019f72917Acb5874dbDa0A61E189C586cA');
-const accounts = web3.eth.accounts;
-
-const VueApp = new Vue({
-  el: '#app',
-  data: {
-    tokenNameStand: '',
-    tokenSymbolStand: '',
-    tokenSupply: '',
-    tokenAddresses: [],
-    tokenNameMint: '',
-    tokenSymbolMint: '',
-  },
-  methods: {
-    createStandard () {
-    	tokenCreatorInstance.createStandardToken(this.tokenSupply, this.tokenNameStand, this.tokenSymbolStand, console.log);  
-    },
-    createMintable () {
-    	tokenCreatorInstance.createMintableToken(this.tokenNameMint, this.tokenSymbolMint, console.log);  
-    },
-    showTokens () {
-    	this.tokenAddresses = [];
-    	tokenCreatorInstance.amountOfTokens(accounts[0], (err, result) => {
-    		if (!err) {
-    			let i = result;
-    			for (i; i > 0; i--) {
-  					tokenCreatorInstance.tokens(accounts[0], i - 1, (err, result) => {
-  						if (!err) {
-  							this.tokenAddresses.push(result);
-  						}
-  					});
-  				}		
-    		}
-    	})
-  		
-  	}
-  },
-})
+    }
+  ]

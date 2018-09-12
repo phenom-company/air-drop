@@ -4,65 +4,88 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+	<link rel="shortcut icon" href="favicon.ico">
     <title>Airdrop</title>
 	
-	<script type="text/javascript" src="js/truffle-contract.min.js"></script>
+	<!-- <script type="text/javascript" src="js/truffle-contract.min.js"></script> -->
+	<script type="text/javascript" src="js/web3.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
-	<div class="container">
+	<div class="container" id="app">
 		<h1 class="text-center">Airdrop</h1>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs justify-content-center" role="tablist">
 		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Drop your token</a>
+		    <a class="nav-link active" data-toggle="tab" href="#airdrop" role="tab">Drop your token</a>
 		  </li>
 		  <li class="nav-item dropdown">
 		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Create new token</a>
 		    <div class="dropdown-menu">
-		      <a class="dropdown-item" data-toggle="tab" href="#messages">Create standard token</a>
-		      <a class="dropdown-item" data-toggle="tab" href="#settings">Create mintable token</a>
+		      <a class="dropdown-item" data-toggle="tab" href="#standard-token">Create standard token</a>
+		      <a class="dropdown-item" data-toggle="tab" href="#mintable-token">Create mintable token</a>
 		    </div>
 		  </li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane show active" id="home" role="tabpanel">
-				<div class="col-md-8 col-md-push-2" id="create" v-show="isActiveTab('createActive')">
+			<div class="tab-pane show active" id="airdrop" role="tabpanel">
+				<div class="col-md-8 col-md-push-2">
+					<br>
+					<button id="show-tokens" class="btn btn-outline-secondary btn-sm" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" @click="showTokens()">Show your tokens</button>
+					<div class="collapse" id="collapseExample">
+						<br>
+						<div class="card" v-for="address in tokenAddresses">
+							{{ address }}
+						</div>
+					</div>
 					<div class="form-group">
-						<label for="confirms"><br>Address of your token:</label>
-				        <input type="text" class="form-control" id="confirms">
+						<label for="address-of-token"><br>Address of your token:</label>
+				        <input type="text" class="form-control" id="address-of-token">
 				    </div>
 				    <div class="form-group">
-						<label for="signers">List of addresses and number of tokens:</label>
-				        <input type="text" class="form-control" id="signers">
+						<label for="list-of-recipients">List of addresses and number of tokens:</label>
+				        <input type="text" class="form-control" id="list-of-recipients">
 				    </div>	
-				    <button id="create-wallet" class="btn btn-primary">Drop</button>
+				    <button id="drop-tokens" class="btn btn-outline-primary">Drop</button>
 				</div>
 			</div>
-			<div class="tab-pane" id="messages" role="tabpanel">
+			<div class="tab-pane" id="standard-token" role="tabpanel">
 				<h3 class="text-center"><br>Standard token</h3>
-				<div class="col-md-8 col-md-push-2" id="create" v-show="isActiveTab('createActive')">
+				<div class="col-md-8 col-md-push-2">
 					<div class="form-group">
-						<label for="confirms">Token name:</label>
-				        <input type="text" class="form-control" id="confirms">
+						<label for="standard-name">Token name:</label>
+				        <input type="text" class="form-control" id="standard-name" v-model="tokenNameStand" placeholder="Name of your token">
 				    </div>
 				    <div class="form-group">
-						<label for="signers">Symbol:</label>
-				        <input type="text" class="form-control" id="signers">
+						<label for="standard-symbol">Symbol:</label>
+				        <input type="text" class="form-control" id="standard-symbol" v-model="tokenSymbolStand" placeholder="Symbol of your token">
 				    </div>	
 				    <div class="form-group">
-						<label for="signers">Total supply:</label>
-				        <input type="text" class="form-control" id="signers">
+						<label for="standard-supply">Total supply:</label>
+				        <input type="text" class="form-control" id="standard-supply" v-model="tokenSupply" placeholder="Total supply of your token">
 				    </div>	
-				    <button id="create-wallet" class="btn btn-primary" @click="createAccount()" :disabled="createAccountDisabled">Create</button>
+				    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
 				</div>
 			</div>
-			<div class="tab-pane" id="settings" role="tabpanel">..fsdfsdf.</div>
+			<div class="tab-pane" id="mintable-token" role="tabpanel">
+				<h3 class="text-center"><br>Mintable token</h3>
+				<div class="col-md-8 col-md-push-2">
+					<div class="form-group">
+						<label for="mintable-name">Token name:</label>
+				        <input type="text" class="form-control" id="mintable-name" v-model="tokenNameMint" placeholder="Name of your token">
+				    </div>
+				    <div class="form-group">
+						<label for="mintable-symbol">Symbol:</label>
+				        <input type="text" class="form-control" id="mintable-symbol" v-model="tokenSymbolMint" placeholder="Symbol of your token">
+				    </div>
+				    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
+				</div>
+			</div>
+			<br>
 		</div>
 	</div>
 	
@@ -77,5 +100,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="js/vueApp.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>

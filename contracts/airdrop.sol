@@ -260,7 +260,7 @@ contract MintableToken is Ownable, ERC20 {
   /**
   * @dev Sends the tokens to a list of addresses.
   */
-  function mintableAirdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
+  function airdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
         require(_addresses.length == _values.length);
         for (uint256 i = 0; i < _addresses.length; i++) {
             require(mintTokens(_addresses[i], _values[i]));
@@ -291,10 +291,12 @@ contract TokenCreator {
   using SafeMath for uint256;
 
   mapping(address => address[]) public tokens;
+  mapping(address => uint256) public amountOfTokens;
   
   function createStandardToken(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public returns (address) {
     address token = new StandardToken(_totalSupply, _nameOfToken, _symbolOfToken);
     tokens[tx.origin].push(token);
+    amountOfTokens[tx.origin] = amountOfTokens[tx.origin] + 1;
     emit TokenCreated(tx.origin, token);
     return token;
   }
@@ -302,6 +304,7 @@ contract TokenCreator {
   function createMintableToken(string _nameOfToken, string _symbolOfToken) public returns (address) {
     address token = new MintableToken(_nameOfToken, _symbolOfToken);
     tokens[tx.origin].push(token);
+    amountOfTokens[tx.origin] = amountOfTokens[tx.origin] + 1;
     emit TokenCreated(tx.origin, token);
     return token;
   }

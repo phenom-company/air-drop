@@ -327,7 +327,7 @@ contract('MintableToken', function (accounts) {
         });
     });
 
-    describe('mintableAirdrop', function () {
+    describe('airdrop', function () {
 
         const generateBalances = function (accountsLength) {
 			const values = [];
@@ -342,13 +342,13 @@ contract('MintableToken', function (accounts) {
 		describe('when the length of the address list and value list are not equal', function () {
             it('reverts', async function () {
         		const values = generateBalances(addresses.length - 1);
-                await assertRevert(this.mintableToken.mintableAirdrop(addresses, values, {from: owner}));
+                await assertRevert(this.mintableToken.airdrop(addresses, values, {from: owner}));
             });
         });
 
         describe('owner should be able to airdrop', function() {
             it('yes', async function() {
-                await this.mintableToken.mintableAirdrop(addresses, values, {from: owner});
+                await this.mintableToken.airdrop(addresses, values, {from: owner});
             	async function aaa() {
 	            	const results = [];
 					addresses.forEach(function (acc) {
