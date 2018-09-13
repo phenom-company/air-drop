@@ -1,6 +1,5 @@
-[
-    {
-      "constant": true,
+const abi = [{
+  "constant": true,
       "inputs": [
         {
           "name": "",
@@ -107,5 +106,4 @@
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
-    }
-  ]
+}];

@@ -33,24 +33,43 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div class="tab-pane show active" id="airdrop" role="tabpanel">
-				<div class="col-md-8 col-md-push-2">
+				<div class="col">
 					<br>
 					<button id="show-tokens" class="btn btn-outline-secondary btn-sm" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" @click="showTokens()">Show your tokens</button>
-					<div class="collapse" id="collapseExample">
-						<br>
-						<div class="card" v-for="address in tokenAddresses">
-							{{ address }}
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="address-of-token"><br>Address of your token:</label>
-				        <input type="text" class="form-control" id="address-of-token">
+					<br><br>
+					<table class="table table-bordered table-responsive collapse" id="collapseExample">
+					  <thead>
+					    <tr>
+					      <th>Address</th>
+					      <th>Name</th>
+					      <th>Symbol</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td>
+					      	<div v-for="address in tokenAddresses"> {{ address }} </div>
+					      </td>
+					      <td>
+					      	<div v-for="names in tokenNames"> {{ names }} </div>
+					      </td>
+					      <td>
+					      	<div v-for="symbols in tokenSymbols"> {{ symbols }} </div>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+					<div class="col-md-8 col-md-push-2">
+						<div class="form-group">
+							<label for="address-of-token"><br>Address of your token:</label>
+					        <input type="text" class="form-control" id="address-of-token">
+					    </div>
+					    <div class="form-group">
+							<label for="list-of-recipients">List of addresses and number of tokens:</label>
+					        <input type="text" class="form-control" id="list-of-recipients">
+					    </div>	
+					    <button id="drop-tokens" class="btn btn-outline-primary">Drop</button>
 				    </div>
-				    <div class="form-group">
-						<label for="list-of-recipients">List of addresses and number of tokens:</label>
-				        <input type="text" class="form-control" id="list-of-recipients">
-				    </div>	
-				    <button id="drop-tokens" class="btn btn-outline-primary">Drop</button>
 				</div>
 			</div>
 			<div class="tab-pane" id="standard-token" role="tabpanel">
@@ -86,13 +105,19 @@
 				</div>
 			</div>
 			<br>
+			<div id="work-area">
+				<textarea v-model="preParse"></textarea> <br />
+	        	<button @click="parseText(preParse)">Parse Text </button>
+		  	</div>
+		  	<div id="parsed">
+			    <h2>Parsed</h2>
+			    <span v-for="parsed in parseText"> 
+		    	   {{ parsed }} <br />
+			    </span>
+		  	</div>
 		</div>
 	</div>
 	
-
-
-
-
 
 
 

@@ -292,11 +292,15 @@ contract TokenCreator {
 
   mapping(address => address[]) public tokens;
   mapping(address => uint256) public amountOfTokens;
+  mapping(address => string[]) public namesOfTokens;
+  mapping(address => string[]) public symbolsOfTokens;
   
   function createStandardToken(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public returns (address) {
     address token = new StandardToken(_totalSupply, _nameOfToken, _symbolOfToken);
     tokens[tx.origin].push(token);
     amountOfTokens[tx.origin] = amountOfTokens[tx.origin] + 1;
+    namesOfTokens[tx.origin].push(_nameOfToken);
+    symbolsOfTokens[tx.origin].push(_symbolOfToken);
     emit TokenCreated(tx.origin, token);
     return token;
   }
@@ -305,6 +309,8 @@ contract TokenCreator {
     address token = new MintableToken(_nameOfToken, _symbolOfToken);
     tokens[tx.origin].push(token);
     amountOfTokens[tx.origin] = amountOfTokens[tx.origin] + 1;
+    namesOfTokens[tx.origin].push(_nameOfToken);
+    symbolsOfTokens[tx.origin].push(_symbolOfToken);
     emit TokenCreated(tx.origin, token);
     return token;
   }

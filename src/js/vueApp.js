@@ -4,7 +4,7 @@ function initWeb3() {
 		} else {
  		// set the provider you want from Web3.providers
  		web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
- 		alert('ВНИМАНИЕ! Для работы с сайтом необходимо скачать расширение для браузера \'MetaMask\' и авторизоваться!');
+ 		alert('Attention! To work with this site you need to download the browser extension \'Meta Mask\' and login!');
 	}
 }
 initWeb3();
@@ -44,6 +44,52 @@ const abi = [{
         {
           "name": "",
           "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "symbolsOfTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "namesOfTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
         }
       ],
       "payable": false,
@@ -119,7 +165,7 @@ const abi = [{
 }];
 const TokenCreator = web3.eth.contract(abi);
 // initiate contract for an address
-const tokenCreatorInstance = TokenCreator.at('0x002726019f72917Acb5874dbDa0A61E189C586cA');
+const tokenCreatorInstance = TokenCreator.at('0xf8f67a8a50fc69655d80ab030eaa9cd866ffff0d');
 const accounts = web3.eth.accounts;
 
 const VueApp = new Vue({
@@ -129,8 +175,11 @@ const VueApp = new Vue({
     tokenSymbolStand: '',
     tokenSupply: '',
     tokenAddresses: [],
+    tokenNames: [],
+    tokenSymbols: [],
     tokenNameMint: '',
     tokenSymbolMint: '',
+    preParse: '',
   },
   methods: {
     createStandard () {
@@ -141,19 +190,45 @@ const VueApp = new Vue({
     },
     showTokens () {
     	this.tokenAddresses = [];
+    	this.tokenNames = [];
+    	this.tokenSymbols = [];
+    	if (accounts[0] === undefined) {
+    		alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');
+    		return;
+    	};
     	tokenCreatorInstance.amountOfTokens(accounts[0], (err, result) => {
     		if (!err) {
     			let i = result;
-    			for (i; i > 0; i--) {
-  					tokenCreatorInstance.tokens(accounts[0], i - 1, (err, result) => {
+    			for (let x = 0; x < i; x++) {
+  					tokenCreatorInstance.tokens(accounts[0], x, (err, result) => {
   						if (!err) {
   							this.tokenAddresses.push(result);
+  						}
+  					});
+  				}
+  				let j = result;
+  				for (let x = 0; x < j; x++) {
+  					tokenCreatorInstance.namesOfTokens(accounts[0], x, (err, result) => {
+  						if (!err) {
+  							this.tokenNames.push(result);
+  						}
+  					});
+  				}
+  				let k = result;
+  				for (let x = 0; x < k; x++) {
+  					tokenCreatorInstance.symbolsOfTokens(accounts[0], x, (err, result) => {
+  						if (!err) {
+  							this.tokenSymbols.push(result);
   						}
   					});
   				}		
     		}
     	})
-  		
   	}
   },
+  computed: {
+    parseText: function() {
+      return this.preParse.split(';');
+    }
+  }
 })
