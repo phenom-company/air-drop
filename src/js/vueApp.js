@@ -163,10 +163,36 @@ const abi = [{
       "stateMutability": "nonpayable",
       "type": "function"
 }];
+const abiAirdrop = [{
+  "constant": false,
+  "inputs": [
+    {
+      "name": "_addresses",
+      "type": "address[]"
+    },
+    {
+      "name": "_values",
+      "type": "uint256[]"
+    }
+  ],
+  "name": "airdrop",
+  "outputs": [
+    {
+      "name": "",
+      "type": "bool"
+    }
+  ],
+  "payable": false,
+  "stateMutability": "nonpayable",
+  "type": "function"
+}];
 const TokenCreator = web3.eth.contract(abi);
+const AirdropContract = web3.eth.contract(abiAirdrop);
 // initiate contract for an address
 const tokenCreatorInstance = TokenCreator.at('0xf8f67a8a50fc69655d80ab030eaa9cd866ffff0d');
 const accounts = web3.eth.accounts;
+
+let fileTxt = '';
 
 const VueApp = new Vue({
   el: '#app',
@@ -179,7 +205,9 @@ const VueApp = new Vue({
     tokenSymbols: [],
     tokenNameMint: '',
     tokenSymbolMint: '',
-    preParse: '',
+    addressOfToken: '',
+    arrOfAddresses: [],
+    arrOfValues: [],
   },
   methods: {
     createStandard () {
@@ -224,11 +252,37 @@ const VueApp = new Vue({
   				}		
     		}
     	})
-  	}
+  	},
+  	handleFileChange(evt) {
+		let file = evt.target.files[0];
+      	let reader = new FileReader();
+      	reader.readAsText(file);
+      	reader.onload = function (e) {
+	        fileTxt = reader.result;
+	    } 
+  	},
+  	parseText () {
+      let fullArr = fileTxt.split(/\;|\n/);
+      this.arrOfAddresses = [];
+      this.arrOfValues = [];
+      for (let i = 0; i < fullArr.length - 1; i++) {
+      	if (i % 2) {
+      		this.arrOfValues.push(fullArr[i]);
+      	} else {
+      		this.arrOfAddresses.push(fullArr[i]);
+      	}; 
+      };
+      console.log(this.arrOfAddresses);
+      console.log(this.arrOfValues);
+      const airdropInstance = AirdropContract.at(this.addressOfToken);
+      airdropInstance.airdrop(this.arrOfAddresses, this.arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log);
+    },
   },
-  computed: {
-    parseText: function() {
-      return this.preParse.split(';');
-    }
-  }
+  
 })
+
+/*
+event mint
+список адресов
+два отдельных маппинга
+*/

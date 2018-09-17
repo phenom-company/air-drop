@@ -62,13 +62,18 @@
 					<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
 							<label for="address-of-token"><br>Address of your token:</label>
-					        <input type="text" class="form-control" id="address-of-token">
+					        <input type="text" class="form-control" id="address-of-token" v-model="addressOfToken" placeholder="Address of your token">
 					    </div>
 					    <div class="form-group">
 							<label for="list-of-recipients">List of addresses and number of tokens:</label>
-					        <input type="text" class="form-control" id="list-of-recipients">
+							<br>
+				         	<label class="custom-file">
+							  	<input type="file" id="file" class="custom-file-input" accept=".csv, .txt" @change="handleFileChange">
+							  	<span class="custom-file-control"></span>
+							</label>
+
 					    </div>	
-					    <button id="drop-tokens" class="btn btn-outline-primary">Drop</button>
+					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
 				    </div>
 				</div>
 			</div>
@@ -105,16 +110,15 @@
 				</div>
 			</div>
 			<br>
-			<div id="work-area">
+			<!--<div id="work-area">
 				<textarea v-model="preParse"></textarea> <br />
-	        	<button @click="parseText(preParse)">Parse Text </button>
 		  	</div>
 		  	<div id="parsed">
 			    <h2>Parsed</h2>
 			    <span v-for="parsed in parseText"> 
-		    	   {{ parsed }} <br />
+		       {{ parsed }} <br />
 			    </span>
-		  	</div>
+			  </div>-->
 		</div>
 	</div>
 	
