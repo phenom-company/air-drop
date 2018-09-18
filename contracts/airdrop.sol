@@ -215,7 +215,6 @@ contract StandardToken is Ownable, ERC20 {
         require(_addresses.length == _values.length);
         for (uint256 i = 0; i < _addresses.length; i++) {
             require(transfer(_addresses[i], _values[i]));
-            emit Transfer(tx.origin, _addresses[i], _values[i]);
         }        
         return true;
   }
@@ -254,7 +253,7 @@ contract MintableToken is Ownable, ERC20 {
      require(_holder != address(0));
      balances[_holder] = balances[_holder].add(_value);
      totalSupply = totalSupply.add(_value);
-     emit Mint(_holder, _value);
+     emit Transfer(tx.origin, _holder, _value);
      return true;
   }
 
@@ -265,7 +264,6 @@ contract MintableToken is Ownable, ERC20 {
         require(_addresses.length == _values.length);
         for (uint256 i = 0; i < _addresses.length; i++) {
             require(mintTokens(_addresses[i], _values[i]));
-            emit Transfer(tx.origin, _addresses[i], _values[i]);
         }
         return true;
   }
@@ -281,7 +279,6 @@ contract MintableToken is Ownable, ERC20 {
     return true;
   }
 
-  event Mint(address indexed _to, uint256 _amount);
   event MintFinished(uint indexed _timestamp);
 }
 

@@ -1,12 +1,12 @@
 const abi = [{
-  "constant": true,
+      "constant": true,
       "inputs": [
         {
           "name": "",
           "type": "address"
         }
       ],
-      "name": "amountOfTokens",
+      "name": "amountStandTokens",
       "outputs": [
         {
           "name": "",
@@ -29,7 +29,49 @@ const abi = [{
           "type": "uint256"
         }
       ],
-      "name": "tokens",
+      "name": "mintableTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "amountMintTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "standardTokens",
       "outputs": [
         {
           "name": "",
@@ -106,4 +148,28 @@ const abi = [{
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
+}];
+
+const abiAirdrop = [{
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_addresses",
+          "type": "address[]"
+        },
+        {
+          "name": "_values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "airdrop",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"    
 }];

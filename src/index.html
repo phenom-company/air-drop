@@ -17,6 +17,7 @@
   <body>
 	<div class="container" id="app">
 		<h1 class="text-center">Airdrop</h1>
+		<h5 class="text-center"><a href="https://www.phenom.team/">by Phenom.Team</a></h5>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs justify-content-center" role="tablist">
 		  <li class="nav-item">
@@ -29,36 +30,14 @@
 		      <a class="dropdown-item" data-toggle="tab" href="#mintable-token">Create mintable token</a>
 		    </div>
 		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">Your tokens</a>
+		  </li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div class="tab-pane show active" id="airdrop" role="tabpanel">
 				<div class="col">
-					<br>
-					<button id="show-tokens" class="btn btn-outline-secondary btn-sm" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" @click="showTokens()">Show your tokens</button>
-					<br><br>
-					<table class="table table-bordered table-responsive collapse" id="collapseExample">
-					  <thead>
-					    <tr>
-					      <th>Address</th>
-					      <th>Name</th>
-					      <th>Symbol</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <td>
-					      	<div v-for="address in tokenAddresses"> {{ address }} </div>
-					      </td>
-					      <td>
-					      	<div v-for="names in tokenNames"> {{ names }} </div>
-					      </td>
-					      <td>
-					      	<div v-for="symbols in tokenSymbols"> {{ symbols }} </div>
-					      </td>
-					    </tr>
-					  </tbody>
-					</table>
 					<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
 							<label for="address-of-token"><br>Address of your token:</label>
@@ -67,12 +46,12 @@
 					    <div class="form-group">
 							<label for="list-of-recipients">List of addresses and number of tokens:</label>
 							<br>
-				         	<label class="custom-file">
-							  	<input type="file" id="file" class="custom-file-input" accept=".csv, .txt" @change="handleFileChange">
-							  	<span class="custom-file-control"></span>
-							</label>
+						  	<label class="custom-file">
+							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+							  <span class="custom-file-control"></span>
+							</label>						
+					    </div>
 
-					    </div>	
 					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
 				    </div>
 				</div>
@@ -109,27 +88,49 @@
 				    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
 				</div>
 			</div>
+			<div class="tab-pane" id="addresses" role="tabpanel">
+				<br>
+				<table class="table table-bordered table-responsive">
+				  <thead>
+				  	<tr>Your Standard Tokens</tr>
+				    <tr>
+				      <th>Address</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>
+				      	<div v-for="address in standardTokens"> {{ address }} </div>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+				<table class="table table-bordered table-responsive">
+				  <thead>
+				  	<tr>Your Mintable Tokens</tr>
+				    <tr>
+				      <th>Address</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>
+				      	<div v-for="address in mintableTokens"> {{ address }} </div>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
 			<br>
-			<!--<div id="work-area">
-				<textarea v-model="preParse"></textarea> <br />
-		  	</div>
-		  	<div id="parsed">
-			    <h2>Parsed</h2>
-			    <span v-for="parsed in parseText"> 
-		       {{ parsed }} <br />
-			    </span>
-			  </div>-->
 		</div>
 	</div>
 	
-
-
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="js/abiOfContracts.js"></script>
     <script src="js/vueApp.js"></script>
-    <script src="js/app.js"></script>
   </body>
 </html>
