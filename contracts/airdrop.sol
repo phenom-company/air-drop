@@ -128,7 +128,7 @@ contract ERC20 {
   */
   function transfer(address _to, uint _amount) public returns (bool) {
       require(_to != address(0) && _to != address(this));
-      balances[msg.sender] = balances[msg.sender].sub(_amount);     
+      balances[msg.sender] = balances[msg.sender].sub(_amount);    // не msg.sender  
       balances[_to] = balances[_to].add(_amount);
       emit Transfer(msg.sender, _to, _amount);
       return true;
@@ -253,7 +253,7 @@ contract MintableToken is Ownable, ERC20 {
      require(_holder != address(0));
      balances[_holder] = balances[_holder].add(_value);
      totalSupply = totalSupply.add(_value);
-     emit Transfer(tx.origin, _holder, _value);
+     emit Transfer(tx.origin, _holder, _value); // msg.sender
      return true;
   }
 

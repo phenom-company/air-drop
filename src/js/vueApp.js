@@ -30,7 +30,8 @@ const VueApp = new Vue({
   },
   methods: {
     createStandard () {
-    	tokenCreatorInstance.createStandardToken(this.tokenSupply, this.tokenNameStand, this.tokenSymbolStand, console.log);  
+    	tokenCreatorInstance.createStandardToken(this.tokenSupply * 10 ** 18, this.tokenNameStand, this.tokenSymbolStand, console.log);  
+    	console.log(this.tokenSupply * 10 ** 18);
     },
     createMintable () {
     	tokenCreatorInstance.createMintableToken(this.tokenNameMint, this.tokenSymbolMint, console.log);  
@@ -44,8 +45,8 @@ const VueApp = new Vue({
     	};
     	tokenCreatorInstance.amountStandTokens(accounts[0], (err, result) => {
     		if (!err) {
-    			for (let x = 0; x < result; x++) {
-  					tokenCreatorInstance.standardTokens(accounts[0], x, (err, result) => {
+    			for (let i = 0; i < result; i++) {
+  					tokenCreatorInstance.standardTokens(accounts[0], i, (err, result) => {
   						if (!err) {
   							this.standardTokens.push(result);
   						}
@@ -55,8 +56,8 @@ const VueApp = new Vue({
     	})
     	tokenCreatorInstance.amountMintTokens(accounts[0], (err, result) => {
     		if (!err) {
-    			for (let x = 0; x < result; x++) {
-  					tokenCreatorInstance.mintableTokens(accounts[0], x, (err, result) => {
+    			for (let i = 0; i < result; i++) {
+  					tokenCreatorInstance.mintableTokens(accounts[0], i, (err, result) => {
   						if (!err) {
   							this.mintableTokens.push(result);
   						}
@@ -87,7 +88,7 @@ const VueApp = new Vue({
       console.log(arrOfAddresses);
       console.log(arrOfValues);
       const airdropInstance = AirdropContract.at(this.addressOfToken);
-      airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log);
+      airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 214 для станд
     },
   },
   beforeMount(){
