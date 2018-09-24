@@ -11,7 +11,7 @@ initWeb3();
 
 const TokenCreator = web3.eth.contract(abi);
 const AirdropContract = web3.eth.contract(abiAirdrop);
-const tokenCreatorInstance = TokenCreator.at('0x1b8841a12ac15140321135a4b104970f76db5464');
+const tokenCreatorInstance = TokenCreator.at('0x59d3631c86bbe35ef041872d502f218a39fba150');//rinkeby 0x1b8841a12ac15140321135a4b104970f76db5464
 const accounts = web3.eth.accounts;
 
 let fileTxt = '';

@@ -1,6 +1,11 @@
-// Developed by Phenom.Team <info@phenom.team>
-pragma solidity ^0.4.24;
+/*************************************************
+*                                                *
+*   AirDrop Dapp                                 *
+*   Developed by Phenom.Team "www.phenom.team"   *
+*                                                *
+*************************************************/
 
+pragma solidity ^0.4.24;
 
 /**
  * @title SafeMath
@@ -67,7 +72,6 @@ library SafeMath {
   }
 }
 
-
 /**
  * @title Ownable
  * @dev The Ownable contract has an owner address, and provides basic authorization control
@@ -103,7 +107,8 @@ contract ERC20 {
 	uint public totalSupply;
   string public nameOfToken;
   string public symbolOfToken;
-  uint public decimals = 18;
+  uint8 public decimals = 18; // ?
+  bool public transferable;
 
 	mapping(address => uint) balances;
 	mapping(address => mapping (address => uint)) allowed;
@@ -128,7 +133,10 @@ contract ERC20 {
   */
   function transfer(address _to, uint _amount) public returns (bool) {
       require(_to != address(0) && _to != address(this));
-      balances[msg.sender] = balances[msg.sender].sub(_amount);    // не msg.sender  
+      if (!transferable) {
+        require(msg.sender == owner);
+      }
+      balances[msg.sender] = balances[msg.sender].sub(_amount);  
       balances[_to] = balances[_to].add(_amount);
       emit Transfer(msg.sender, _to, _amount);
       return true;
@@ -186,8 +194,15 @@ contract ERC20 {
       return allowed[_owner][_spender];
   }
 
+  function makeTokenTransferable() public onlyOwner returns (bool) {
+    transferable = true;
+    emit Transferable(now);
+    return true;
+  }
+
 	event Transfer(address indexed _from, address indexed _to, uint _value);
 	event Approval(address indexed _owner, address indexed _spender, uint _value);
+  event Transferable(uint indexed _timestamp);
 }
 
 /**
@@ -200,11 +215,12 @@ contract StandardToken is Ownable, ERC20 {
   /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public {
+  constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken, bool _transferable) public {
     totalSupply = _totalSupply;
     balances[tx.origin] = _totalSupply;
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
+    transferable = _transferable;
     emit Transfer(address(0), tx.origin, _totalSupply);
   }
 
@@ -225,7 +241,7 @@ contract StandardToken is Ownable, ERC20 {
  * @title MintableToken
  * @dev Token with the ability to release new ones.
  */
-contract MintableToken is Ownable, ERC20 {
+contract MintableToken is Ownable, ERC20 { // LAST STOP
   using SafeMath for uint256;
 
   bool public mintingFinished = false;
@@ -233,9 +249,10 @@ contract MintableToken is Ownable, ERC20 {
  /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(string _nameOfToken, string _symbolOfToken) public {
+  constructor(string _nameOfToken, string _symbolOfToken, bool _transferable) public {
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
+    transferable = _transferable;
   }
 
   modifier canMint() {
