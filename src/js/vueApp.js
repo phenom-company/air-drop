@@ -9,9 +9,11 @@ function initWeb3() {
 }
 initWeb3();
 
-const TokenCreator = web3.eth.contract(abi);
+const TokenCreator = web3.eth.contract(abiTokenCreator);
 const AirdropContract = web3.eth.contract(abiAirdrop);
-const tokenCreatorInstance = TokenCreator.at('0x59d3631c86bbe35ef041872d502f218a39fba150');//rinkeby 0x1b8841a12ac15140321135a4b104970f76db5464
+const StandardToken = web3.eth.contract(abiStandardToken);
+const MintableToken = web3.eth.contract(abiMintableToken);
+const tokenCreatorInstance = TokenCreator.at('0x75117fdf3FEd00261B405B4877Adb8a471Fba27e');
 const accounts = web3.eth.accounts;
 
 let fileTxt = '';
@@ -19,28 +21,44 @@ let fileTxt = '';
 const VueApp = new Vue({
   el: '#app',
   data: {
-    tokenNameStand: '',
-    tokenSymbolStand: '',
-    tokenSupply: '',
-    tokenNameMint: '',
-    tokenSymbolMint: '',
-    addressOfToken: '',
+    standName: '',
+    standSymbol: '',
+    standDecimals: '',
+    standTotalSupply: '',
+    standTransferable: '',
     standardTokens: [],
+
+    mintName: '',
+    mintSymbol: '',
+    mintDecimals: '',
+    mintTransferable: '',
     mintableTokens: [],
+
+    addressAirdropToken: '',    
   },
   methods: {
     createStandard () {
-    	tokenCreatorInstance.createStandardToken(this.tokenSupply * 10 ** 18, this.tokenNameStand, this.tokenSymbolStand, console.log);  
-    	console.log(this.tokenSupply * 10 ** 18);
+    	tokenCreatorInstance.createStandardToken(this.standName,
+                                               this.standSymbol,
+                                               this.standDecimals, 
+                                               this.standTotalSupply * 10 ** this.standDecimals,
+                                               this.standTransferable, 
+                                               console.log
+      );
     },
     createMintable () {
-    	tokenCreatorInstance.createMintableToken(this.tokenNameMint, this.tokenSymbolMint, console.log);  
+    	tokenCreatorInstance.createMintableToken(this.mintName,
+                                               this.mintSymbol,
+                                               this.mintDecimals,
+                                               this.mintTransferable, 
+                                               console.log
+      );  
     },
     showTokens () {
     	this.standardTokens = [];
     	this.mintableTokens = [];
     	if (accounts[0] === undefined) {
-    		alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');
+    		/*alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');*/
     		return;
     	};
     	tokenCreatorInstance.amountStandTokens(accounts[0], (err, result) => {
@@ -87,8 +105,8 @@ const VueApp = new Vue({
       };
       console.log(arrOfAddresses);
       console.log(arrOfValues);
-      const airdropInstance = AirdropContract.at(this.addressOfToken);
-      airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 214 для станд
+      const airdropInstance = AirdropContract.at(this.addressAirdropToken);
+      airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
     },
   },
   beforeMount(){

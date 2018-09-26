@@ -101,13 +101,13 @@ contract Ownable {
  * @title ERC20
  * @dev Standard of ERC20.
  */
-contract ERC20 {
+contract ERC20 is Ownable {
   using SafeMath for uint256;
 
 	uint public totalSupply;
   string public nameOfToken;
   string public symbolOfToken;
-  uint8 public decimals = 18; // ?
+  uint8 public decimals;
   bool public transferable;
 
 	mapping(address => uint) balances;
@@ -194,6 +194,11 @@ contract ERC20 {
       return allowed[_owner][_spender];
   }
 
+  /**
+  *   @dev Function make token transferable.
+  *
+  *   @return the status of issue
+  */
   function makeTokenTransferable() public onlyOwner returns (bool) {
     transferable = true;
     emit Transferable(now);
@@ -209,39 +214,39 @@ contract ERC20 {
  * @title StandardToken
  * @dev Token without the ability to release new ones.
  */
-contract StandardToken is Ownable, ERC20 {
+contract StandardToken is ERC20 {
   using SafeMath for uint256;
 
   /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(uint _totalSupply, string _nameOfToken, string _symbolOfToken, bool _transferable) public {
-    totalSupply = _totalSupply;
-    balances[tx.origin] = _totalSupply;
-    nameOfToken = _nameOfToken;
-    symbolOfToken = _symbolOfToken;
-    transferable = _transferable;
-    emit Transfer(address(0), tx.origin, _totalSupply);
+  constructor(string _nameOfToken, string _symbolOfToken, uint8 _decimals, uint _totalSupply, bool _transferable) public {   
+      nameOfToken = _nameOfToken;
+      symbolOfToken = _symbolOfToken;
+      decimals = _decimals;
+      totalSupply = _totalSupply;
+      balances[tx.origin] = _totalSupply;
+      transferable = _transferable;
+      emit Transfer(address(0), tx.origin, _totalSupply);
   }
 
   /**
   * @dev Sends the tokens to a list of addresses.
   */
   function airdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
-        require(_addresses.length == _values.length);
-        for (uint256 i = 0; i < _addresses.length; i++) {
-            require(transfer(_addresses[i], _values[i]));
-        }        
-        return true;
+      require(_addresses.length == _values.length);
+      for (uint256 i = 0; i < _addresses.length; i++) {
+          require(transfer(_addresses[i], _values[i]));
+      }        
+      return true;
   }
-
 }
 
 /**
  * @title MintableToken
  * @dev Token with the ability to release new ones.
  */
-contract MintableToken is Ownable, ERC20 { // LAST STOP
+contract MintableToken is Ownable, ERC20 {
   using SafeMath for uint256;
 
   bool public mintingFinished = false;
@@ -249,9 +254,10 @@ contract MintableToken is Ownable, ERC20 { // LAST STOP
  /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(string _nameOfToken, string _symbolOfToken, bool _transferable) public {
+  constructor(string _nameOfToken, string _symbolOfToken, uint8 _decimals, bool _transferable) public {
     nameOfToken = _nameOfToken;
     symbolOfToken = _symbolOfToken;
+    decimals = _decimals;
     transferable = _transferable;
   }
 
@@ -270,7 +276,7 @@ contract MintableToken is Ownable, ERC20 { // LAST STOP
      require(_holder != address(0));
      balances[_holder] = balances[_holder].add(_value);
      totalSupply = totalSupply.add(_value);
-     emit Transfer(tx.origin, _holder, _value); // msg.sender
+     emit Transfer(address(0), _holder, _value);
      return true;
   }
 
@@ -285,10 +291,10 @@ contract MintableToken is Ownable, ERC20 { // LAST STOP
         return true;
   }
  
- /**
+  /**
   *   @dev Function finishes minting tokens.
   *
-  *   @return              the status of issue
+  *   @return the status of issue
   */
   function finishMinting() public onlyOwner canMint returns (bool) {
     mintingFinished = true;
@@ -311,19 +317,29 @@ contract TokenCreator {
   mapping(address => uint256) public amountMintTokens;
   mapping(address => uint256) public amountStandTokens;
   
-  function createStandardToken(uint _totalSupply, string _nameOfToken, string _symbolOfToken) public returns (address) {
-    address token = new StandardToken(_totalSupply, _nameOfToken, _symbolOfToken);
-    standardTokens[tx.origin].push(token);
-    amountStandTokens[tx.origin] = amountStandTokens[tx.origin] + 1;
-    emit TokenCreated(tx.origin, token);
+  /**
+  *   @dev Function create standard token.
+  *
+  *   @return the address of new token.
+  */
+  function createStandardToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, uint _totalSupply, bool _transferable) public returns (address) {
+    address token = new StandardToken(_nameOfToken, _symbolOfToken, _decimals, _totalSupply, _transferable);
+    standardTokens[msg.sender].push(token);
+    amountStandTokens[msg.sender] = amountStandTokens[msg.sender] + 1;
+    emit TokenCreated(msg.sender, token);
     return token;
   }
 
-  function createMintableToken(string _nameOfToken, string _symbolOfToken) public returns (address) {
-    address token = new MintableToken(_nameOfToken, _symbolOfToken);
-    mintableTokens[tx.origin].push(token);
-    amountMintTokens[tx.origin] = amountMintTokens[tx.origin] + 1;
-    emit TokenCreated(tx.origin, token);
+  /**
+  *   @dev Function create mintable token.
+  *
+  *   @return the address of new token.
+  */
+  function createMintableToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, bool _transferable) public returns (address) {
+    address token = new MintableToken(_nameOfToken, _symbolOfToken, _decimals, _transferable);
+    mintableTokens[msg.sender].push(token);
+    amountMintTokens[msg.sender] = amountMintTokens[msg.sender] + 1;
+    emit TokenCreated(msg.sender, token);
     return token;
   }
 

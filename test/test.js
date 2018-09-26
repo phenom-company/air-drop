@@ -5,7 +5,9 @@ const config = require('../migrations/config.json');
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const nameOfToken = config.nameOfToken;
 const symbolOfToken = config.symbolOfToken;
-
+const decimals = config.decimals;
+const totalSupply = config.totalSupply;
+const transferable = config.transferable;
 
 async function assertRevert(promise) {
     try {
@@ -27,7 +29,7 @@ contract('StandardToken', function (accounts) {
 	const recipient = accounts[3];
 
     beforeEach(async function () {
-        this.standardToken = await StandardToken.new(totalSupply, nameOfToken, symbolOfToken, {from: owner});
+        this.standardToken = await StandardToken.new(nameOfToken, symbolOfToken, decimals, totalSupply, transferable, {from: owner});
     });
 
     describe('total supply and owner', function () {
@@ -289,7 +291,7 @@ contract('MintableToken', function (accounts) {
 	const recipient = accounts[3];
 
     beforeEach(async function () {
-        this.mintableToken = await MintableToken.new(nameOfToken, symbolOfToken, {from: owner});
+        this.mintableToken = await MintableToken.new(nameOfToken, symbolOfToken, decimals, transferable, {from: owner});
     });
 
     describe('owner', function () {
@@ -403,7 +405,7 @@ contract('TokenCreator', function (accounts) {
     describe('standard token was create', function () {
     	const totalSupply = config.totalSupply;
     	it('ok', async function() {		    	
-    		const tokenAddress = await this.tokenCreator.createStandardToken(totalSupply, nameOfToken, symbolOfToken, {from: owner});       	
+    		const tokenAddress = await this.tokenCreator.createStandardToken(nameOfToken, symbolOfToken, decimals, totalSupply, transferable, {from: owner});       	
 	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
 	    	console.log(tokenAddress);
 	    });     
@@ -411,7 +413,7 @@ contract('TokenCreator', function (accounts) {
 
     describe('mintable token was create', function () {
     	it('ok', async function() {		    	
-    		const tokenAddress = await this.tokenCreator.createMintableToken(nameOfToken, symbolOfToken, {from: owner});       	
+    		const tokenAddress = await this.tokenCreator.createMintableToken(nameOfToken, symbolOfToken, decimals, transferable, {from: owner});       	
 	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
 	    	console.log(tokenAddress);
 	    });     

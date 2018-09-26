@@ -1,5 +1,7 @@
 {
-   "totalSupply": "1000000",
    "nameOfToken": "StandardToken",
-   "symbolOfToken": "STK"
+   "symbolOfToken": "STK",
+   "decimals": "18",
+   "totalSupply": "1000000",
+   "transferable": "false"
 }

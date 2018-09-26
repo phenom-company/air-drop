@@ -21,27 +21,97 @@
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs justify-content-center" role="tablist">
 		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#airdrop" role="tab">Drop your token</a>
+		    <a class="nav-link" data-toggle="tab" href="#home" role="tab">Home</a>
 		  </li>
-		  <li class="nav-item dropdown">
+		  <!--<li class="nav-item dropdown">
 		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Create new token</a>
 		    <div class="dropdown-menu">
 		      <a class="dropdown-item" data-toggle="tab" href="#standard-token">Create standard token</a>
 		      <a class="dropdown-item" data-toggle="tab" href="#mintable-token">Create mintable token</a>
 		    </div>
+		  </li>-->
+		  <li class="nav-item">
+		    <a class="nav-link active" data-toggle="tab" href="#create" role="tab">Create</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">Your tokens</a>
+		    <a class="nav-link" data-toggle="tab" href="#interact" role="tab">Interact</a>
 		  </li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane show active" id="airdrop" role="tabpanel">
+			<div class="tab-pane" id="home" role="tabpanel">
+				<!-- Home content -->
+			</div>
+			
+			<div class="tab-pane show active" id="create" role="tabpanel">
+				<div class="col-md-8 col-md-push-2">
+					<br>
+					<ul class="nav nav-tabs" role="tablist">
+					  <li class="nav-item dropdown">
+					    <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Select token type</a>
+					    <div class="dropdown-menu">
+					      <a class="dropdown-item" data-toggle="tab" href="#standard-token" role="tab">Standard token</a>
+					      <div class="dropdown-divider"></div>
+					      <a class="dropdown-item" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
+					    </div>
+					  </li>
+					</ul>
+					<div class="tab-content">	
+					  <div class="tab-pane" id="standard-token" role="tabpanel">
+					  	<h3 class="text-center"><br>Standard token</h3>
+					  	<div class="form-group">
+							<label for="stand-name">Token name:</label>
+					        <input type="text" class="form-control" id="stand-name" v-model="standName" placeholder="Name of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="stand-symbol">Symbol:</label>
+					        <input type="text" class="form-control" id="stand-symbol" v-model="standSymbol" placeholder="Symbol of your token">
+					    </div>	
+					    <div class="form-group">
+							<label for="stand-decimals">Decimals:</label>
+					        <input type="text" class="form-control" id="stand-decimals" v-model="standDecimals" placeholder="Decimals of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="stand-totalSupply">Total supply:</label>
+					        <input type="text" class="form-control" id="stand-totalSupply" v-model="standTotalSupply" placeholder="Total supply of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="stand-transferable">Transferable:</label>
+					        <input type="text" class="form-control" id="stand-transferable" v-model="standTransferable" placeholder="True or false">
+					    </div>	
+					    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
+					  </div>
+					  <div class="tab-pane" id="mintable-token" role="tabpanel">
+					  	<h3 class="text-center"><br>Mintable token</h3>
+					  	<div class="form-group">
+							<label for="mint-name">Token name:</label>
+					        <input type="text" class="form-control" id="mint-name" v-model="mintName" placeholder="Name of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="mint-symbol">Symbol:</label>
+					        <input type="text" class="form-control" id="mint-symbol" v-model="mintSymbol" placeholder="Symbol of your token">
+					    </div>	
+					    <div class="form-group">
+							<label for="mint-decimals">Decimals:</label>
+					        <input type="text" class="form-control" id="mint-decimals" v-model="mintDecimals" placeholder="Decimals of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="mint-transferable">Transferable:</label>
+					        <input type="text" class="form-control" id="mint-transferable" v-model="mintTransferable" placeholder="True or false">
+					    </div>
+					    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
+					  </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="interact" role="tabpanel">
+				<br>
 				<div class="col">
 					<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
 							<label for="address-of-token"><br>Address of your token:</label>
-					        <input type="text" class="form-control" id="address-of-token" v-model="addressOfToken" placeholder="Address of your token">
+					        <input type="text" class="form-control" id="address-of-token" v-model="addressAirdropToken" placeholder="Address of your token">
 					    </div>
 					    <div class="form-group">
 							<label for="list-of-recipients">List of addresses and number of tokens:</label>
@@ -55,40 +125,6 @@
 					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
 				    </div>
 				</div>
-			</div>
-			<div class="tab-pane" id="standard-token" role="tabpanel">
-				<h3 class="text-center"><br>Standard token</h3>
-				<div class="col-md-8 col-md-push-2">
-					<div class="form-group">
-						<label for="standard-name">Token name:</label>
-				        <input type="text" class="form-control" id="standard-name" v-model="tokenNameStand" placeholder="Name of your token">
-				    </div>
-				    <div class="form-group">
-						<label for="standard-symbol">Symbol:</label>
-				        <input type="text" class="form-control" id="standard-symbol" v-model="tokenSymbolStand" placeholder="Symbol of your token">
-				    </div>	
-				    <div class="form-group">
-						<label for="standard-supply">Total supply:</label>
-				        <input type="text" class="form-control" id="standard-supply" v-model="tokenSupply" placeholder="Total supply of your token">
-				    </div>	
-				    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
-				</div>
-			</div>
-			<div class="tab-pane" id="mintable-token" role="tabpanel">
-				<h3 class="text-center"><br>Mintable token</h3>
-				<div class="col-md-8 col-md-push-2">
-					<div class="form-group">
-						<label for="mintable-name">Token name:</label>
-				        <input type="text" class="form-control" id="mintable-name" v-model="tokenNameMint" placeholder="Name of your token">
-				    </div>
-				    <div class="form-group">
-						<label for="mintable-symbol">Symbol:</label>
-				        <input type="text" class="form-control" id="mintable-symbol" v-model="tokenSymbolMint" placeholder="Symbol of your token">
-				    </div>
-				    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
-				</div>
-			</div>
-			<div class="tab-pane" id="addresses" role="tabpanel">
 				<br>
 				<table class="table table-bordered table-responsive">
 				  <thead>
