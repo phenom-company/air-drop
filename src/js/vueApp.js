@@ -13,7 +13,7 @@ const TokenCreator = web3.eth.contract(abiTokenCreator);
 const AirdropContract = web3.eth.contract(abiAirdrop);
 const StandardToken = web3.eth.contract(abiStandardToken);
 const MintableToken = web3.eth.contract(abiMintableToken);
-const tokenCreatorInstance = TokenCreator.at('0x009E91812029D180f63B71e36B47220A808c70A2');
+const tokenCreatorInstance = TokenCreator.at('0xe73d991667779550add5459af2e3acf83d00db02');
 const accounts = web3.eth.accounts;
 
 let fileTxt = '';
