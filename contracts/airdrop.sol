@@ -85,7 +85,7 @@ contract Ownable {
    * account.
    */
   constructor() public {
-    owner = tx.origin;
+    owner = msg.sender;
   }
 
   /**
@@ -199,15 +199,14 @@ contract ERC20 is Ownable {
   *
   *   @return the status of issue
   */
-  function makeTokenTransferable() public onlyOwner returns (bool) {
+  function unfreeze() public onlyOwner{
     transferable = true;
-    emit Transferable(now);
-    return true;
+    emit Unfreezed(now);
   }
 
 	event Transfer(address indexed _from, address indexed _to, uint _value);
 	event Approval(address indexed _owner, address indexed _spender, uint _value);
-  event Transferable(uint indexed _timestamp);
+  event Unfreezed(uint indexed _timestamp);
 }
 
 /**
@@ -225,9 +224,9 @@ contract StandardToken is ERC20 {
       symbolOfToken = _symbolOfToken;
       decimals = _decimals;
       totalSupply = _totalSupply;
-      balances[tx.origin] = _totalSupply;
+      balances[msg.sender] = _totalSupply;
       transferable = _transferable;
-      emit Transfer(address(0), tx.origin, _totalSupply);
+      emit Transfer(address(0), msg.sender, _totalSupply);
   }
 
   /**
@@ -296,10 +295,9 @@ contract MintableToken is Ownable, ERC20 {
   *
   *   @return the status of issue
   */
-  function finishMinting() public onlyOwner canMint returns (bool) {
+  function finishMinting() public onlyOwner {
     mintingFinished = true;
     emit MintFinished(now);
-    return true;
   }
 
   event MintFinished(uint indexed _timestamp);
@@ -325,7 +323,7 @@ contract TokenCreator {
   function createStandardToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, uint _totalSupply, bool _transferable) public returns (address) {
     address token = new StandardToken(_nameOfToken, _symbolOfToken, _decimals, _totalSupply, _transferable);
     standardTokens[msg.sender].push(token);
-    amountStandTokens[msg.sender] = amountStandTokens[msg.sender] + 1;
+    amountStandTokens[msg.sender]++;
     emit TokenCreated(msg.sender, token);
     return token;
   }
@@ -338,7 +336,7 @@ contract TokenCreator {
   function createMintableToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, bool _transferable) public returns (address) {
     address token = new MintableToken(_nameOfToken, _symbolOfToken, _decimals, _transferable);
     mintableTokens[msg.sender].push(token);
-    amountMintTokens[msg.sender] = amountMintTokens[msg.sender] + 1;
+    amountMintTokens[msg.sender]++;
     emit TokenCreated(msg.sender, token);
     return token;
   }
