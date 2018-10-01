@@ -273,8 +273,6 @@ contract('StandardToken', function (accounts) {
 		describe('when the length of the address list and value list are not equal', function () {
             it('reverts', async function () {
         		const values = generateBalances(addresses.length - 1);
-                console.log(await this.standardToken.transferable());
-                console.log(this.standardToken.name);
                 await assertRevert(this.standardToken.airdrop(addresses, values, {from: owner}));
             });
         });
