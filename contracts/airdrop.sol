@@ -104,16 +104,16 @@ contract Ownable {
 contract ERC20 is Ownable {
   using SafeMath for uint256;
 
-	uint public totalSupply;
-  string public nameOfToken;
-  string public symbolOfToken;
+  uint public totalSupply;
+  string public name;
+  string public symbol;
   uint8 public decimals;
   bool public transferable;
 
-	mapping(address => uint) balances;
-	mapping(address => mapping (address => uint)) allowed;
+  mapping(address => uint) balances;
+  mapping(address => mapping (address => uint)) allowed;
 
-	/**
+  /**
   *   @dev Get balance of tokens holder
   *   @param _holder        holder's address
   *   @return               balance of investor
@@ -199,15 +199,14 @@ contract ERC20 is Ownable {
   *
   *   @return the status of issue
   */
-  function makeTokenTransferable() public onlyOwner returns (bool) {
-    transferable = true;
-    emit Transferable(now);
-    return true;
+  function unfreeze() public onlyOwner {
+      transferable = true;
+      emit Unfreezed(now);
   }
 
-	event Transfer(address indexed _from, address indexed _to, uint _value);
-	event Approval(address indexed _owner, address indexed _spender, uint _value);
-  event Transferable(uint indexed _timestamp);
+  event Transfer(address indexed _from, address indexed _to, uint _value);
+  event Approval(address indexed _owner, address indexed _spender, uint _value);
+  event Unfreezed(uint indexed _timestamp);
 }
 
 /**
@@ -220,9 +219,9 @@ contract StandardToken is ERC20 {
   /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(string _nameOfToken, string _symbolOfToken, uint8 _decimals, uint _totalSupply, bool _transferable) public {   
-      nameOfToken = _nameOfToken;
-      symbolOfToken = _symbolOfToken;
+  constructor(string _name, string _symbol, uint8 _decimals, uint _totalSupply, bool _transferable) public {   
+      name = _name;
+      symbol = _symbol;
       decimals = _decimals;
       totalSupply = _totalSupply;
       balances[tx.origin] = _totalSupply;
@@ -254,9 +253,9 @@ contract MintableToken is Ownable, ERC20 {
  /**
   * @dev The Standard token constructor determines the total supply of tokens.
   */
-  constructor(string _nameOfToken, string _symbolOfToken, uint8 _decimals, bool _transferable) public {
-    nameOfToken = _nameOfToken;
-    symbolOfToken = _symbolOfToken;
+  constructor(string _name, string _symbol, uint8 _decimals, bool _transferable) public {
+    name = _name;
+    symbol = _symbol;
     decimals = _decimals;
     transferable = _transferable;
   }
@@ -284,11 +283,11 @@ contract MintableToken is Ownable, ERC20 {
   * @dev Sends the tokens to a list of addresses.
   */
   function airdrop(address[] _addresses, uint256[] _values) public onlyOwner returns (bool) {
-        require(_addresses.length == _values.length);
-        for (uint256 i = 0; i < _addresses.length; i++) {
-            require(mintTokens(_addresses[i], _values[i]));
-        }
-        return true;
+      require(_addresses.length == _values.length);
+      for (uint256 i = 0; i < _addresses.length; i++) {
+          require(mintTokens(_addresses[i], _values[i]));
+      }
+      return true;
   }
  
   /**
@@ -296,10 +295,9 @@ contract MintableToken is Ownable, ERC20 {
   *
   *   @return the status of issue
   */
-  function finishMinting() public onlyOwner canMint returns (bool) {
-    mintingFinished = true;
-    emit MintFinished(now);
-    return true;
+  function finishMinting() public onlyOwner {
+      mintingFinished = true;
+      emit MintFinished(now);
   }
 
   event MintFinished(uint indexed _timestamp);
@@ -322,10 +320,10 @@ contract TokenCreator {
   *
   *   @return the address of new token.
   */
-  function createStandardToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, uint _totalSupply, bool _transferable) public returns (address) {
-    address token = new StandardToken(_nameOfToken, _symbolOfToken, _decimals, _totalSupply, _transferable);
+  function createStandardToken(string _name, string _symbol, uint8 _decimals, uint _totalSupply, bool _transferable) public returns (address) {
+    address token = new StandardToken(_name, _symbol, _decimals, _totalSupply, _transferable);
     standardTokens[msg.sender].push(token);
-    amountStandTokens[msg.sender] = amountStandTokens[msg.sender] + 1;
+    amountStandTokens[msg.sender]++;
     emit TokenCreated(msg.sender, token);
     return token;
   }
@@ -335,10 +333,10 @@ contract TokenCreator {
   *
   *   @return the address of new token.
   */
-  function createMintableToken(string _nameOfToken, string _symbolOfToken, uint8 _decimals, bool _transferable) public returns (address) {
-    address token = new MintableToken(_nameOfToken, _symbolOfToken, _decimals, _transferable);
+  function createMintableToken(string _name, string _symbol, uint8 _decimals, bool _transferable) public returns (address) {
+    address token = new MintableToken(_name, _symbol, _decimals, _transferable);
     mintableTokens[msg.sender].push(token);
-    amountMintTokens[msg.sender] = amountMintTokens[msg.sender] + 1;
+    amountMintTokens[msg.sender]++;
     emit TokenCreated(msg.sender, token);
     return token;
   }

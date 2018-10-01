@@ -3,8 +3,8 @@ const MintableToken = artifacts.require("MintableToken");
 const TokenCreator = artifacts.require("TokenCreator");
 const config = require('../migrations/config.json');
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-const nameOfToken = config.nameOfToken;
-const symbolOfToken = config.symbolOfToken;
+const name = config.name;
+const symbol = config.symbol;
 const decimals = config.decimals;
 const totalSupply = config.totalSupply;
 const transferable = config.transferable;
@@ -29,7 +29,7 @@ contract('StandardToken', function (accounts) {
 	const recipient = accounts[3];
 
     beforeEach(async function () {
-        this.standardToken = await StandardToken.new(nameOfToken, symbolOfToken, decimals, totalSupply, transferable, {from: owner});
+        this.standardToken = await StandardToken.new(name, symbol, decimals, totalSupply, transferable, {from: owner});
     });
 
     describe('total supply and owner', function () {
@@ -69,6 +69,7 @@ contract('StandardToken', function (accounts) {
 
         beforeEach('transfer tokens to holder', async function() {
             await this.standardToken.transfer(holder, 100, {from: owner});
+            await this.standardToken.unfreeze();
         });
             
         describe('when the recipient is not the zero address', function () {
@@ -235,6 +236,28 @@ contract('StandardToken', function (accounts) {
             });
         });
     });
+
+    describe('unfreeze', function () {
+        beforeEach(async function () {
+            await this.standardToken.transfer(holder, 100, {from: owner});
+        });
+        describe('when transferable is false', function() {
+            it('only owner can send tokens', async function() {
+                await this.standardToken.transfer(recipient, 100, {from: owner});
+                await assertRevert(this.standardToken.transfer(recipient, 100, {from: holder}));
+            });
+        });
+        describe('when transferable is true', function () {
+            it('anyone can send tokens', async function () {
+                await this.standardToken.unfreeze();
+                await this.standardToken.transfer(recipient, 100, {from: owner});
+                await this.standardToken.transfer(recipient, 100, {from: holder});
+                const balance = await this.standardToken.balanceOf(recipient);
+                assert.equal(balance, 200);
+            });
+        });
+    });
+
 	describe('airdrop', function () {
 
 		const generateBalances = function (accountsLength) {
@@ -250,6 +273,8 @@ contract('StandardToken', function (accounts) {
 		describe('when the length of the address list and value list are not equal', function () {
             it('reverts', async function () {
         		const values = generateBalances(addresses.length - 1);
+                console.log(await this.standardToken.transferable());
+                console.log(this.standardToken.name);
                 await assertRevert(this.standardToken.airdrop(addresses, values, {from: owner}));
             });
         });
@@ -291,7 +316,7 @@ contract('MintableToken', function (accounts) {
 	const recipient = accounts[3];
 
     beforeEach(async function () {
-        this.mintableToken = await MintableToken.new(nameOfToken, symbolOfToken, decimals, transferable, {from: owner});
+        this.mintableToken = await MintableToken.new(name, symbol, decimals, transferable, {from: owner});
     });
 
     describe('owner', function () {
@@ -405,7 +430,7 @@ contract('TokenCreator', function (accounts) {
     describe('standard token was create', function () {
     	const totalSupply = config.totalSupply;
     	it('ok', async function() {		    	
-    		const tokenAddress = await this.tokenCreator.createStandardToken(nameOfToken, symbolOfToken, decimals, totalSupply, transferable, {from: owner});       	
+    		const tokenAddress = await this.tokenCreator.createStandardToken(name, symbol, decimals, totalSupply, transferable, {from: owner});       	
 	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
 	    	console.log(tokenAddress);
 	    });     
@@ -413,7 +438,7 @@ contract('TokenCreator', function (accounts) {
 
     describe('mintable token was create', function () {
     	it('ok', async function() {		    	
-    		const tokenAddress = await this.tokenCreator.createMintableToken(nameOfToken, symbolOfToken, decimals, transferable, {from: owner});       	
+    		const tokenAddress = await this.tokenCreator.createMintableToken(name, symbol, decimals, transferable, {from: owner});       	
 	    	assert.notEqual(tokenAddress, ZERO_ADDRESS);
 	    	console.log(tokenAddress);
 	    });     
