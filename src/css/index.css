@@ -1,1 +1,17 @@
-ssssds
+.form-control.dirty {
+  border-color: #5A5;
+  background: #EFE;
+}
+
+.form-control.dirty:focus {
+  outline-color: #8E8;
+}
+
+.form-control.error {
+  border-color: red;
+  background: #FDD;
+}
+
+.form-control.error:focus {
+  outline-color: #F99;
+}

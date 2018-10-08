@@ -18,6 +18,8 @@ const accounts = web3.eth.accounts;
 
 let fileTxt = '';
 
+Vue.use(window.vuelidate.default);
+
 const VueApp = new Vue({
   el: '#app',
   data: {
@@ -25,18 +27,47 @@ const VueApp = new Vue({
     standSymbol: '',
     standDecimals: '',
     standTotalSupply: '',
-    standTransferable: '',
+    standTransferable: 'true',
     standardTokens: [],
 
     mintName: '',
     mintSymbol: '',
     mintDecimals: '',
-    mintTransferable: '',
+    mintTransferable: 'true',
     mintableTokens: [],
 
-    addressAirdropToken: '',    
+    addressAirdropToken: '',   
+  },
+  validations: {
+    standSymbol: {
+      required: validators.required
+    },
+    standDecimals: {
+      required: validators.required,
+      integer: validators.integer,
+      between: validators.between(0, 50)
+    },
+    standTotalSupply: {
+      required: validators.required,
+      integer: validators.integer,
+      minValue: validators.minValue(0)
+    },
+    mintSymbol: {
+      required: validators.required
+    },
+    mintDecimals: {
+      required: validators.required,
+      integer: validators.integer,
+      between: validators.between(0, 50)
+    },
   },
   methods: {
+    status(validation) {
+      return {
+        error: validation.$error,
+        dirty: validation.$dirty,
+      }
+    },
     createStandard () {
     	tokenCreatorInstance.createStandardToken(this.standName,
                                                this.standSymbol,

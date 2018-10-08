@@ -5,11 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="../css/index.css" type="text/css"/>
     <title>Airdrop</title>
 	
 	<!-- <script type="text/javascript" src="js/truffle-contract.min.js"></script> -->
 	<script type="text/javascript" src="js/web3.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/validators.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/vuelidate.min.js"></script>
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -23,13 +30,6 @@
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#home" role="tab">Home</a>
 		  </li>
-		  <!--<li class="nav-item dropdown">
-		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Create new token</a>
-		    <div class="dropdown-menu">
-		      <a class="dropdown-item" data-toggle="tab" href="#standard-token">Create standard token</a>
-		      <a class="dropdown-item" data-toggle="tab" href="#mintable-token">Create mintable token</a>
-		    </div>
-		  </li>-->
 		  <li class="nav-item">
 		    <a class="nav-link active" data-toggle="tab" href="#create" role="tab">Create</a>
 		  </li>
@@ -46,58 +46,64 @@
 			<div class="tab-pane show active" id="create" role="tabpanel">
 				<div class="col-md-8 col-md-push-2">
 					<br>
-					<ul class="nav nav-tabs" role="tablist">
-					  <li class="nav-item dropdown">
-					    <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Select token type</a>
-					    <div class="dropdown-menu">
-					      <a class="dropdown-item" data-toggle="tab" href="#standard-token" role="tab">Standard token</a>
-					      <div class="dropdown-divider"></div>
-					      <a class="dropdown-item" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
-					    </div>
+					<ul class="nav nav-pills" role="tablist">
+					  <li class="nav-item">
+					    <a class="nav-link active" data-toggle="tab" href="#standard-token" role="tab">Standard token</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
 					  </li>
 					</ul>
 					<div class="tab-content">	
-					  <div class="tab-pane" id="standard-token" role="tabpanel">
+					  <div class="tab-pane active" id="standard-token" role="tabpanel">
 					  	<h3 class="text-center"><br>Standard token</h3>
 					  	<div class="form-group">
-							<label for="stand-name">Token name:</label>
-					        <input type="text" class="form-control" id="stand-name" v-model="standName" placeholder="Name of your token">
+							<label for="stand-name">Token name (optional):</label>
+					        <input type="text" class="form-control dirty" id="stand-name" v-model="standName" placeholder="MyToken">  
 					    </div>
 					    <div class="form-group">
 							<label for="stand-symbol">Symbol:</label>
-					        <input type="text" class="form-control" id="stand-symbol" v-model="standSymbol" placeholder="Symbol of your token">
+					        <input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model="$v.standSymbol.$model" placeholder="MTK">
 					    </div>	
 					    <div class="form-group">
 							<label for="stand-decimals">Decimals:</label>
-					        <input type="text" class="form-control" id="stand-decimals" v-model="standDecimals" placeholder="Decimals of your token">
+					        <input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
 					    </div>
 					    <div class="form-group">
 							<label for="stand-totalSupply">Total supply:</label>
-					        <input type="text" class="form-control" id="stand-totalSupply" v-model="standTotalSupply" placeholder="Total supply of your token">
+					        <input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
 					    </div>
 					    <div class="form-group">
 							<label for="stand-transferable">Transferable:</label>
-					        <input type="text" class="form-control" id="stand-transferable" v-model="standTransferable" placeholder="True or false">
+							<br>
+							<select class="custom-select" v-model="standTransferable">
+							  <option value="true">true</option>
+							  <option value="false">false</option>
+							</select>
 					    </div>	
 					    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
 					  </div>
 					  <div class="tab-pane" id="mintable-token" role="tabpanel">
 					  	<h3 class="text-center"><br>Mintable token</h3>
 					  	<div class="form-group">
-							<label for="mint-name">Token name:</label>
-					        <input type="text" class="form-control" id="mint-name" v-model="mintName" placeholder="Name of your token">
+							<label for="mint-name">Token name (optional):</label>
+					        <input type="text" class="form-control dirty" id="mint-name" v-model="mintName" placeholder="MyToken">
 					    </div>
 					    <div class="form-group">
 							<label for="mint-symbol">Symbol:</label>
-					        <input type="text" class="form-control" id="mint-symbol" v-model="mintSymbol" placeholder="Symbol of your token">
+					        <input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model="$v.mintSymbol.$model" placeholder="MTK">
 					    </div>	
 					    <div class="form-group">
 							<label for="mint-decimals">Decimals:</label>
-					        <input type="text" class="form-control" id="mint-decimals" v-model="mintDecimals" placeholder="Decimals of your token">
+					        <input type="text" class="form-control" :class="status($v.mintDecimals)" id="mint-decimals" v-model="$v.mintDecimals.$model" placeholder="18">
 					    </div>
 					    <div class="form-group">
 							<label for="mint-transferable">Transferable:</label>
-					        <input type="text" class="form-control" id="mint-transferable" v-model="mintTransferable" placeholder="True or false">
+					        <br>
+							<select class="custom-select" v-model="mintTransferable">
+							  <option value="true">true</option>
+							  <option value="false">false</option>
+							</select>
 					    </div>
 					    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
 					  </div>
@@ -162,10 +168,7 @@
 	</div>
 	
 
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
     <script src="js/abiOfContracts.js"></script>
     <script src="js/vueApp.js"></script>
   </body>
