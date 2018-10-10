@@ -31,7 +31,10 @@
 		    <a class="nav-link" data-toggle="tab" href="#home" role="tab">Home</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#create" role="tab">Create</a>
+		    <a class="nav-link" data-toggle="tab" href="#create" role="tab">Create</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" data-toggle="tab" href="#select" role="tab">Select</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#interact" role="tab">Interact</a>
@@ -39,11 +42,12 @@
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
+<!-- Home content -->
 			<div class="tab-pane" id="home" role="tabpanel">
-				<!-- Home content -->
+				
 			</div>
-			
-			<div class="tab-pane show active" id="create" role="tabpanel">
+<!-- Create content -->		
+			<div class="tab-pane" id="create" role="tabpanel">
 				<div class="col-md-8 col-md-push-2">
 					<br>
 					<ul class="nav nav-pills" role="tablist">
@@ -56,42 +60,42 @@
 					</ul>
 					<div class="tab-content">	
 					  <div class="tab-pane active" id="standard-token" role="tabpanel">
-					  	<h3 class="text-center"><br>Standard token</h3>
-					  	<div class="form-group">
-							<label for="stand-name">Token name (optional):</label>
-					        <input type="text" class="form-control dirty" id="stand-name" v-model="standName" placeholder="MyToken">  
-					    </div>
-					    <div class="form-group">
-							<label for="stand-symbol">Symbol:</label>
-					        <input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model="$v.standSymbol.$model" placeholder="MTK">
-					    </div>	
-					    <div class="form-group">
-							<label for="stand-decimals">Decimals:</label>
-					        <input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
-					    </div>
-					    <div class="form-group">
-							<label for="stand-totalSupply">Total supply:</label>
-					        <input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
-					    </div>
-					    <div class="form-group">
-							<label for="stand-transferable">Transferable:</label>
-							<br>
-							<select class="custom-select" v-model="standTransferable">
-							  <option value="true">true</option>
-							  <option value="false">false</option>
-							</select>
-					    </div>	
-					    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
-					  </div>
+					  	<h3 class="text-center"><br>Standard token</h3> 	
+						  	<div class="form-group">
+								<label for="stand-name">Token name (optional):</label>
+						        <input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-symbol">Symbol:</label>
+						        <input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="MTK">
+						    </div>	
+						    <div class="form-group">
+								<label for="stand-decimals">Decimals:</label>
+						        <input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-totalSupply">Total supply:</label>
+						        <input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-transferable">Transferable:</label>
+								<br>
+								<select class="custom-select" v-model="standTransferable">
+								  <option value="Yes">Yes</option>
+								  <option value="">No</option>
+								</select>
+						    </div>	
+						    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
+						  </div>
 					  <div class="tab-pane" id="mintable-token" role="tabpanel">
 					  	<h3 class="text-center"><br>Mintable token</h3>
 					  	<div class="form-group">
 							<label for="mint-name">Token name (optional):</label>
-					        <input type="text" class="form-control dirty" id="mint-name" v-model="mintName" placeholder="MyToken">
+					        <input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
 					    </div>
 					    <div class="form-group">
 							<label for="mint-symbol">Symbol:</label>
-					        <input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model="$v.mintSymbol.$model" placeholder="MTK">
+					        <input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model.trim="$v.mintSymbol.$model" placeholder="MTK">
 					    </div>	
 					    <div class="form-group">
 							<label for="mint-decimals">Decimals:</label>
@@ -101,8 +105,8 @@
 							<label for="mint-transferable">Transferable:</label>
 					        <br>
 							<select class="custom-select" v-model="mintTransferable">
-							  <option value="true">true</option>
-							  <option value="false">false</option>
+							  <option value="Yes">Yes</option>
+							  <option value="">No</option>
 							</select>
 					    </div>
 					    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
@@ -110,37 +114,23 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="tab-pane" id="interact" role="tabpanel">
+<!-- Select content -->
+			<div class="tab-pane show active" id="select" role="tabpanel">
+				<h3 class="text-center"><br>Select token to interact</h3>
 				<br>
-				<div class="col">
-					<div class="col-md-8 col-md-push-2">
-						<div class="form-group">
-							<label for="address-of-token"><br>Address of your token:</label>
-					        <input type="text" class="form-control" id="address-of-token" v-model="addressAirdropToken" placeholder="Address of your token">
-					    </div>
-					    <div class="form-group">
-							<label for="list-of-recipients">List of addresses and number of tokens:</label>
-							<br>
-						  	<label class="custom-file">
-							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
-							  <span class="custom-file-control"></span>
-							</label>						
-					    </div>
-
-					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
-				    </div>
-				</div>
-				<br>
-				<table class="table table-bordered table-responsive">
+				<table class="table table-responsive">
 				  <thead>
 				  	<tr>Your Standard Tokens</tr>
 				    <tr>
-				      <th>Address</th>
+						<th>Selected</th>
+						<th>Symbol</th>
+						<th>Type</th>
+				    	<th>Address</th>
 				    </tr>
 				  </thead>
 				  <tbody>
 				    <tr>
+				      <td>Address</td>	
 				      <td>
 				      	<div v-for="address in standardTokens"> {{ address }} </div>
 				      </td>
@@ -162,6 +152,28 @@
 				    </tr>
 				  </tbody>
 				</table>
+			</div>
+<!-- Interact content -->
+			<div class="tab-pane" id="interact" role="tabpanel">
+				<br>
+				<div class="col">
+					<div class="col-md-8 col-md-push-2">
+						<div class="form-group">
+							<label for="address-of-token"><br>Address of your token:</label>
+					        <input type="text" class="form-control" id="address-of-token" v-model="addressAirdropToken" placeholder="Address of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="list-of-recipients">List of addresses and number of tokens:</label>
+							<br>
+						  	<label class="custom-file">
+							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+							  <span class="custom-file-control"></span>
+							</label>						
+					    </div>
+
+					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
+				    </div>
+				</div>				
 			</div>
 			<br>
 		</div>

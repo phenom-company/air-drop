@@ -27,16 +27,16 @@ const VueApp = new Vue({
     standSymbol: '',
     standDecimals: '',
     standTotalSupply: '',
-    standTransferable: 'true',
+    standTransferable: 'Yes',
     standardTokens: [],
 
     mintName: '',
     mintSymbol: '',
     mintDecimals: '',
-    mintTransferable: 'true',
+    mintTransferable: 'Yes',
     mintableTokens: [],
 
-    addressAirdropToken: '',   
+    addressAirdropToken: '',
   },
   validations: {
     standSymbol: {
@@ -69,21 +69,29 @@ const VueApp = new Vue({
       }
     },
     createStandard () {
-    	tokenCreatorInstance.createStandardToken(this.standName,
-                                               this.standSymbol,
-                                               this.standDecimals, 
-                                               this.standTotalSupply * 10 ** this.standDecimals,
-                                               this.standTransferable, 
-                                               console.log
-      );
+      if (this.$v.standSymbol.$invalid || this.$v.standDecimals.$invalid || this.$v.standTotalSupply.$invalid) {
+        return;
+      } else {     
+      	tokenCreatorInstance.createStandardToken(this.standName,
+                                                 this.standSymbol,
+                                                 this.standDecimals, 
+                                                 this.standTotalSupply * 10 ** this.standDecimals,
+                                                 this.standTransferable, 
+                                                 console.log
+        );
+      }
     },
     createMintable () {
-    	tokenCreatorInstance.createMintableToken(this.mintName,
-                                               this.mintSymbol,
-                                               this.mintDecimals,
-                                               this.mintTransferable, 
-                                               console.log
-      );  
+      if (this.$v.mintSymbol.$invalid || this.$v.mintDecimals.$invalid) {
+        return;
+      } else { 	
+        tokenCreatorInstance.createMintableToken(this.mintName,
+                                                 this.mintSymbol,
+                                                 this.mintDecimals,
+                                                 this.mintTransferable, 
+                                                 console.log
+        );
+      }  
     },
     showTokens () {
     	this.standardTokens = [];
