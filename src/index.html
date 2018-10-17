@@ -118,24 +118,28 @@
 			<div class="tab-pane show active" id="select" role="tabpanel">
 				<h3 class="text-center"><br>Select token to interact</h3>
 				<br>
-				<table class="table table-responsive">
-				  <thead>
-				  	<tr>Your Standard Tokens</tr>
-				    <tr>
-						<th>Selected</th>
-						<th>Symbol</th>
-						<th>Type</th>
-				    	<th>Address</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <td>Address</td>	
-				      <td>
-				      	<div v-for="address in standardTokens"> {{ address }} </div>
-				      </td>
-				    </tr>
-				  </tbody>
+				<table class="table table-sm table-responsive">
+				    <thead>
+				  		<tr>Your Standard Tokens</tr>
+					    <tr>
+							<th>Selected</th>
+							<th>Symbol</th>
+							<th>Type</th>
+					    	<th>Address</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+				    	<tr v-for="yourToken in arrOfTokens">
+							<td>								
+						        <label class="form-check-label">
+						           <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios" value="option">
+						        </label>
+							</td>
+							<td></td>
+							<td>{{ yourToken.type }}</td>							
+							<td>{{ yourToken.address }}</td>
+						</tr>
+				    </tbody>
 				</table>
 				<table class="table table-bordered table-responsive">
 				  <thead>
@@ -147,7 +151,7 @@
 				  <tbody>
 				    <tr>
 				      <td>
-				      	<div v-for="address in mintableTokens"> {{ address }} </div>
+				      	<div v-for="yourToken in arrOfTokens"> {{ yourToken.address }} {{ yourToken.number }} </div>
 				      </td>
 				    </tr>
 				  </tbody>

@@ -28,13 +28,12 @@ const VueApp = new Vue({
     standDecimals: '',
     standTotalSupply: '',
     standTransferable: 'Yes',
-    standardTokens: [],
 
     mintName: '',
     mintSymbol: '',
     mintDecimals: '',
     mintTransferable: 'Yes',
-    mintableTokens: [],
+    arrOfTokens: [],
 
     addressAirdropToken: '',
   },
@@ -94,8 +93,6 @@ const VueApp = new Vue({
       }  
     },
     showTokens () {
-    	this.standardTokens = [];
-    	this.mintableTokens = [];
     	if (accounts[0] === undefined) {
     		/*alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');*/
     		return;
@@ -103,9 +100,19 @@ const VueApp = new Vue({
     	tokenCreatorInstance.amountStandTokens(accounts[0], (err, result) => {
     		if (!err) {
     			for (let i = 0; i < result; i++) {
+            let tokenSymbol = '';
   					tokenCreatorInstance.standardTokens(accounts[0], i, (err, result) => {
-  						if (!err) {
-  							this.standardTokens.push(result);
+  						if (!err) {              
+                let standardTokenInstance = StandardToken.at(result); 
+                console.log(standardTokenInstance);              
+                standardTokenInstance.symbolOfToken((err, result) => {
+                  if (!err) {
+                    let tokenSymbol = result;
+                    console.log(result);
+                    console.log(tokenSymbol);
+                  }  
+                });
+  							this.arrOfTokens.push({symbol: tokenSymbol, type: 'Standard', address: result});
   						}
   					});
   				}		
@@ -116,7 +123,7 @@ const VueApp = new Vue({
     			for (let i = 0; i < result; i++) {
   					tokenCreatorInstance.mintableTokens(accounts[0], i, (err, result) => {
   						if (!err) {
-  							this.mintableTokens.push(result);
+  							this.arrOfTokens.push({type: 'Mintable', address: result});
   						}
   					});
   				}		
