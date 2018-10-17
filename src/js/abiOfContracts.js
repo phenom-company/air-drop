@@ -132,11 +132,11 @@ const abiTokenCreator = [{
       "constant": false,
       "inputs": [
         {
-          "name": "_nameOfToken",
+          "name": "_name",
           "type": "string"
         },
         {
-          "name": "_symbolOfToken",
+          "name": "_symbol",
           "type": "string"
         },
         {
@@ -167,11 +167,11 @@ const abiTokenCreator = [{
       "constant": false,
       "inputs": [
         {
-          "name": "_nameOfToken",
+          "name": "_name",
           "type": "string"
         },
         {
-          "name": "_symbolOfToken",
+          "name": "_symbol",
           "type": "string"
         },
         {
@@ -195,7 +195,21 @@ const abiTokenCreator = [{
       "type": "function"
 }];
 const abiStandardToken = [{
-     "constant": false,
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
       "inputs": [
         {
           "name": "_spender",
@@ -273,6 +287,15 @@ const abiStandardToken = [{
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [],
+      "name": "unfreeze",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -289,20 +312,6 @@ const abiStandardToken = [{
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "makeTokenTransferable",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -336,7 +345,7 @@ const abiStandardToken = [{
     {
       "constant": true,
       "inputs": [],
-      "name": "symbolOfToken",
+      "name": "symbol",
       "outputs": [
         {
           "name": "",
@@ -372,20 +381,6 @@ const abiStandardToken = [{
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "nameOfToken",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
       "inputs": [
         {
           "name": "_owner",
@@ -410,11 +405,11 @@ const abiStandardToken = [{
     {
       "inputs": [
         {
-          "name": "_nameOfToken",
+          "name": "_name",
           "type": "string"
         },
         {
-          "name": "_symbolOfToken",
+          "name": "_symbol",
           "type": "string"
         },
         {
@@ -487,7 +482,7 @@ const abiStandardToken = [{
           "type": "uint256"
         }
       ],
-      "name": "Transferable",
+      "name": "Unfreezed",
       "type": "event"
     },
     {
@@ -514,13 +509,27 @@ const abiStandardToken = [{
       "type": "function"
 }];
 const abiMintableToken = [{
-        "constant": true,
+      "constant": true,
       "inputs": [],
       "name": "mintingFinished",
       "outputs": [
         {
           "name": "",
           "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
         }
       ],
       "payable": false,
@@ -606,6 +615,15 @@ const abiMintableToken = [{
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [],
+      "name": "unfreeze",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -622,20 +640,6 @@ const abiMintableToken = [{
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "makeTokenTransferable",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -669,7 +673,7 @@ const abiMintableToken = [{
     {
       "constant": true,
       "inputs": [],
-      "name": "symbolOfToken",
+      "name": "symbol",
       "outputs": [
         {
           "name": "",
@@ -705,20 +709,6 @@ const abiMintableToken = [{
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "nameOfToken",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
       "inputs": [
         {
           "name": "_owner",
@@ -743,11 +733,11 @@ const abiMintableToken = [{
     {
       "inputs": [
         {
-          "name": "_nameOfToken",
+          "name": "_name",
           "type": "string"
         },
         {
-          "name": "_symbolOfToken",
+          "name": "_symbol",
           "type": "string"
         },
         {
@@ -828,7 +818,7 @@ const abiMintableToken = [{
           "type": "uint256"
         }
       ],
-      "name": "Transferable",
+      "name": "Unfreezed",
       "type": "event"
     },
     {
@@ -881,12 +871,7 @@ const abiMintableToken = [{
       "constant": false,
       "inputs": [],
       "name": "finishMinting",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"

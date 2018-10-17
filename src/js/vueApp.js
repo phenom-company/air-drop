@@ -13,7 +13,7 @@ const TokenCreator = web3.eth.contract(abiTokenCreator);
 const AirdropContract = web3.eth.contract(abiAirdrop);
 const StandardToken = web3.eth.contract(abiStandardToken);
 const MintableToken = web3.eth.contract(abiMintableToken);
-const tokenCreatorInstance = TokenCreator.at('0xe73d991667779550add5459af2e3acf83d00db02');
+const tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
 const accounts = web3.eth.accounts;
 
 let fileTxt = '';
@@ -33,8 +33,8 @@ const VueApp = new Vue({
     mintSymbol: '',
     mintDecimals: '',
     mintTransferable: 'Yes',
+    
     arrOfTokens: [],
-
     addressAirdropToken: '',
   },
   validations: {
@@ -97,38 +97,38 @@ const VueApp = new Vue({
     		/*alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');*/
     		return;
     	};
-    	tokenCreatorInstance.amountStandTokens(accounts[0], (err, result) => {
+    	tokenCreatorInstance.amountStandTokens(accounts[0], (err, amountOfTokens) => {
     		if (!err) {
-    			for (let i = 0; i < result; i++) {
-            let tokenSymbol = '';
-  					tokenCreatorInstance.standardTokens(accounts[0], i, (err, result) => {
-  						if (!err) {              
-                let standardTokenInstance = StandardToken.at(result); 
-                console.log(standardTokenInstance);              
-                standardTokenInstance.symbolOfToken((err, result) => {
+    			for (let i = 0; i < amountOfTokens; i++) {            
+  					tokenCreatorInstance.standardTokens(accounts[0], i, (err, addressOfToken) => {
+  						if (!err) {           
+                let standardTokenInstance = StandardToken.at(addressOfToken);             
+                standardTokenInstance.symbol((err, symbolOfToken) => {
                   if (!err) {
-                    let tokenSymbol = result;
-                    console.log(result);
-                    console.log(tokenSymbol);
+                    this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
                   }  
-                });
-  							this.arrOfTokens.push({symbol: tokenSymbol, type: 'Standard', address: result});
+                });  							
   						}
   					});
   				}		
     		}
     	})
-    	tokenCreatorInstance.amountMintTokens(accounts[0], (err, result) => {
-    		if (!err) {
-    			for (let i = 0; i < result; i++) {
-  					tokenCreatorInstance.mintableTokens(accounts[0], i, (err, result) => {
-  						if (!err) {
-  							this.arrOfTokens.push({type: 'Mintable', address: result});
-  						}
-  					});
-  				}		
-    		}
-    	})
+      tokenCreatorInstance.amountMintTokens(accounts[0], (err, amountOfTokens) => {
+        if (!err) {
+          for (let i = 0; i < amountOfTokens; i++) {            
+            tokenCreatorInstance.mintableTokens(accounts[0], i, (err, addressOfToken) => {
+              if (!err) {           
+                let standardTokenInstance = StandardToken.at(addressOfToken);             
+                standardTokenInstance.symbol((err, symbolOfToken) => {
+                  if (!err) {
+                    this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
+                  }  
+                });               
+              }
+            });
+          }   
+        }
+      })
   	},
   	handleFileChange(evt) {
 		let file = evt.target.files[0];
