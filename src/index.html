@@ -120,7 +120,6 @@
 				<br>
 				<table class="table table-sm table-responsive">
 				    <thead>
-				  		<tr>Your Standard Tokens</tr>
 					    <tr>
 							<th>Selected</th>
 							<th>Symbol</th>
@@ -140,21 +139,6 @@
 							<td>{{ yourToken.address }}</td>
 						</tr>
 				    </tbody>
-				</table>
-				<table class="table table-bordered table-responsive">
-				  <thead>
-				  	<tr>Your Mintable Tokens</tr>
-				    <tr>
-				      <th>Address</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <td>
-				      	<div v-for="yourToken in arrOfTokens"> {{ yourToken.address }} {{ yourToken.number }} </div>
-				      </td>
-				    </tr>
-				  </tbody>
 				</table>
 			</div>
 <!-- Interact content -->
