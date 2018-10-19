@@ -36,6 +36,7 @@ const VueApp = new Vue({
     
     arrOfTokens: [],
     addressAirdropToken: '',
+    picked: '',
   },
   validations: {
     standSymbol: {
@@ -130,13 +131,23 @@ const VueApp = new Vue({
         }
       })
   	},
+    changeRadio(index) {
+      this.picked = index;
+    },
+    interactWithToken() {
+      if (this.picked!='') {
+        
+      } else {
+        alert('Choose your token to interact!');
+      }
+    },
   	handleFileChange(evt) {
 		let file = evt.target.files[0];
       	let reader = new FileReader();
       	reader.readAsText(file);
       	reader.onload = function (e) {
 	        fileTxt = reader.result;
-	    } 
+	      } 
   	},
   	parseText () {
       let fullArr = fileTxt.split(/\;|\n/);

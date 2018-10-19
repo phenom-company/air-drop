@@ -129,15 +129,15 @@
 					    </tr>
 				    </thead>
 				    <tbody>
-				    	<tr v-for="yourToken in arrOfTokens">
+				    	<tr v-for="(yourToken, index) in arrOfTokens" @click="changeRadio(index)">				    		
 							<td>								
 						        <label class="form-check-label">
-						           <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios" value="option">
+						           <input type="radio" class="form-check-input" name="optionsRadios" :value="index" v-model="picked">
 						        </label>
 							</td>
 							<td>{{ yourToken.symbol }}</td>
 							<td>{{ yourToken.type }}</td>							
-							<td>{{ yourToken.address }}</td>
+							<td>{{ yourToken.address }}</td>							
 						</tr>
 				    </tbody>
 				</table>
