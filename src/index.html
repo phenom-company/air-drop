@@ -34,10 +34,10 @@
 		    <a class="nav-link" data-toggle="tab" href="#create" role="tab">Create</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#select" role="tab">Select</a>
+		    <a class="nav-link" :class="{active: isActiveSelect}" data-toggle="tab" href="#select" role="tab">Select</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#interact" role="tab">Interact</a>
+		    <a class="nav-link" :class="{active: isActiveInteract}" data-toggle="tab" href="#interact" role="tab">Interact</a>
 		  </li>
 		</ul>
 		<!-- Tab panes -->
@@ -115,7 +115,7 @@
 				</div>
 			</div>
 <!-- Select content -->
-			<div class="tab-pane show active" id="select" role="tabpanel">
+			<div class="tab-pane" :class="{active: isActiveSelect}" id="select" role="tabpanel">
 				<br>
 				<h3 class="text-center">Select token to interact</h3>
 				<br>
@@ -144,7 +144,7 @@
 				<button id="interact-token" class="btn btn-outline-primary" @click="interactWithToken()">Interact</button>
 			</div>
 <!-- Interact content -->
-			<div class="tab-pane" id="interact" role="tabpanel">
+			<div class="tab-pane" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
 				<br>
 				<div class="col">
 					<div class="col-md-8 col-md-push-2">

@@ -36,7 +36,10 @@ const VueApp = new Vue({
     
     arrOfTokens: [],
     addressAirdropToken: '',
-    picked: '',
+    picked: '-1',
+    isActiveSelect: true,
+    isActiveInteract: false,
+    hrefToInteract: false,
   },
   validations: {
     standSymbol: {
@@ -95,7 +98,7 @@ const VueApp = new Vue({
     },
     showTokens () {
     	if (accounts[0] === undefined) {
-    		/*alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');*/
+    		alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');
     		return;
     	};
     	tokenCreatorInstance.amountStandTokens(accounts[0], (err, amountOfTokens) => {
@@ -133,10 +136,15 @@ const VueApp = new Vue({
   	},
     changeRadio(index) {
       this.picked = index;
+      this.isActiveSelect = true;
+      this.isActiveInteract = false;
+      this.hrefToInteract = false;
     },
     interactWithToken() {
-      if (this.picked!='') {
-        
+      if (this.picked>=0) {
+        this.isActiveSelect = false;
+        this.isActiveInteract = true;
+        this.hrefToInteract = true;
       } else {
         alert('Choose your token to interact!');
       }
