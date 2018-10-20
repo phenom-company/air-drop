@@ -149,6 +149,11 @@ const VueApp = new Vue({
         alert('Choose your token to interact!');
       }
     },
+    fromInteractToSelect() {
+      this.isActiveSelect = true;
+      this.isActiveInteract = false;
+      this.hrefToInteract = false;
+    },
   	handleFileChange(evt) {
 		let file = evt.target.files[0];
       	let reader = new FileReader();
