@@ -157,11 +157,23 @@
 						<br>
 						Symbol: {{ token.symbol }}
 						<br>
-						Decimals: {{ token.decimals }}
+						Decimals: {{ token.decimals }}					
+						<b v-if="canMint">
 						<br>
-						Transferable: {{ token.transferable }}
+						Current Supply: {{ token.totalSupply }}
+						</b>
+						<b v-else>
 						<br>
-						Type: {{ token.type }}
+						Total Supply: {{ token.totalSupply }}
+						</b>
+						<br>
+						<b>Transferable: {{ token.transferable }}</b>
+						<b v-if="showCanMint">
+						<br>
+						Can mint: {{ token.mintingFinished }}	
+						</b>
+						<br>
+						<b>Type: {{ token.type }}</b>
 						<br>
 						Your balance: {{ token.balance }}
 					</div>

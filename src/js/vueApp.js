@@ -42,6 +42,8 @@ const VueApp = new Vue({
     hrefToInteract: false,
     selectedAddress: '',
     tokenInfo: [],
+    showCanMint: false,
+    canMint: false,
   },
   validations: {
     standSymbol: {
@@ -163,6 +165,12 @@ const VueApp = new Vue({
                             if (!err) {
                               standardTokenInstance.balanceOf(accounts[0], (err, balanceOfOwner) => {
                                 if (!err) {
+                                  if (transferableOfToken == true) {
+                                    transferableOfToken = 'Yes';
+                                  };
+                                  if (transferableOfToken == false) {
+                                    transferableOfToken = 'No';
+                                  };
                                   this.tokenInfo.push({ name: nameOfToken,
                                                         symbol: symbolOfToken,
                                                         decimals: decimalsOfToken,
@@ -170,6 +178,8 @@ const VueApp = new Vue({
                                                         transferable: transferableOfToken,
                                                         type: 'Standard', 
                                                         balance: balanceOfOwner / 10 ** decimalsOfToken });
+                                  this.showCanMint = false;
+                                  this.canMint = false;
                                 }  
                               }); 
                             }  
@@ -200,14 +210,29 @@ const VueApp = new Vue({
                                 if (!err) {
                                   mintableTokenInstance.mintingFinished((err, mintingFinishedOfToken) => {
                                     if (!err) {
+                                      if (transferableOfToken == true) {
+                                        transferableOfToken = 'Yes';
+                                      };
+                                      if (transferableOfToken == false) {
+                                        transferableOfToken = 'No';
+                                      };
+                                      if (mintingFinishedOfToken == true) {
+                                        mintingFinishedOfToken = 'No';
+                                        this.canMint = false;
+                                      };
+                                      if (mintingFinishedOfToken == false) {
+                                        mintingFinishedOfToken = 'Yes';
+                                        this.canMint = true;
+                                      };
                                       this.tokenInfo.push({ name: nameOfToken,
                                                             symbol: symbolOfToken,
-                                                            decimals: decimalsOfToken,
+                                                            decimals: decimalsOfToken * 1,
                                                             totalSupply: totalSupplyOfToken / 10 ** decimalsOfToken,
                                                             transferable: transferableOfToken,
                                                             mintingFinished: mintingFinishedOfToken,
                                                             type: 'Mintable', 
                                                             balance: balanceOfOwner / 10 ** decimalsOfToken });
+                                      this.showCanMint = true;
                                     }  
                                   });
                                 }  
