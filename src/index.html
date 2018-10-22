@@ -146,8 +146,30 @@
 <!-- Interact content -->
 			<div class="tab-pane" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
 				<br>
-				<div class="col">
-					<div class="col-md-8 col-md-push-2">
+				<h6 class="text-center">Selected token</h6>
+				<h5 class="text-center">{{ selectedAddress }}</h5>
+				<br>
+				<div class="row">
+					<div class="col-md-3 offset-md-1" v-for="token in tokenInfo">
+						Token info	
+						<br>
+						Name: {{ token.name }}
+						<br>
+						Symbol: {{ token.symbol }}
+						<br>
+						Decimals: {{ token.decimals }}
+						<br>
+						Transferable: {{ token.transferable }}
+						<br>
+						Type: {{ token.type }}
+						<br>
+						Your balance: {{ token.balance }}
+					</div>
+					
+					<div class="col-md-5 offset-md-2">
+						Select method
+					</div>					
+					<!--<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
 							<label for="address-of-token"><br>Address of your token:</label>
 					        <input type="text" class="form-control" id="address-of-token" v-model="addressAirdropToken" placeholder="Address of your token">
@@ -162,7 +184,7 @@
 					    </div>
 
 					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
-				    </div>
+				    </div>-->
 				</div>				
 			</div>
 			<br>

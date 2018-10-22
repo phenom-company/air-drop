@@ -40,6 +40,8 @@ const VueApp = new Vue({
     isActiveSelect: true,
     isActiveInteract: false,
     hrefToInteract: false,
+    selectedAddress: '',
+    tokenInfo: [],
   },
   validations: {
     standSymbol: {
@@ -97,10 +99,10 @@ const VueApp = new Vue({
       }  
     },
     showTokens () {
-    	if (accounts[0] === undefined) {
+    	/*if (accounts[0] === undefined) {
     		alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');
     		return;
-    	};
+    	};*/
     	tokenCreatorInstance.amountStandTokens(accounts[0], (err, amountOfTokens) => {
     		if (!err) {
     			for (let i = 0; i < amountOfTokens; i++) {            
@@ -122,8 +124,8 @@ const VueApp = new Vue({
           for (let i = 0; i < amountOfTokens; i++) {            
             tokenCreatorInstance.mintableTokens(accounts[0], i, (err, addressOfToken) => {
               if (!err) {           
-                let standardTokenInstance = StandardToken.at(addressOfToken);             
-                standardTokenInstance.symbol((err, symbolOfToken) => {
+                let mintableTokenInstance = MintableToken.at(addressOfToken);             
+                mintableTokenInstance.symbol((err, symbolOfToken) => {
                   if (!err) {
                     this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
                   }  
@@ -139,12 +141,88 @@ const VueApp = new Vue({
       this.isActiveSelect = true;
       this.isActiveInteract = false;
       this.hrefToInteract = false;
+      this.selectedAddress = this.arrOfTokens[index].address
     },
     interactWithToken() {
       if (this.picked>=0) {
         this.isActiveSelect = false;
         this.isActiveInteract = true;
-        this.hrefToInteract = true;
+        this.hrefToInteract = true;  
+        if (this.arrOfTokens[this.picked].type == 'Standard') {  
+          this.tokenInfo = [];        
+          let standardTokenInstance = StandardToken.at(this.selectedAddress);             
+          standardTokenInstance.symbol((err, symbolOfToken) => {
+            if (!err) {
+              standardTokenInstance.name((err, nameOfToken) => {
+                if (!err) {
+                  standardTokenInstance.decimals((err, decimalsOfToken) => {
+                    if (!err) {
+                      standardTokenInstance.totalSupply((err, totalSupplyOfToken) => {
+                        if (!err) {
+                          standardTokenInstance.transferable((err, transferableOfToken) => {
+                            if (!err) {
+                              standardTokenInstance.balanceOf(accounts[0], (err, balanceOfOwner) => {
+                                if (!err) {
+                                  this.tokenInfo.push({ name: nameOfToken,
+                                                        symbol: symbolOfToken,
+                                                        decimals: decimalsOfToken,
+                                                        totalSupply: totalSupplyOfToken / 10 ** decimalsOfToken,
+                                                        transferable: transferableOfToken,
+                                                        type: 'Standard', 
+                                                        balance: balanceOfOwner / 10 ** decimalsOfToken });
+                                }  
+                              }); 
+                            }  
+                          });   
+                        }  
+                      });  
+                    }  
+                  });  
+                }  
+              });  
+            }  
+          });
+        }
+        if (this.arrOfTokens[this.picked].type == 'Mintable') {    
+          this.tokenInfo = [];       
+          let mintableTokenInstance = MintableToken.at(this.selectedAddress);             
+          mintableTokenInstance.symbol((err, symbolOfToken) => {
+            if (!err) {
+              mintableTokenInstance.name((err, nameOfToken) => {
+                if (!err) {
+                  mintableTokenInstance.decimals((err, decimalsOfToken) => {
+                    if (!err) {
+                      mintableTokenInstance.totalSupply((err, totalSupplyOfToken) => {
+                        if (!err) {
+                          mintableTokenInstance.transferable((err, transferableOfToken) => {
+                            if (!err) {
+                              mintableTokenInstance.balanceOf(accounts[0], (err, balanceOfOwner) => {
+                                if (!err) {
+                                  mintableTokenInstance.mintingFinished((err, mintingFinishedOfToken) => {
+                                    if (!err) {
+                                      this.tokenInfo.push({ name: nameOfToken,
+                                                            symbol: symbolOfToken,
+                                                            decimals: decimalsOfToken,
+                                                            totalSupply: totalSupplyOfToken / 10 ** decimalsOfToken,
+                                                            transferable: transferableOfToken,
+                                                            mintingFinished: mintingFinishedOfToken,
+                                                            type: 'Mintable', 
+                                                            balance: balanceOfOwner / 10 ** decimalsOfToken });
+                                    }  
+                                  });
+                                }  
+                              }); 
+                            }  
+                          });   
+                        }  
+                      });  
+                    }  
+                  });  
+                }  
+              });  
+            }  
+          });
+        }
       } else {
         alert('Choose your token to interact!');
       }
