@@ -23,27 +23,29 @@ Vue.use(window.vuelidate.default);
 const VueApp = new Vue({
   el: '#app',
   data: {
+/* Create standard */
     standName: '',
     standSymbol: '',
     standDecimals: '',
     standTotalSupply: '',
     standTransferable: 'Yes',
-
+/* Create mintable */
     mintName: '',
     mintSymbol: '',
     mintDecimals: '',
     mintTransferable: 'Yes',
-    
+/* Select token */    
     arrOfTokens: [],
-    addressAirdropToken: '',
+/* Interact with token */
     picked: '-1',
-    isActiveSelect: true,
-    isActiveInteract: false,
+    isActiveSelect: false,
+    isActiveInteract: true,
     hrefToInteract: false,
     selectedAddress: '',
     tokenInfo: [],
     showCanMint: false,
     canMint: false,
+    selectedMethod: 'Drop token',
   },
   validations: {
     standSymbol: {
@@ -278,7 +280,7 @@ const VueApp = new Vue({
       };
       console.log(arrOfAddresses);
       console.log(arrOfValues);
-      const airdropInstance = AirdropContract.at(this.addressAirdropToken);
+      const airdropInstance = AirdropContract.at(this.selectedAddress);
       airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
     },
   },

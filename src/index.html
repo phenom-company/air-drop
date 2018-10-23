@@ -22,10 +22,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
+<!-- Header --> 	
 	<div class="container" id="app">
 		<h1 class="text-center">Airdrop</h1>
 		<h5 class="text-center"><a href="https://www.phenom.team/">by Phenom.Team</a></h5>
-		<!-- Nav tabs -->
+<!-- Nav tabs -->
 		<ul class="nav nav-tabs justify-content-center" role="tablist">
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#home" role="tab">Home</a>
@@ -40,7 +41,7 @@
 		    <a class="nav-link" :class="{active: isActiveInteract}" data-toggle="tab" href="#interact" role="tab">Interact</a>
 		  </li>
 		</ul>
-		<!-- Tab panes -->
+<!-- Tab panes -->
 		<div class="tab-content">
 <!-- Home content -->
 			<div class="tab-pane" id="home" role="tabpanel">
@@ -58,7 +59,8 @@
 					    <a class="nav-link" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
 					  </li>
 					</ul>
-					<div class="tab-content">	
+					<div class="tab-content">
+		<!-- Create standard -->	
 					  <div class="tab-pane active" id="standard-token" role="tabpanel">
 					  	<h3 class="text-center"><br>Standard token</h3> 	
 						  	<div class="form-group">
@@ -87,6 +89,7 @@
 						    </div>	
 						    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
 						  </div>
+		<!-- Create mintable -->
 					  <div class="tab-pane" id="mintable-token" role="tabpanel">
 					  	<h3 class="text-center"><br>Mintable token</h3>
 					  	<div class="form-group">
@@ -149,6 +152,7 @@
 				<h6 class="text-center">Selected token</h6>
 				<h5 class="text-center">{{ selectedAddress }}</h5>
 				<br>
+		<!-- Token info -->				
 				<div class="row">
 					<div class="col-md-3 offset-md-1" v-for="token in tokenInfo">
 						Token info	
@@ -181,9 +185,26 @@
 						<br>
 							Your balance: {{ token.balance }}
 					</div>
-					
+		<!-- Select method -->					
 					<div class="col-md-5 offset-md-2">
-						Select method
+						<h4>Select method</h4>
+						<div class="form-group">
+							<label>Method name:</label>
+							<br>
+							<select class="custom-select" v-model="selectedMethod">
+							  	<option value="Drop token">Drop token</option>
+							  	<option value="Balance of">Balance of</option>
+							</select>
+						</div>
+					    <div class="form-group">					    	
+							<label for="list-of-recipients">List of addresses and number of tokens:</label>
+							<br>
+						  	<label class="custom-file">
+							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+							  <span class="custom-file-control"></span>
+							</label>						
+					    </div>
+					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
 					</div>					
 					<!--<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
