@@ -46,6 +46,9 @@ const VueApp = new Vue({
     showCanMint: false,
     canMint: false,
     selectedMethod: 'Drop token',
+    isActiveDrop: true,
+    isActiveBalance: false,
+    isActiveTransfer: false,
   },
   validations: {
     standSymbol: {
@@ -267,7 +270,7 @@ const VueApp = new Vue({
 	        fileTxt = reader.result;
 	      } 
   	},
-  	parseText () {
+  	parseText() {
       let fullArr = fileTxt.split(/\;|\n/);
       arrOfAddresses = [];
       arrOfValues = [];
@@ -282,6 +285,17 @@ const VueApp = new Vue({
       console.log(arrOfValues);
       const airdropInstance = AirdropContract.at(this.selectedAddress);
       airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
+    },
+    inactiveAllMethods() {
+      this.isActiveDrop = false;
+      this.isActiveBalance = false;
+      this.isActiveTransfer = false;
+    },
+    selectMethod(a) {
+      this.inactiveAllMethods();
+      if (a == "Drop token") {this.isActiveDrop = true;};
+      if (a == "Balance of") {this.isActiveBalance = true;};
+      if (a == "Transfer") {this.isActiveTransfer = true;}; 
     },
   },
   beforeMount(){

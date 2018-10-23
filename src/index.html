@@ -191,20 +191,34 @@
 						<div class="form-group">
 							<label>Method name:</label>
 							<br>
-							<select class="custom-select" v-model="selectedMethod">
+							<select class="custom-select" v-model="selectedMethod" @input="selectMethod($event.target.value)">
 							  	<option value="Drop token">Drop token</option>
 							  	<option value="Balance of">Balance of</option>
+							  	<option value="Transfer">Transfer</option>
 							</select>
 						</div>
-					    <div class="form-group">					    	
-							<label for="list-of-recipients">List of addresses and number of tokens:</label>
-							<br>
-						  	<label class="custom-file">
-							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
-							  <span class="custom-file-control"></span>
-							</label>						
-					    </div>
-					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
+						    <div class="form-group" v-if="isActiveDrop">					    	
+								<label for="list-of-recipients">List of addresses and number of tokens:</label>
+								<br>
+							  	<label class="custom-file">
+								  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+								  <span class="custom-file-control"></span>
+								</label>
+								<br><br>
+								<button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>		
+						    </div>
+						    <div class="form-group" v-if="isActiveBalance">					    	
+								<label for="list-of-recipients">Wallet address:</label>
+								<input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="0x...">
+								<br>
+								<button id="check-balance" class="btn btn-outline-primary" @click="">Check balance</button>
+						    </div>
+						    <div class="form-group" v-if="isActiveTransfer">					    	
+								<label for="list-of-recipients">Transfer:</label>
+								<br>
+								<button id="transfer" class="btn btn-outline-primary" @click="">Transfer</button>
+						    </div>
+
 					</div>					
 					<!--<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
