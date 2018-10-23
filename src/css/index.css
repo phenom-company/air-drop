@@ -1,17 +1,31 @@
 .form-control.dirty {
-  border-color: #5A5;
-  background: #EFE;
+  	border-color: #5A5;
+  	background: #EFE;
 }
 
 .form-control.dirty:focus {
-  outline-color: #8E8;
+  	outline-color: #8E8;
 }
 
 .form-control.error {
-  border-color: red;
-  background: #FDD;
+  	border-color: red;
+  	background: #FDD;
 }
 
 .form-control.error:focus {
-  outline-color: #F99;
+  	outline-color: #F99;
 }
+.tip {
+
+}
+.tip:hover::after {
+	content: attr(data-title); 
+	position: absolute;
+	z-index: 1;
+	font-size: 13px; /* Размер текста подсказки */
+	color: #A4A4A4;
+	background-color: #fff;
+	padding: 3px 5px; /* Поля */
+	border: 1px solid #BDBDBD; /* Параметры рамки */
+}
+ 

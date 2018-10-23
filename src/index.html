@@ -153,29 +153,33 @@
 					<div class="col-md-3 offset-md-1" v-for="token in tokenInfo">
 						Token info	
 						<br>
-						Name: {{ token.name }}
+							Name: {{ token.name }}
 						<br>
-						Symbol: {{ token.symbol }}
+							Symbol: {{ token.symbol }}
 						<br>
-						Decimals: {{ token.decimals }}					
-						<b v-if="canMint">
+							Decimals: {{ token.decimals }}					
+						<b v-if="canMint" class="tip" data-title="Current supply means you can still mint new tokens">
 						<br>
-						Current Supply: {{ token.totalSupply }}
+							Current Supply: {{ token.totalSupply }}
 						</b>
-						<b v-else>
+						<span v-else>
 						<br>
-						Total Supply: {{ token.totalSupply }}
+							Total Supply: {{ token.totalSupply }}
+						</span>
+						<br>
+						<b class="tip" data-title="Сan holders send token?">
+							Transferable: {{ token.transferable }}
+						</b>
+						<b v-if="showCanMint" class="tip" data-title="Сan you mint new tokens?">
+						<br>
+							Can mint: {{ token.mintingFinished }}	
 						</b>
 						<br>
-						<b>Transferable: {{ token.transferable }}</b>
-						<b v-if="showCanMint">
-						<br>
-						Can mint: {{ token.mintingFinished }}	
+						<b class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens.">
+							Type: {{ token.type }}
 						</b>
 						<br>
-						<b>Type: {{ token.type }}</b>
-						<br>
-						Your balance: {{ token.balance }}
+							Your balance: {{ token.balance }}
 					</div>
 					
 					<div class="col-md-5 offset-md-2">
