@@ -19,6 +19,8 @@ const accounts = web3.eth.accounts;
 let fileTxt = '';
 
 Vue.use(window.vuelidate.default);
+const alphaNum42 = validators.helpers.regex('alphaNum', /^[0-9a-fx-xA-FX-X]*$/);
+const length42 = validators.minLength(42) || validators.maxLength(42);
 
 const VueApp = new Vue({
   el: '#app',
@@ -46,31 +48,52 @@ const VueApp = new Vue({
     showCanMint: false,
     canMint: false,
     selectedMethod: 'Drop token',
+    /* Methods names */
     isActiveDrop: true,
     isActiveBalance: false,
     isActiveTransfer: false,
+    /* Methods content */
+    balanceAddress: '',
+    balanceOfWallet: '',
+    recepientAddressTransfer: '',
+    amountOfTokensTransfer: '',
+
   },
   validations: {
     standSymbol: {
-      required: validators.required
+      required: validators.required,
     },
     standDecimals: {
       required: validators.required,
       integer: validators.integer,
-      between: validators.between(0, 50)
+      between: validators.between(0, 50),
     },
     standTotalSupply: {
       required: validators.required,
       integer: validators.integer,
-      minValue: validators.minValue(0)
+      minValue: validators.minValue(0),
     },
     mintSymbol: {
-      required: validators.required
+      required: validators.required,
     },
     mintDecimals: {
       required: validators.required,
       integer: validators.integer,
-      between: validators.between(0, 50)
+      between: validators.between(0, 50),
+    },
+    balanceAddress: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    recepientAddressTransfer: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    amountOfTokensTransfer: {
+      required: validators.required,
+      minValue: validators.minValue(0),
     },
   },
   methods: {
@@ -262,30 +285,6 @@ const VueApp = new Vue({
       this.isActiveInteract = false;
       this.hrefToInteract = false;
     },
-  	handleFileChange(evt) {
-		let file = evt.target.files[0];
-      	let reader = new FileReader();
-      	reader.readAsText(file);
-      	reader.onload = function (e) {
-	        fileTxt = reader.result;
-	      } 
-  	},
-  	parseText() {
-      let fullArr = fileTxt.split(/\;|\n/);
-      arrOfAddresses = [];
-      arrOfValues = [];
-      for (let i = 0; i < fullArr.length - 1; i++) {
-      	if (i % 2) {
-      		arrOfValues.push(fullArr[i]);
-      	} else {
-      		arrOfAddresses.push(fullArr[i]);
-      	}; 
-      };
-      console.log(arrOfAddresses);
-      console.log(arrOfValues);
-      const airdropInstance = AirdropContract.at(this.selectedAddress);
-      airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
-    },
     inactiveAllMethods() {
       this.isActiveDrop = false;
       this.isActiveBalance = false;
@@ -296,6 +295,57 @@ const VueApp = new Vue({
       if (a == "Drop token") {this.isActiveDrop = true;};
       if (a == "Balance of") {this.isActiveBalance = true;};
       if (a == "Transfer") {this.isActiveTransfer = true;}; 
+    },
+    handleFileChange(evt) {
+    let file = evt.target.files[0];
+        let reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function (e) {
+          fileTxt = reader.result;
+        } 
+    },
+/* Token methods */
+    dropToken() {
+      let fullArr = fileTxt.split(/\;|\n/);
+      arrOfAddresses = [];
+      arrOfValues = [];
+      for (let i = 0; i < fullArr.length - 1; i++) {
+        if (i % 2) {
+          arrOfValues.push(fullArr[i]);
+        } else {
+          arrOfAddresses.push(fullArr[i]);
+        }; 
+      };
+      console.log(arrOfAddresses);
+      if (arrOfAddresses.length > 0) {
+        const airdropInstance = AirdropContract.at(this.selectedAddress);
+        airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
+      };
+    },
+    checkBalance() {
+      if (!this.$v.balanceAddress.$invalid) {  
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.balanceOf(this.balanceAddress, (err, result) => {
+          if (!err) {
+            tokenInstance.balanceOf(this.balanceAddress, (err, result2) => { /* костыль */
+              if (!err) {
+                this.balanceOfWallet = result.toNumber() / 10 ** this.tokenInfo[0].decimals;
+              };
+            });
+          };      
+        });
+      };
+    },
+    inactiveBalanceOfWallet () {
+      this.balanceOfWallet = '';
+    },
+    transfer() {
+      if (this.$v.recepientAddressTransfer.$invalid || this.$v.amountOfTokensTransfer.$invalid) {
+        return;
+      } else {  
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.transfer(this.recepientAddressTransfer, this.amountOfTokensTransfer * 10 ** this.tokenInfo[0].decimals, console.log);
+      };
     },
   },
   beforeMount(){

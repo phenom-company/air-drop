@@ -197,6 +197,7 @@
 							  	<option value="Transfer">Transfer</option>
 							</select>
 						</div>
+						<!-- Drop token -->
 						    <div class="form-group" v-if="isActiveDrop">					    	
 								<label for="list-of-recipients">List of addresses and number of tokens:</label>
 								<br>
@@ -205,18 +206,26 @@
 								  <span class="custom-file-control"></span>
 								</label>
 								<br><br>
-								<button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>		
+								<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">Drop</button>		
 						    </div>
+					    <!-- Balance of -->
 						    <div class="form-group" v-if="isActiveBalance">					    	
-								<label for="list-of-recipients">Wallet address:</label>
-								<input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="0x...">
+								<label>Wallet address:</label>
+								<input type="text" class="form-control" :class="status($v.balanceAddress)" id="stand-symbol" v-model.trim="$v.balanceAddress.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
 								<br>
-								<button id="check-balance" class="btn btn-outline-primary" @click="">Check balance</button>
+								<button id="check-balance" class="btn btn-outline-primary" @click="checkBalance()">Check balance</button>
+								<br><br>Balance of wallet: 
+								<span v-if="balanceOfWallet">{{ balanceOfWallet }}</span>
+								<span v-else>0</span>
 						    </div>
+					    <!-- Transfer -->
 						    <div class="form-group" v-if="isActiveTransfer">					    	
-								<label for="list-of-recipients">Transfer:</label>
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressTransfer)" id="stand-symbol" v-model.trim="$v.recepientAddressTransfer.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensTransfer)" id="stand-symbol" v-model.trim="$v.amountOfTokensTransfer.$model" placeholder="0">
 								<br>
-								<button id="transfer" class="btn btn-outline-primary" @click="">Transfer</button>
+								<button id="transfer" class="btn btn-outline-primary" @click="transfer()">Transfer</button>
 						    </div>
 
 					</div>					
