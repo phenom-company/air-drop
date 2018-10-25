@@ -52,12 +52,36 @@ const VueApp = new Vue({
     isActiveDrop: true,
     isActiveBalance: false,
     isActiveTransfer: false,
+    isActiveTransferFrom: false,
+    isActiveApprove: false,
+    isActiveAllowance: false,
+    isActiveMakeTransferable: false,
+    isActiveFinishMinting: false,
+    isActiveMintTokens: false,
     /* Methods content */
     balanceAddress: '',
     balanceOfWallet: '',
+    
     recepientAddressTransfer: '',
     amountOfTokensTransfer: '',
+    
+    ownerAddressTransferFrom: '',
+    recepientAddressTransferFrom: '',
+    amountOfTokensTransferFrom: '',
+    
+    spenderAddressApprove: '',
+    amountOfTokensApprove: '',
+    
+    allowanceOfWallet: '',
+    ownerAddressAllowance: '',
+    spenderAddressAllowance: '',
 
+    makeTransferableBool: '',
+
+    finishMintingBool: '',
+
+    recepientAddressMintTokens: '',
+    amountOfTokensMintTokens: '',
   },
   validations: {
     standSymbol: {
@@ -92,6 +116,48 @@ const VueApp = new Vue({
       length42: length42,
     },
     amountOfTokensTransfer: {
+      required: validators.required,
+      minValue: validators.minValue(0),
+    },
+    ownerAddressTransferFrom: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    recepientAddressTransferFrom: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    amountOfTokensTransferFrom: {
+      required: validators.required,
+      minValue: validators.minValue(0),
+    },
+    spenderAddressApprove: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    amountOfTokensApprove: {
+      required: validators.required,
+      minValue: validators.minValue(0),
+    },
+    ownerAddressAllowance: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    spenderAddressAllowance: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    recepientAddressMintTokens: {
+      required: validators.required,
+      alphaNum42: alphaNum42,
+      length42: length42,
+    },
+    amountOfTokensMintTokens: {
       required: validators.required,
       minValue: validators.minValue(0),
     },
@@ -285,16 +351,29 @@ const VueApp = new Vue({
       this.isActiveInteract = false;
       this.hrefToInteract = false;
     },
+/* Active method */
     inactiveAllMethods() {
       this.isActiveDrop = false;
       this.isActiveBalance = false;
       this.isActiveTransfer = false;
+      this.isActiveTransferFrom = false;
+      this.isActiveApprove = false;
+      this.isActiveAllowance = false;
+      this.isActiveMakeTransferable = false;
+      this.isActiveFinishMinting = false;
+      this.isActiveMintTokens = false;
     },
     selectMethod(a) {
       this.inactiveAllMethods();
       if (a == "Drop token") {this.isActiveDrop = true;};
       if (a == "Balance of") {this.isActiveBalance = true;};
-      if (a == "Transfer") {this.isActiveTransfer = true;}; 
+      if (a == "Transfer") {this.isActiveTransfer = true;};
+      if (a == "Transfer from") {this.isActiveTransferFrom = true;}; 
+      if (a == "Approve") {this.isActiveApprove = true;};
+      if (a == "Allowance") {this.isActiveAllowance = true;};
+      if (a == "Make transferable") {this.isActiveMakeTransferable = true;};
+      if (a == "Finish minting") {this.isActiveFinishMinting = true;};
+      if (a == "Mint tokens") {this.isActiveMintTokens = true;};
     },
     handleFileChange(evt) {
     let file = evt.target.files[0];
@@ -309,17 +388,19 @@ const VueApp = new Vue({
       let fullArr = fileTxt.split(/\;|\n/);
       arrOfAddresses = [];
       arrOfValues = [];
-      for (let i = 0; i < fullArr.length - 1; i++) {
+      if (fullArr.length > 200) {
+        fullArr = fullArr.slice(0, 200);
+      };
+      for (let i = 0; i < fullArr.length; i++) {
         if (i % 2) {
           arrOfValues.push(fullArr[i]);
         } else {
           arrOfAddresses.push(fullArr[i]);
         }; 
       };
-      console.log(arrOfAddresses);
       if (arrOfAddresses.length > 0) {
         const airdropInstance = AirdropContract.at(this.selectedAddress);
-        airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E18');}), console.log); // 100 max 
+        airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E' + this.tokenInfo[0].decimals);}), console.log); 
       };
     },
     checkBalance() {
@@ -327,16 +408,12 @@ const VueApp = new Vue({
         const tokenInstance = StandardToken.at(this.selectedAddress);
         tokenInstance.balanceOf(this.balanceAddress, (err, result) => {
           if (!err) {
-            tokenInstance.balanceOf(this.balanceAddress, (err, result2) => { /* костыль */
-              if (!err) {
-                this.balanceOfWallet = result.toNumber() / 10 ** this.tokenInfo[0].decimals;
-              };
-            });
+            this.balanceOfWallet = result.toNumber() / 10 ** this.tokenInfo[0].decimals;
           };      
         });
       };
     },
-    inactiveBalanceOfWallet () {
+    inactiveBalanceOfWallet() {
       this.balanceOfWallet = '';
     },
     transfer() {
@@ -345,6 +422,57 @@ const VueApp = new Vue({
       } else {  
         const tokenInstance = StandardToken.at(this.selectedAddress);
         tokenInstance.transfer(this.recepientAddressTransfer, this.amountOfTokensTransfer * 10 ** this.tokenInfo[0].decimals, console.log);
+      };
+    },
+    transferFrom() {
+      if (this.$v.ownerAddressTransferFrom.$invalid || this.$v.recepientAddressTransferFrom.$invalid || this.$v.amountOfTokensTransferFrom.$invalid) {
+        return;
+      } else {  
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.transferFrom(this.ownerAddressTransferFrom, this.recepientAddressTransferFrom, this.amountOfTokensTransferFrom * 10 ** this.tokenInfo[0].decimals, console.log);
+      };
+    },
+    approve() {
+      if (this.$v.spenderAddressApprove.$invalid || this.$v.amountOfTokensApprove.$invalid) {
+        return;
+      } else {  
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.approve(this.spenderAddressApprove, this.amountOfTokensApprove * 10 ** this.tokenInfo[0].decimals, console.log);
+      };
+    },
+    checkAllowance() {
+      if (this.$v.ownerAddressAllowance.$invalid || this.$v.spenderAddressAllowance.$invalid) { 
+        return;
+      } else { 
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.allowance(this.ownerAddressAllowance, this.spenderAddressAllowance, (err, result) => {
+          if (!err) {
+            this.allowanceOfWallet = result.toNumber() / 10 ** this.tokenInfo[0].decimals;
+          };      
+        });
+      };
+    },
+    inactiveAllowanceOfWallet() {
+      this.allowanceOfWallet = '';
+    },
+    makeTransferable() {
+      if (this.makeTransferableBool) { 
+        const tokenInstance = StandardToken.at(this.selectedAddress);
+        tokenInstance.unfreeze(console.log);
+      };
+    },
+    finishMinting() {
+      if (this.finishMintingBool) { 
+        const tokenInstance = MintableToken.at(this.selectedAddress);
+        tokenInstance.finishMinting(console.log);
+      };
+    },
+    mintTokens() {
+      if (this.$v.recepientAddressMintTokens.$invalid || this.$v.amountOfTokensMintTokens.$invalid) {
+        return;
+      } else {  
+        const tokenInstance = MintableToken.at(this.selectedAddress);
+        tokenInstance.mintTokens(this.recepientAddressMintTokens, this.amountOfTokensMintTokens * 10 ** this.tokenInfo[0].decimals, console.log);
       };
     },
   },

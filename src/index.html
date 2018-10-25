@@ -195,6 +195,12 @@
 							  	<option value="Drop token">Drop token</option>
 							  	<option value="Balance of">Balance of</option>
 							  	<option value="Transfer">Transfer</option>
+							  	<option value="Transfer from">Transfer from</option>
+							  	<option value="Approve">Approve</option>
+							  	<option value="Allowance">Allowance</option>
+							  	<option value="Make transferable">Make transferable</option>
+							  	<option value="Finish minting">Finish minting</option>
+							  	<option value="Mint tokens">Mint tokens</option>
 							</select>
 						</div>
 						<!-- Drop token -->
@@ -211,7 +217,7 @@
 					    <!-- Balance of -->
 						    <div class="form-group" v-if="isActiveBalance">					    	
 								<label>Wallet address:</label>
-								<input type="text" class="form-control" :class="status($v.balanceAddress)" id="stand-symbol" v-model.trim="$v.balanceAddress.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
+								<input type="text" class="form-control" :class="status($v.balanceAddress)" v-model.trim="$v.balanceAddress.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
 								<br>
 								<button id="check-balance" class="btn btn-outline-primary" @click="checkBalance()">Check balance</button>
 								<br><br>Balance of wallet: 
@@ -221,13 +227,75 @@
 					    <!-- Transfer -->
 						    <div class="form-group" v-if="isActiveTransfer">					    	
 								<label>Recepient address:</label>
-								<input type="text" class="form-control" :class="status($v.recepientAddressTransfer)" id="stand-symbol" v-model.trim="$v.recepientAddressTransfer.$model" placeholder="0x...">
+								<input type="text" class="form-control" :class="status($v.recepientAddressTransfer)" v-model.trim="$v.recepientAddressTransfer.$model" placeholder="0x...">
 								<label>Amount of tokens:</label>
-								<input type="text" class="form-control" :class="status($v.amountOfTokensTransfer)" id="stand-symbol" v-model.trim="$v.amountOfTokensTransfer.$model" placeholder="0">
+								<input type="text" class="form-control" :class="status($v.amountOfTokensTransfer)" v-model.trim="$v.amountOfTokensTransfer.$model" placeholder="0">
 								<br>
 								<button id="transfer" class="btn btn-outline-primary" @click="transfer()">Transfer</button>
 						    </div>
-
+					    <!-- Transfer from -->
+						    <div class="form-group" v-if="isActiveTransferFrom">					    	
+								<label>Owner address:</label>
+								<input type="text" class="form-control" :class="status($v.ownerAddressTransferFrom)" v-model.trim="$v.ownerAddressTransferFrom.$model" placeholder="0x...">
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressTransferFrom)" v-model.trim="$v.recepientAddressTransferFrom.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensTransferFrom)" v-model.trim="$v.amountOfTokensTransferFrom.$model" placeholder="0">
+								<br>
+								<button id="transfer-from" class="btn btn-outline-primary" @click="transferFrom()">Transfer</button>
+						    </div>
+						<!-- Approve -->
+						    <div class="form-group" v-if="isActiveApprove">					    	
+								<label>Spender address:</label>
+								<input type="text" class="form-control" :class="status($v.spenderAddressApprove)" v-model.trim="$v.spenderAddressApprove.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensApprove)" v-model.trim="$v.amountOfTokensApprove.$model" placeholder="0">
+								<br>
+								<button id="approve" class="btn btn-outline-primary" @click="approve()">Approve</button>
+						    </div>
+					    <!-- Allowance -->
+						    <div class="form-group" v-if="isActiveAllowance">					    	
+								<label>Owner address:</label>
+								<input type="text" class="form-control" :class="status($v.ownerAddressAllowance)" v-model.trim="$v.ownerAddressAllowance.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
+								<label>Spender address:</label>
+								<input type="text" class="form-control" :class="status($v.spenderAddressAllowance)" v-model.trim="$v.spenderAddressAllowance.$model" @change="inactiveAllowanceOfWallet" placeholder="0x...">
+								<br>
+								<button id="check-allowance" class="btn btn-outline-primary" @click="checkAllowance()">Check allowance</button>
+								<br><br>Allowance of wallet: 
+								<span v-if="allowanceOfWallet">{{ allowanceOfWallet }}</span>
+								<span v-else>0</span>
+						    </div>
+					    <!-- Make transferable -->
+						    <div class="form-group" v-if="isActiveMakeTransferable">					    	
+								<label>Are you sure?</label>
+								<br>
+								<select class="custom-select" v-model="makeTransferableBool">
+								  	<option value="">No</option>
+								  	<option value="Yes">Yes</option>
+								</select>
+								<br><br>
+								<button id="make-transferable" class="btn btn-outline-primary" @click="makeTransferable()">Make transferable</button>
+						    </div>
+					    <!-- Finish Minting -->
+						    <div class="form-group" v-if="isActiveFinishMinting">					    	
+								<label>Are you sure?</label>
+								<br>
+								<select class="custom-select" v-model="finishMintingBool">
+								  	<option value="">No</option>
+								  	<option value="Yes">Yes</option>
+								</select>
+								<br><br>
+								<button id="finish-minting" class="btn btn-outline-primary" @click="finishMinting()">Finish minting</button>
+						    </div>
+					    <!-- Mint tokens -->
+						    <div class="form-group" v-if="isActiveMintTokens">					    	
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressMintTokens)" v-model.trim="$v.recepientAddressMintTokens.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensMintTokens)" v-model.trim="$v.amountOfTokensMintTokens.$model" placeholder="0">
+								<br>
+								<button id="mint-tokens" class="btn btn-outline-primary" @click="mintTokens()">Mint tokens</button>
+						    </div>
 					</div>					
 					<!--<div class="col-md-8 col-md-push-2">
 						<div class="form-group">
