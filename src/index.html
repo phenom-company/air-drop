@@ -157,8 +157,7 @@
 					<div class="col-md-3 offset-md-1" v-for="token in tokenInfo">
 						Token info	
 						<br>
-							Name: {{ token.name }}
-						<br>
+						<span v-if="token.name">Name: {{ token.name }}<br></span>
 							Symbol: {{ token.symbol }}
 						<br>
 							Decimals: {{ token.decimals }}					
@@ -199,8 +198,8 @@
 							  	<option value="Approve">Approve</option>
 							  	<option value="Allowance">Allowance</option>
 							  	<option value="Make transferable">Make transferable</option>
-							  	<option value="Finish minting">Finish minting</option>
-							  	<option value="Mint tokens">Mint tokens</option>
+							  	<option v-if="canMint" value="Finish minting">Finish minting</option>
+							  	<option v-if="canMint" value="Mint tokens">Mint tokens</option>
 							</select>
 						</div>
 						<!-- Drop token -->
@@ -267,7 +266,7 @@
 						    </div>
 					    <!-- Make transferable -->
 						    <div class="form-group" v-if="isActiveMakeTransferable">					    	
-								<label>Are you sure?</label>
+								<label>After this action, each holder will be able to send tokens.<br>Are you sure?</label>
 								<br>
 								<select class="custom-select" v-model="makeTransferableBool">
 								  	<option value="">No</option>
@@ -278,7 +277,7 @@
 						    </div>
 					    <!-- Finish Minting -->
 						    <div class="form-group" v-if="isActiveFinishMinting">					    	
-								<label>Are you sure?</label>
+								<label>After this action, you will not be able to mint new tokens.<br>Are you sure?</label>
 								<br>
 								<select class="custom-select" v-model="finishMintingBool">
 								  	<option value="">No</option>
