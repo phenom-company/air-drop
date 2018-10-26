@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="../css/index.css" type="text/css"/>
+    <title>Airdrop</title>
+	
+	<!-- <script type="text/javascript" src="js/truffle-contract.min.js"></script> -->
+	<script type="text/javascript" src="js/web3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/validators.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.4/dist/vuelidate.min.js"></script>
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+<!-- Header --> 	
+	<div class="container" id="app">
+		<h1 class="text-center">Airdrop</h1>
+		<h5 class="text-center"><a href="https://www.phenom.team/">by Phenom.Team</a></h5>
+<!-- Nav tabs -->
+		<ul class="nav nav-tabs justify-content-center" role="tablist">
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#home" role="tab">Home</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#create" role="tab">Create</a>
+		  </li>
+		  <li class="nav-item" @click="fromInteractToSelect()">
+		    <a class="nav-link" :class="{active: isActiveSelect}" data-toggle="tab" href="#select" role="tab">Select</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" :class="{active: isActiveInteract}" data-toggle="tab" href="#interact" role="tab">Interact</a>
+		  </li>
+		</ul>
+<!-- Tab panes -->
+		<div class="tab-content">
+<!-- Home content -->
+			<div class="tab-pane" id="home" role="tabpanel">
+				
+			</div>
+<!-- Create content -->		
+			<div class="tab-pane" id="create" role="tabpanel">
+				<div class="col-md-8 col-md-push-2">
+					<br>
+					<ul class="nav nav-pills" role="tablist">
+					  <li class="nav-item">
+					    <a class="nav-link active" data-toggle="tab" href="#standard-token" role="tab">Standard token</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
+					  </li>
+					</ul>
+					<div class="tab-content">
+		<!-- Create standard -->	
+					  <div class="tab-pane active" id="standard-token" role="tabpanel">
+					  	<h3 class="text-center"><br>Standard token</h3> 	
+						  	<div class="form-group">
+								<label for="stand-name">Token name (optional):</label>
+						        <input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-symbol">Symbol:</label>
+						        <input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="MTK">
+						    </div>	
+						    <div class="form-group">
+								<label for="stand-decimals">Decimals:</label>
+						        <input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-totalSupply">Total supply:</label>
+						        <input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
+						    </div>
+						    <div class="form-group">
+								<label for="stand-transferable">Transferable:</label>
+								<br>
+								<select class="custom-select" v-model="standTransferable">
+								  <option value="Yes">Yes</option>
+								  <option value="">No</option>
+								</select>
+						    </div>	
+						    <button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
+						  </div>
+		<!-- Create mintable -->
+					  <div class="tab-pane" id="mintable-token" role="tabpanel">
+					  	<h3 class="text-center"><br>Mintable token</h3>
+					  	<div class="form-group">
+							<label for="mint-name">Token name (optional):</label>
+					        <input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
+					    </div>
+					    <div class="form-group">
+							<label for="mint-symbol">Symbol:</label>
+					        <input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model.trim="$v.mintSymbol.$model" placeholder="MTK">
+					    </div>	
+					    <div class="form-group">
+							<label for="mint-decimals">Decimals:</label>
+					        <input type="text" class="form-control" :class="status($v.mintDecimals)" id="mint-decimals" v-model="$v.mintDecimals.$model" placeholder="18">
+					    </div>
+					    <div class="form-group">
+							<label for="mint-transferable">Transferable:</label>
+					        <br>
+							<select class="custom-select" v-model="mintTransferable">
+							  <option value="Yes">Yes</option>
+							  <option value="">No</option>
+							</select>
+					    </div>
+					    <button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
+					  </div>
+					</div>
+				</div>
+			</div>
+<!-- Select content -->
+			<div class="tab-pane" :class="{active: isActiveSelect}" id="select" role="tabpanel">
+				<br>
+				<h3 class="text-center">Select token to interact</h3>
+				<br>
+				<table class="table table-hover table-responsive">
+				    <thead>
+					    <tr>
+							<th>Selected</th>
+							<th>Symbol</th>
+							<th>Type</th>
+					    	<th>Address</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+				    	<tr v-for="(yourToken, index) in arrOfTokens" @click="changeRadio(index)">				    		
+							<td>								
+						        <label class="form-check-label">
+						           <input type="radio" class="form-check-input" name="optionsRadios" :value="index" v-model="picked">
+						        </label>
+							</td>
+							<td>{{ yourToken.symbol }}</td>
+							<td>{{ yourToken.type }}</td>							
+							<td>{{ yourToken.address }}</td>							
+						</tr>
+				    </tbody>
+				</table>
+				<button id="interact-token" class="btn btn-outline-primary" @click="interactWithToken()">Interact</button>
+			</div>
+<!-- Interact content -->
+			<div class="tab-pane" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
+				<br>
+				<h6 class="text-center">Selected token</h6>
+				<h5 class="text-center">{{ selectedAddress }}</h5>
+				<br>
+		<!-- Token info -->				
+				<div class="row">
+					<div class="col-md-3 offset-md-1" v-for="token in tokenInfo">
+						Token info	
+						<br>
+						<span v-if="token.name">Name: {{ token.name }}<br></span>
+							Symbol: {{ token.symbol }}
+						<br>
+							Decimals: {{ token.decimals }}					
+						<b v-if="canMint" class="tip" data-title="Current supply means you can still mint new tokens">
+						<br>
+							Current Supply: {{ token.totalSupply }}
+						</b>
+						<span v-else>
+						<br>
+							Total Supply: {{ token.totalSupply }}
+						</span>
+						<br>
+						<b class="tip" data-title="Сan holders send token?">
+							Transferable: {{ token.transferable }}
+						</b>
+						<b v-if="showCanMint" class="tip" data-title="Сan you mint new tokens?">
+						<br>
+							Can mint: {{ token.mintingFinished }}	
+						</b>
+						<br>
+						<b class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens.">
+							Type: {{ token.type }}
+						</b>
+						<br>
+							Your balance: {{ token.balance }}
+					</div>
+		<!-- Select method -->					
+					<div class="col-md-5 offset-md-2">
+						<h4>Select method</h4>
+						<div class="form-group">
+							<label>Method name:</label>
+							<br>
+							<select class="custom-select" v-model="selectedMethod" @input="selectMethod($event.target.value)">
+							  	<option value="Drop token">Drop token</option>
+							  	<option value="Balance of">Balance of</option>
+							  	<option value="Transfer">Transfer</option>
+							  	<option value="Transfer from">Transfer from</option>
+							  	<option value="Approve">Approve</option>
+							  	<option value="Allowance">Allowance</option>
+							  	<option value="Make transferable">Make transferable</option>
+							  	<option v-if="canMint" value="Finish minting">Finish minting</option>
+							  	<option v-if="canMint" value="Mint tokens">Mint tokens</option>
+							</select>
+						</div>
+						<!-- Drop token -->
+						    <div class="form-group" v-if="isActiveDrop">					    	
+								<label for="list-of-recipients">List of addresses and number of tokens:</label>
+								<br>
+							  	<label class="custom-file">
+								  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+								  <span class="custom-file-control"></span>
+								</label>
+								<br><br>
+								<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">Drop</button>		
+						    </div>
+					    <!-- Balance of -->
+						    <div class="form-group" v-if="isActiveBalance">					    	
+								<label>Wallet address:</label>
+								<input type="text" class="form-control" :class="status($v.balanceAddress)" v-model.trim="$v.balanceAddress.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
+								<br>
+								<button id="check-balance" class="btn btn-outline-primary" @click="checkBalance()">Check balance</button>
+								<br><br>Balance of wallet: 
+								<span v-if="balanceOfWallet">{{ balanceOfWallet }}</span>
+								<span v-else>0</span>
+						    </div>
+					    <!-- Transfer -->
+						    <div class="form-group" v-if="isActiveTransfer">					    	
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressTransfer)" v-model.trim="$v.recepientAddressTransfer.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensTransfer)" v-model.trim="$v.amountOfTokensTransfer.$model" placeholder="0">
+								<br>
+								<button id="transfer" class="btn btn-outline-primary" @click="transfer()">Transfer</button>
+						    </div>
+					    <!-- Transfer from -->
+						    <div class="form-group" v-if="isActiveTransferFrom">					    	
+								<label>Owner address:</label>
+								<input type="text" class="form-control" :class="status($v.ownerAddressTransferFrom)" v-model.trim="$v.ownerAddressTransferFrom.$model" placeholder="0x...">
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressTransferFrom)" v-model.trim="$v.recepientAddressTransferFrom.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensTransferFrom)" v-model.trim="$v.amountOfTokensTransferFrom.$model" placeholder="0">
+								<br>
+								<button id="transfer-from" class="btn btn-outline-primary" @click="transferFrom()">Transfer</button>
+						    </div>
+						<!-- Approve -->
+						    <div class="form-group" v-if="isActiveApprove">					    	
+								<label>Spender address:</label>
+								<input type="text" class="form-control" :class="status($v.spenderAddressApprove)" v-model.trim="$v.spenderAddressApprove.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensApprove)" v-model.trim="$v.amountOfTokensApprove.$model" placeholder="0">
+								<br>
+								<button id="approve" class="btn btn-outline-primary" @click="approve()">Approve</button>
+						    </div>
+					    <!-- Allowance -->
+						    <div class="form-group" v-if="isActiveAllowance">					    	
+								<label>Owner address:</label>
+								<input type="text" class="form-control" :class="status($v.ownerAddressAllowance)" v-model.trim="$v.ownerAddressAllowance.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
+								<label>Spender address:</label>
+								<input type="text" class="form-control" :class="status($v.spenderAddressAllowance)" v-model.trim="$v.spenderAddressAllowance.$model" @change="inactiveAllowanceOfWallet" placeholder="0x...">
+								<br>
+								<button id="check-allowance" class="btn btn-outline-primary" @click="checkAllowance()">Check allowance</button>
+								<br><br>Allowance of wallet: 
+								<span v-if="allowanceOfWallet">{{ allowanceOfWallet }}</span>
+								<span v-else>0</span>
+						    </div>
+					    <!-- Make transferable -->
+						    <div class="form-group" v-if="isActiveMakeTransferable">					    	
+								<label>After this action, each holder will be able to send tokens.<br>Are you sure?</label>
+								<br>
+								<select class="custom-select" v-model="makeTransferableBool">
+								  	<option value="">No</option>
+								  	<option value="Yes">Yes</option>
+								</select>
+								<br><br>
+								<button id="make-transferable" class="btn btn-outline-primary" @click="makeTransferable()">Make transferable</button>
+						    </div>
+					    <!-- Finish Minting -->
+						    <div class="form-group" v-if="isActiveFinishMinting">					    	
+								<label>After this action, you will not be able to mint new tokens.<br>Are you sure?</label>
+								<br>
+								<select class="custom-select" v-model="finishMintingBool">
+								  	<option value="">No</option>
+								  	<option value="Yes">Yes</option>
+								</select>
+								<br><br>
+								<button id="finish-minting" class="btn btn-outline-primary" @click="finishMinting()">Finish minting</button>
+						    </div>
+					    <!-- Mint tokens -->
+						    <div class="form-group" v-if="isActiveMintTokens">					    	
+								<label>Recepient address:</label>
+								<input type="text" class="form-control" :class="status($v.recepientAddressMintTokens)" v-model.trim="$v.recepientAddressMintTokens.$model" placeholder="0x...">
+								<label>Amount of tokens:</label>
+								<input type="text" class="form-control" :class="status($v.amountOfTokensMintTokens)" v-model.trim="$v.amountOfTokensMintTokens.$model" placeholder="0">
+								<br>
+								<button id="mint-tokens" class="btn btn-outline-primary" @click="mintTokens()">Mint tokens</button>
+						    </div>
+					</div>					
+					<!--<div class="col-md-8 col-md-push-2">
+						<div class="form-group">
+							<label for="address-of-token"><br>Address of your token:</label>
+					        <input type="text" class="form-control" id="address-of-token" v-model="addressAirdropToken" placeholder="Address of your token">
+					    </div>
+					    <div class="form-group">
+							<label for="list-of-recipients">List of addresses and number of tokens:</label>
+							<br>
+						  	<label class="custom-file">
+							  <input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
+							  <span class="custom-file-control"></span>
+							</label>						
+					    </div>
+
+					    <button id="drop-tokens" class="btn btn-outline-primary" @click="parseText()">Drop</button>
+				    </div>-->
+				</div>				
+			</div>
+			<br>
+		</div>
+	</div>
+	   
+    <script src="js/abiOfContracts.js"></script>
+    <script src="js/vueApp.js"></script>
+  </body>
+</html>
