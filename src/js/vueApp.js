@@ -1,13 +1,27 @@
-function initWeb3() {
-	if (typeof web3 !== 'undefined') {
- 		web3 = new Web3(web3.currentProvider);
-		} else {
- 		// set the provider you want from Web3.providers
- 		web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
- 		alert('Attention! To work with this site you need to download the browser extension \'Meta Mask\' and login!');
-	}
-}
-initWeb3();
+window.addEventListener('load', async () => {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+            // Request account access if needed
+            await ethereum.enable();
+            // Acccounts now exposed
+            web3.eth.sendTransaction({/* ... */});
+        } catch (error) {
+            // User denied account access...
+        }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        // Acccounts always exposed
+        web3.eth.sendTransaction({/* ... */});
+    }
+    // Non-dapp browsers...
+    else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
+});
 
 const TokenCreator = web3.eth.contract(abiTokenCreator);
 const AirdropContract = web3.eth.contract(abiAirdrop);
