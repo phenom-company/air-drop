@@ -1,6 +1,6 @@
 /build
 /node_modules
-ganache-data/
-/truffle.js
-/truffle-config.js
+/ganache-data
+truffle.js
+truffle-config.js
 addresses.csv
