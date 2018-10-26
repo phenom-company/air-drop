@@ -55,7 +55,7 @@ const VueApp = new Vue({
 /* Interact with token */
     picked: '-1',
     isActiveSelect: false,
-    isActiveInteract: true,
+    isActiveInteract: false,
     hrefToInteract: false,
     selectedAddress: '',
     tokenInfo: [],
