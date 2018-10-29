@@ -28,4 +28,9 @@
 	padding: 3px 5px; /* Поля */
 	border: 1px solid #BDBDBD; /* Параметры рамки */
 }
- 
+.learn-more {
+	color: #BDBDBD;
+}
+.pageHeader {
+	word-spacing: 10px;
+}

@@ -1,13 +1,27 @@
-function initWeb3() {
-	if (typeof web3 !== 'undefined') {
- 		web3 = new Web3(web3.currentProvider);
-		} else {
- 		// set the provider you want from Web3.providers
- 		web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
- 		alert('Attention! To work with this site you need to download the browser extension \'Meta Mask\' and login!');
-	}
-}
-initWeb3();
+window.addEventListener('load', async () => {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+        window.web3 = new Web3(ethereum);
+        try {
+            // Request account access if needed
+            await ethereum.enable();
+            // Acccounts now exposed
+            web3.eth.sendTransaction({/* ... */});
+        } catch (error) {
+            // User denied account access...
+        }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        // Acccounts always exposed
+        web3.eth.sendTransaction({/* ... */});
+    }
+    // Non-dapp browsers...
+    else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
+});
 
 const TokenCreator = web3.eth.contract(abiTokenCreator);
 const AirdropContract = web3.eth.contract(abiAirdrop);
@@ -25,6 +39,10 @@ const length42 = validators.minLength(42) || validators.maxLength(42);
 const VueApp = new Vue({
   el: '#app',
   data: {
+    network: '',
+    userAddress: '',
+    userBalance: '',
+    userNonce: '',
 /* Create standard */
     standName: '',
     standSymbol: '',
@@ -41,7 +59,9 @@ const VueApp = new Vue({
 /* Interact with token */
     picked: '-1',
     isActiveSelect: false,
-    isActiveInteract: true,
+    isActiveSelectTab: false,
+    isActiveInteract: false,
+    isActiveInteractTab: false,
     hrefToInteract: false,
     selectedAddress: '',
     tokenInfo: [],
@@ -195,42 +215,72 @@ const VueApp = new Vue({
       }  
     },
     showTokens () {
-    	/*if (accounts[0] === undefined) {
-    		alert('Attention! You need to login in the browser extension \'MetaMask\' and refresh this page!');
-    		return;
-    	};*/
-    	tokenCreatorInstance.amountStandTokens(accounts[0], (err, amountOfTokens) => {
-    		if (!err) {
-    			for (let i = 0; i < amountOfTokens; i++) {            
-  					tokenCreatorInstance.standardTokens(accounts[0], i, (err, addressOfToken) => {
-  						if (!err) {           
-                let standardTokenInstance = StandardToken.at(addressOfToken);             
-                standardTokenInstance.symbol((err, symbolOfToken) => {
-                  if (!err) {
-                    this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
-                  }  
-                });  							
-  						}
-  					});
-  				}		
-    		}
-    	})
-      tokenCreatorInstance.amountMintTokens(accounts[0], (err, amountOfTokens) => {
-        if (!err) {
-          for (let i = 0; i < amountOfTokens; i++) {            
-            tokenCreatorInstance.mintableTokens(accounts[0], i, (err, addressOfToken) => {
-              if (!err) {           
-                let mintableTokenInstance = MintableToken.at(addressOfToken);             
-                mintableTokenInstance.symbol((err, symbolOfToken) => {
-                  if (!err) {
-                    this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
-                  }  
-                });               
+    	if (accounts[0] === undefined) {
+    		   
+    	} else {
+        this.userAddress = (web3.eth.defaultAccount).substr(0, 20);       
+        web3.version.getNetwork((err, netId) => {
+          switch (netId) {
+            case "1":
+              this.network = 'Mainnet';
+              break
+            case "3":
+              this.network = 'Ropsten';
+              break
+            case "4":
+              this.network = 'Rinkeby';
+              break
+            case "42":
+              this.network = 'Kovan';
+              break
+            default:
+              alert('This is an unknown network.')
+          }
+        })
+        web3.eth.getBalance(web3.eth.defaultAccount, (err, result) => {
+          if (!err) {
+            this.userBalance = (result.toNumber() / 10 ** 18).toFixed(3);
+          }
+        });
+        web3.eth.getTransactionCount(web3.eth.defaultAccount, (err, result) => {
+          if (!err) {
+            this.userNonce = result;         
+          }
+        });
+        tokenCreatorInstance.amountStandTokens(accounts[0], (err, amountOfTokensStand) => {
+          if (!err) {
+            tokenCreatorInstance.amountMintTokens(accounts[0], (err, amountOfTokensMint) => {
+              if (!err && (amountOfTokensMint + amountOfTokensStand) > 0) {
+                this.isActiveSelectTab = true;
+                for (let i = 0; i < amountOfTokensStand; i++) {            
+                  tokenCreatorInstance.standardTokens(accounts[0], i, (err, addressOfToken) => {
+                    if (!err) {           
+                      let standardTokenInstance = StandardToken.at(addressOfToken);             
+                      standardTokenInstance.symbol((err, symbolOfToken) => {
+                        if (!err) {
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
+                        }  
+                      });               
+                    }
+                  });
+                }   
+                for (let i = 0; i < amountOfTokensMint; i++) {            
+                  tokenCreatorInstance.mintableTokens(accounts[0], i, (err, addressOfToken) => {
+                    if (!err) {           
+                      let mintableTokenInstance = MintableToken.at(addressOfToken);             
+                      mintableTokenInstance.symbol((err, symbolOfToken) => {
+                        if (!err) {
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
+                        }  
+                      });               
+                    }
+                  });
+                }
               }
             });
-          }   
-        }
-      })
+          } 
+        });
+      };
   	},
     changeRadio(index) {
       this.picked = index;
@@ -242,6 +292,7 @@ const VueApp = new Vue({
     interactWithToken() {
       if (this.picked>=0) {
         this.isActiveSelect = false;
+        this.isActiveInteractTab = true;
         this.isActiveInteract = true;
         this.hrefToInteract = true;  
         if (this.arrOfTokens[this.picked].type == 'Standard') {  
