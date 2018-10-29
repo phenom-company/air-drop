@@ -47,10 +47,18 @@
 <!-- Home content -->
 			<div class="tab-pane active" id="home" role="tabpanel">
 				<br><h2 class="text-center">Welcome to the Airdrop dapp</h2>
-				<br><h3 class="text-center">What is the Airdrop?</h3>
-				<br><h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list. <span class="learn-more">Learn more...</span></h5>
+				<br><h3 class="text-center">What is the that?</h3>
+				<br><h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list. 
+					<span class="learn-more" @click="learnMoreOne = !learnMoreOne">Learn more...</span></h5>
+				  	<transition name="fade">
+				    	<span v-if="learnMoreOne">Doloribus aspernatur sapiente unde soluta sit placeat maxime, cupiditate non, assumenda, minus consectetur. A non, debitis, culpa tenetur reiciendis rerum dolore voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure quidem recusandae, voluptatibus, ratione consectetur aut, ipsa illo earum blanditiis inventore veniam asperiores, accusantium aliquam a quaerat laborum assumenda sed! Aperiam.</span>
+				  	</transition><br>
 				<br><h3 class="text-center">How to use Airdrop?</h3>
-				<br><h5 class="text-center">To start working with Airdrop, you need to download and log in to the Chrome "MetaMask" browser extension. <span class="learn-more">Learn more...</span></h5>
+				<br><h5 class="text-center">To start working with Airdrop, you need to download and log in to the Chrome "MetaMask" browser extension. 
+					<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span></h5>
+				  	<transition name="fade">
+				    	<span v-if="learnMoreTwo">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga fugit ad quis excepturi, culpa fugiat praesentium tempora nostrum rerum reiciendis! Cupiditate modi repellendus, beatae ut optio, dolor eveniet corrupti aut! Doloribus aspernatur sapiente unde soluta sit placeat maxime, cupiditate non, assumenda, minus consectetur. A non, debitis, culpa tenetur reiciendis rerum dolore voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure quidem recusandae, voluptatibus, ratione consectetur aut, ipsa illo earum blanditiis inventore veniam asperiores, accusantium aliquam a quaerat laborum assumenda sed! Aperiam.</span>
+				  	</transition>
 			</div>
 <!-- Create content -->		
 			<div class="tab-pane" id="create" role="tabpanel">

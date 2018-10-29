@@ -43,6 +43,8 @@ const VueApp = new Vue({
     userAddress: '',
     userBalance: '',
     userNonce: '',
+    learnMoreOne: false,
+    learnMoreTwo: false,
 /* Create standard */
     standName: '',
     standSymbol: '',
