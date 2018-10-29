@@ -24,21 +24,22 @@
   <body>
 <!-- Header --> 	
 	<div class="container" id="app">
-		<h1 class="text-center">Airdrop</h1>
-		<h5 class="text-center"><a href="https://www.phenom.team/">by Phenom.Team</a></h5>
+		<p align="right"><span class="pageHeader" v-if="userAddress">Account: {{ userAddress }}... Balance: {{ userBalance }}ETH Nonce: {{ userNonce }} {{ network }} Online</span>
+		<span v-else>Offline</span></p>
+		
 <!-- Nav tabs -->
 		<ul class="nav nav-tabs justify-content-center" role="tablist">
 		  <li class="nav-item">
 		    <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Home</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#create" role="tab">Create</a>
+		    <a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab">Create</a>
 		  </li>
 		  <li class="nav-item" @click="fromInteractToSelect()">
-		    <a class="nav-link" :class="{active: isActiveSelect}" data-toggle="tab" href="#select" role="tab">Select</a>
+		    <a class="nav-link" :class="{active: isActiveSelect, disabled: !isActiveSelectTab}" data-toggle="tab" href="#select" role="tab">Select</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" :class="{active: isActiveInteract}" data-toggle="tab" href="#interact" role="tab">Interact</a>
+		    <a class="nav-link" :class="{active: isActiveInteract, disabled: !isActiveInteractTab}" data-toggle="tab" href="#interact" role="tab">Interact</a>
 		  </li>
 		</ul>
 <!-- Tab panes -->
