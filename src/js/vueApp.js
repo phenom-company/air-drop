@@ -400,7 +400,7 @@ const VueApp = new Vue({
       }
     },
     fromInteractToSelect() {
-      this.isActiveSelect = true;
+      if (this.isActiveSelectTab) {this.isActiveSelect = true;}
       this.isActiveInteract = false;
       this.hrefToInteract = false;
     },
