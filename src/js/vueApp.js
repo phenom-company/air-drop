@@ -23,13 +23,6 @@ window.addEventListener('load', async () => {
     }
 });
 
-const TokenCreator = web3.eth.contract(abiTokenCreator);
-const AirdropContract = web3.eth.contract(abiAirdrop);
-const StandardToken = web3.eth.contract(abiStandardToken);
-const MintableToken = web3.eth.contract(abiMintableToken);
-const tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
-const accounts = web3.eth.accounts;
-
 let fileTxt = '';
 
 Vue.use(window.vuelidate.default);
@@ -528,6 +521,16 @@ const VueApp = new Vue({
         tokenInstance.mintTokens(this.recepientAddressMintTokens, this.amountOfTokensMintTokens * 10 ** this.tokenInfo[0].decimals, console.log);
       };
     },
+  },
+  created() {
+    if (typeof(web3) != 'undefined') {
+      window.TokenCreator = web3.eth.contract(abiTokenCreator);
+      window.AirdropContract = web3.eth.contract(abiAirdrop);
+      window.StandardToken = web3.eth.contract(abiStandardToken);
+      window.MintableToken = web3.eth.contract(abiMintableToken);
+      window.tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
+      window.accounts = web3.eth.accounts;
+    }
   },
   beforeMount(){
     this.showTokens()
