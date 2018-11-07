@@ -5,8 +5,6 @@ window.addEventListener('load', async () => {
         try {
             // Request account access if needed
             await ethereum.enable();
-            // Acccounts now exposed
-            web3.eth.sendTransaction({/* ... */});
         } catch (error) {
             // User denied account access...
         }
@@ -14,8 +12,6 @@ window.addEventListener('load', async () => {
     // Legacy dapp browsers...
     else if (window.web3) {
         window.web3 = new Web3(web3.currentProvider);
-        // Acccounts always exposed
-        web3.eth.sendTransaction({/* ... */});
     }
     // Non-dapp browsers...
     else {
@@ -210,10 +206,10 @@ const VueApp = new Vue({
       }  
     },
     showTokens () {
-    	if (accounts[0] === undefined) {
-    		   
+    	if (accounts === undefined) {
+
     	} else {
-        this.userAddress = (web3.eth.defaultAccount).substr(0, 20);       
+        this.userAddress = accounts[0].substr(0, 20);       
         web3.version.getNetwork((err, netId) => {
           switch (netId) {
             case "1":
@@ -232,12 +228,12 @@ const VueApp = new Vue({
               alert('This is an unknown network.')
           }
         })
-        web3.eth.getBalance(web3.eth.defaultAccount, (err, result) => {
+        web3.eth.getBalance(accounts[0], (err, result) => {
           if (!err) {
             this.userBalance = (result.toNumber() / 10 ** 18).toFixed(3);
           }
         });
-        web3.eth.getTransactionCount(web3.eth.defaultAccount, (err, result) => {
+        web3.eth.getTransactionCount(accounts[0], (err, result) => {
           if (!err) {
             this.userNonce = result;         
           }
@@ -523,16 +519,22 @@ const VueApp = new Vue({
     },
   },
   created() {
+    
+  },
+  beforeMount(){
     if (typeof(web3) != 'undefined') {
       window.TokenCreator = web3.eth.contract(abiTokenCreator);
       window.AirdropContract = web3.eth.contract(abiAirdrop);
       window.StandardToken = web3.eth.contract(abiStandardToken);
       window.MintableToken = web3.eth.contract(abiMintableToken);
       window.tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
-      window.accounts = web3.eth.accounts;
+      web3.eth.getAccounts((err, result) => {
+        if (!err) {
+          window.accounts = result;
+          this.showTokens()
+        };
+      })
     }
-  },
-  beforeMount(){
-    this.showTokens()
+    
  },  
 })
