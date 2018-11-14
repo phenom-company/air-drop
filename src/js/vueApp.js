@@ -518,9 +518,6 @@ const VueApp = new Vue({
       };
     },
   },
-  created() {
-    
-  },
   beforeMount(){
     if (typeof(web3) != 'undefined') {
       window.TokenCreator = web3.eth.contract(abiTokenCreator);

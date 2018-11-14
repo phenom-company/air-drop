@@ -18,7 +18,7 @@
 .tip {
 
 }
-.tip:hover::after {
+.tip:hover:after {
 	content: attr(data-title); 
 	position: absolute;
 	z-index: 1;
