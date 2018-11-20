@@ -209,7 +209,7 @@ const VueApp = new Vue({
     	if (accounts === undefined) {
 
     	} else {
-        this.userAddress = accounts[0].substr(0, 20);       
+        this.userAddress = accounts[0].substr(0, 10);       
         web3.version.getNetwork((err, netId) => {
           switch (netId) {
             case "1":

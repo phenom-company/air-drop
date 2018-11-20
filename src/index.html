@@ -26,34 +26,62 @@
 <body>		
 	<div class="container" id="app">
 		<!-- Header --> 
-		<div class="header">
-			<p>
+		<div id="header">
+			<div>
 				<a href="https://www.phenom.team/"><img src="images/logo.svg" alt="logo"></a>
-				<span v-if="userAddress">
-					Account: {{ userAddress }}... 
-					Balance: {{ userBalance }}ETH 
-					Nonce: {{ userNonce }} 
-					{{ network }} 
-					Online
-				</span>
-				<span class="offline" v-else>Offline</span>
-			</p>
+				<ul class="nav online" v-if="userAddress">
+					<li><span class="key">Account:</span> {{ userAddress }}...</li>
+					<li><span class="key">Balance:</span> {{ userBalance }}ETH</li>
+					<li><span class="key">Nonce:</span> {{ userNonce }}</li>
+					<li>{{ network }}</li>
+					<li class="status">Online</li>
+					<li class="status-lamp"><svg width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<g id="Artboard" transform="translate(-1304.000000, -33.000000)" fill="#3DD91E">
+								<g id="Head_online" transform="translate(-1.000000, -1.000000)">
+									<g id="Online" transform="translate(1247.000000, 34.000000)">
+										<path d="M66.000008,5.624959 C67.65688,5.624959 68.99996,6.933208 68.99996,8.546881 C68.99996,10.160554 67.65688,11.468704 66.000008,11.468704 C64.343136,11.468704 62.999968,10.160554 62.999968,8.546881 C62.999968,6.933208 64.343136,5.624959 66.000008,5.624959 Z" id="Ellipse-1299"></path>
+										<path d="M66.0000002,15.8231827 C66.0376486,15.805171 66.0793011,15.7850728 66.1247743,15.7629202 C66.3921681,15.6326571 66.6907068,15.4799742 67.012513,15.3062774 C67.9319611,14.8099997 68.8512303,14.2461263 69.7068359,13.6267972 C72.0882805,11.9029914 73.500028,10.1014224 73.500028,8.375018 C73.500028,4.23287692 70.1421502,0.874973 66,0.874973 C61.8578652,0.874973 58.49999,4.23287953 58.49999,8.375018 C58.49999,10.1014227 59.9117343,11.9029917 62.2931735,13.6267975 C63.1487771,14.2461265 64.0680443,14.81 64.9874902,15.3062776 C65.3092957,15.4799744 65.6078337,15.6326573 65.8752269,15.7629204 C65.9206998,15.7850729 65.9623521,15.8051711 66.0000002,15.8231827 Z" id="Ellipse-1299-copy" stroke="#7CFF62" opacity="0.2"></path>
+									</g>
+								</g>
+							</g>
+						</g>
+					</svg></li>
+				</ul>
+				<ul class="nav offline" v-else>
+					<li>Offline</li>
+					<li class="status-lamp"><svg class="svg-red" width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<g id="Artboard" transform="translate(-1304.000000, -33.000000)" fill="#FB5551">
+								<g id="Head_offline" transform="translate(-1.000000, -1.000000)">
+									<g id="Online" transform="translate(1247.000000, 33.000000)">
+										<path d="M66.000008,6.624959 C67.65688,6.624959 68.99996,7.933208 68.99996,9.546881 C68.99996,11.160554 67.65688,12.468704 66.000008,12.468704 C64.343136,12.468704 62.999968,11.160554 62.999968,9.546881 C62.999968,7.933208 64.343136,6.624959 66.000008,6.624959 Z" id="Ellipse-1299"></path>
+										<path d="M66,1.874973 C61.8578652,1.874973 58.49999,5.23287953 58.49999,9.375018 C58.49999,13.5171203 61.857848,16.874949 66,16.874949 C70.1421674,16.874949 73.500028,13.5171229 73.500028,9.375018 C73.500028,5.23287692 70.1421502,1.874973 66,1.874973 Z" id="Ellipse-1299-copy" stroke="#FF6D69" opacity="0.2"></path>
+									</g>
+								</g>
+							</g>
+						</g>
+					</svg></li>
+				</ul>
+			</div>
 		</div>			
 		<!-- Nav tabs -->
-		<ul class="nav nav-tabs justify-content-center" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" data-toggle="tab" href="#home" role="tab">Home</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab">Create</a>
-			</li>
-			<li class="nav-item" @click="fromInteractToSelect()">
-				<a class="nav-link" :class="{active: isActiveSelect, disabled: !isActiveSelectTab}" data-toggle="tab" href="#select" role="tab">Select</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" :class="{active: isActiveInteract, disabled: !isActiveInteractTab}" data-toggle="tab" href="#interact" role="tab">Interact</a>
-			</li>
-		</ul>
+		<div id="menu">
+			<ul class="nav" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#home" role="tab">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab">Create</a>
+				</li>
+				<li class="nav-item" @click="fromInteractToSelect()">
+					<a class="nav-link" :class="{active: isActiveSelect, disabled: !isActiveSelectTab}" data-toggle="tab" href="#select" role="tab">Select</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" :class="{active: isActiveInteract, disabled: !isActiveInteractTab}" data-toggle="tab" href="#interact" role="tab">Interact</a>
+				</li>
+			</ul>
+		</div>
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<!-- Home content -->

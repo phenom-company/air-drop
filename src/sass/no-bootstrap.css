@@ -14,7 +14,7 @@ body {
   padding-right: 0px;
 }
 
-.header {
+#header {
   background-image: -webkit-radial-gradient(50% 50%, circle closest-side, #091232 0%, #091232 100%);
   -webkit-box-shadow: 0px 10px 25px 0px rgba(8, 18, 56, 0.45);
           box-shadow: 0px 10px 25px 0px rgba(8, 18, 56, 0.45);
@@ -25,27 +25,79 @@ body {
   height: 80px;
 }
 
-.header > p {
+#header > div {
   margin: auto;
-  min-width: 1024px;
   max-width: 1024px;
   height: 80px;
 }
 
-.header > p > a img {
+#header > div > a img {
   height: 50px;
   margin-top: 15px;
   left: 8%;
 }
 
-.header > p > span {
+#header > div > ul {
   font-size: 16px;
 }
 
-.header > p > span.offline {
+#header > div > ul.online {
+  float: right;
+  margin-top: 30px;
+}
+
+#header > div > ul.online li:not(.status-lamp) {
+  float: left;
+  padding-left: 30px;
+}
+
+#header > div > ul.online .key {
+  color: #5E6B9C;
+}
+
+#header > div > ul.online .status {
+  color: #3DD91E;
+}
+
+#header > div > ul.online .status-lamp {
+  float: left;
+  padding-left: 5px;
+  margin-top: 3px;
+}
+
+#header > div > ul.offline {
   color: #FB5551;
-  height: 80px;
-  position: absolute;
-  right: 0;
+  float: right;
+  margin-top: 30px;
+}
+
+#header > div > ul.offline li {
+  float: left;
+}
+
+#header > div > ul.offline .status-lamp {
+  padding-left: 5px;
+  margin-top: 3px;
+}
+
+#menu {
+  display: table;
+  margin: auto;
+  padding-top: 44px;
+}
+
+#menu ul li {
+  float: left;
+  font-size: 20px;
+}
+
+#menu ul a {
+  color: #D0D6ED;
+  margin: 0px 10px;
+  padding: 0px;
+}
+
+#menu ul .disabled {
+  color: #5E6B9C;
 }
 /*# sourceMappingURL=no-bootstrap.css.map */

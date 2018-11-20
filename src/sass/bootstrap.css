@@ -4623,7 +4623,6 @@ tbody.collapse.in {
 
 .nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eeeeee;
 }
 
 .nav > li.disabled > a {
