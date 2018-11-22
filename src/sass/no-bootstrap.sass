@@ -3,6 +3,7 @@ $redColor: #FB5551
 $blueColor: #457AFF
 $menuActiveColor: #D0D6ED
 $menuInactiveColor: #5E6B9C
+$createFormNames: #BEC5E1
 // special classes
 
 body
@@ -43,7 +44,7 @@ body
             &.online
                 float: right
                 margin-top: 30px
-                li:not(.status-lamp)
+                li
                     float: left
                     padding-left: 30px  
                 .key
@@ -72,7 +73,7 @@ body
         opacity: 0.3
     .parashut-large
         margin-top: 140px
-        width: 340px
+        max-width: 340px
     .parashut-medium
         margin-top: 300px
         margin-left: 660px
@@ -90,7 +91,9 @@ body
         li
             float: left 
             font-size: 20px
-            margin-left: 25px                  
+            margin-left:  25px       
+            .start
+                margin-left: -15px           
         a
             color: $menuActiveColor
             margin: 0px 10px
@@ -151,7 +154,64 @@ body
         .tips
             font-size: 16px
             color: $menuActiveColor
-
+#create
+    margin: auto
+    max-width: 540px
+    position: relative
+    .token-type
+        display: table
+        margin: auto
+        margin-top: 100px
+        ul 
+            li
+                float: left
+                font-size: 18px
+                list-style: none  
+                border: 1px solid $redColor
+                border-top-left-radius: 3px
+                border-top-right-radius: 3px
+                box-shadow: 0 0 46px 0 rgba(251,85,81,0.26)                
+                a 
+                    padding: 20px 20px 10px 20px
+                    color: $redColor
+                    &:hover
+                        opacity: 0.7
+                        text-decoration: none
+                .active
+                    background: $redColor
+                    color: #fff
+                    &:hover
+                        opacity: 1
+    .tab-content
+        font-size: 15px
+        color: $createFormNames
+        h3
+            margin-top: 40px
+            margin-bottom: 30px
+            font-size: 30px
+            color: #fff
+        input
+            background: #121C42
+            &::-webkit-input-placeholder 
+                color: #5E6B9C
+        select
+            height: 50px
+            width: 540px
+            font-size: 17px
+            color: #fff
+            border: 0px
+            background: #121C42
+        button
+            display: table
+            margin: auto
+            margin-top: 40px
+            margin-bottom: 120px
+            padding-top: 10px
+            height: 40px
+            width: 150px
+            background: $redColor
+            color: #fff
+            font-size: 18px
 
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
