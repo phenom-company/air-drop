@@ -46,7 +46,7 @@ body {
   margin-top: 30px;
 }
 
-#header > div > ul.online li:not(.status-lamp) {
+#header > div > ul.online li {
   float: left;
   padding-left: 30px;
 }
@@ -93,7 +93,7 @@ body {
 
 #wrapper .parashut-large {
   margin-top: 140px;
-  width: 340px;
+  max-width: 340px;
 }
 
 #wrapper .parashut-medium {
@@ -119,6 +119,10 @@ body {
   float: left;
   font-size: 20px;
   margin-left: 25px;
+}
+
+#menu ul li .start {
+  margin-left: -15px;
 }
 
 #menu ul a {
@@ -215,6 +219,90 @@ body {
 #home h5 .tips {
   font-size: 16px;
   color: #D0D6ED;
+}
+
+#create {
+  margin: auto;
+  max-width: 540px;
+  position: relative;
+}
+
+#create .token-type {
+  display: table;
+  margin: auto;
+  margin-top: 100px;
+}
+
+#create .token-type ul li {
+  float: left;
+  font-size: 18px;
+  list-style: none;
+  border: 1px solid #FB5551;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  -webkit-box-shadow: 0 0 46px 0 rgba(251, 85, 81, 0.26);
+          box-shadow: 0 0 46px 0 rgba(251, 85, 81, 0.26);
+}
+
+#create .token-type ul li a {
+  padding: 20px 20px 10px 20px;
+  color: #FB5551;
+}
+
+#create .token-type ul li a:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+#create .token-type ul li .active {
+  background: #FB5551;
+  color: #fff;
+}
+
+#create .token-type ul li .active:hover {
+  opacity: 1;
+}
+
+#create .tab-content {
+  font-size: 15px;
+  color: #BEC5E1;
+}
+
+#create .tab-content h3 {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  font-size: 30px;
+  color: #fff;
+}
+
+#create .tab-content input {
+  background: #121C42;
+}
+
+#create .tab-content input::-webkit-input-placeholder {
+  color: #5E6B9C;
+}
+
+#create .tab-content select {
+  height: 50px;
+  width: 540px;
+  font-size: 17px;
+  color: #fff;
+  border: 0px;
+  background: #121C42;
+}
+
+#create .tab-content button {
+  display: table;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 120px;
+  padding-top: 10px;
+  height: 40px;
+  width: 150px;
+  background: #FB5551;
+  color: #fff;
+  font-size: 18px;
 }
 
 #footer {

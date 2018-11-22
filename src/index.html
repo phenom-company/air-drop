@@ -74,7 +74,7 @@
 			<div id="menu">
 				<ul class="nav" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#home" role="tab">Home</a>
+						<a class="nav-link active start" data-toggle="tab" href="#home" role="tab">Home</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab" data-title="Log in to the extension MetaMask">Create</a>
@@ -120,73 +120,72 @@
 				</div>
 				<!-- Create content -->		
 				<div class="tab-pane" id="create" role="tabpanel">
-					<div class="col-md-8 col-md-push-2">
-						<br>
-						<ul class="nav nav-pills" role="tablist">
+					<div class="token-type">
+						<ul class="nav" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#standard-token" role="tab">Standard token</a>
+								<a class="nav-link active" data-toggle="tab" href="#standard-token" role="tab">STANDARD TOKEN</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#mintable-token" role="tab">Mintable token</a>
+								<a class="nav-link" data-toggle="tab" href="#mintable-token" role="tab">MINTABLE TOKEN</a>
 							</li>
 						</ul>
-						<div class="tab-content">
-							<!-- Create standard -->	
-							<div class="tab-pane active" id="standard-token" role="tabpanel">
-								<h3 class="text-center"><br>Standard token</h3> 	
-								<div class="form-group">
-									<label for="stand-name">Token name (optional):</label>
-									<input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
-								</div>
-								<div class="form-group">
-									<label for="stand-symbol">Symbol:</label>
-									<input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="MTK">
-								</div>	
-								<div class="form-group">
-									<label for="stand-decimals">Decimals:</label>
-									<input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
-								</div>
-								<div class="form-group">
-									<label for="stand-totalSupply">Total supply:</label>
-									<input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
-								</div>
-								<div class="form-group">
-									<label for="stand-transferable">Transferable:</label>
-									<br>
-									<select class="custom-select" v-model="standTransferable">
-										<option value="Yes">Yes</option>
-										<option value="">No</option>
-									</select>
-								</div>	
-								<button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">Create</button>
-							</div>
-							<!-- Create mintable -->
-							<div class="tab-pane" id="mintable-token" role="tabpanel">
-								<h3 class="text-center"><br>Mintable token</h3>
-								<div class="form-group">
-									<label for="mint-name">Token name (optional):</label>
-									<input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
-								</div>
-								<div class="form-group">
-									<label for="mint-symbol">Symbol:</label>
-									<input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model.trim="$v.mintSymbol.$model" placeholder="MTK">
-								</div>	
-								<div class="form-group">
-									<label for="mint-decimals">Decimals:</label>
-									<input type="text" class="form-control" :class="status($v.mintDecimals)" id="mint-decimals" v-model="$v.mintDecimals.$model" placeholder="18">
-								</div>
-								<div class="form-group">
-									<label for="mint-transferable">Transferable:</label>
-									<br>
-									<select class="custom-select" v-model="mintTransferable">
-										<option value="Yes">Yes</option>
-										<option value="">No</option>
-									</select>
-								</div>
-								<button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">Create</button>
-							</div>
-						</div>
 					</div>
+					<div class="tab-content">
+						<!-- Create standard -->	
+						<div class="tab-pane active" id="standard-token" role="tabpanel">
+							<h3 class="text-center"><br>Standard token</h3> 	
+							<div class="form-group">
+								<label for="stand-name">Token name (optional):</label>
+								<input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
+							</div>
+							<div class="form-group">
+								<label for="stand-symbol">Symbol:</label>
+								<input type="text" class="form-control" :class="status($v.standSymbol)" id="stand-symbol" v-model.trim="$v.standSymbol.$model" placeholder="MTK">
+							</div>	
+							<div class="form-group">
+								<label for="stand-decimals">Decimals:</label>
+								<input type="text" class="form-control" :class="status($v.standDecimals)" id="stand-decimals" v-model="$v.standDecimals.$model" placeholder="18">
+							</div>
+							<div class="form-group">
+								<label for="stand-totalSupply">Total supply:</label>
+								<input type="text" class="form-control" :class="status($v.standTotalSupply)" id="stand-totalSupply" v-model="$v.standTotalSupply.$model" placeholder="1000000000">
+							</div>
+							<div class="form-group">
+								<label for="stand-transferable">Transferable:</label>
+								<br>
+								<select class="custom-select" v-model="standTransferable">
+									<option value="Yes">Yes</option>
+									<option value="">No</option>
+								</select>
+							</div>	
+							<button id="create-standard" class="btn btn-outline-primary" @click="createStandard()">CREATE</button>
+						</div>
+						<!-- Create mintable -->
+						<div class="tab-pane" id="mintable-token" role="tabpanel">
+							<h3 class="text-center"><br>Mintable token</h3>
+							<div class="form-group">
+								<label for="mint-name">Token name (optional):</label>
+								<input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
+							</div>
+							<div class="form-group">
+								<label for="mint-symbol">Symbol:</label>
+								<input type="text" class="form-control" :class="status($v.mintSymbol)" id="mint-symbol" v-model.trim="$v.mintSymbol.$model" placeholder="MTK">
+							</div>	
+							<div class="form-group">
+								<label for="mint-decimals">Decimals:</label>
+								<input type="text" class="form-control" :class="status($v.mintDecimals)" id="mint-decimals" v-model="$v.mintDecimals.$model" placeholder="18">
+							</div>
+							<div class="form-group">
+								<label for="mint-transferable">Transferable:</label>
+								<br>
+								<select class="custom-select" v-model="mintTransferable">
+									<option value="Yes">Yes</option>
+									<option value="">No</option>
+								</select>
+							</div>
+							<button id="create-mintable" class="btn btn-outline-primary" @click="createMintable()">CREATE</button>
+						</div>
+					</div>			
 				</div>
 				<!-- Select content -->
 				<div class="tab-pane" :class="{active: isActiveSelect}" id="select" role="tabpanel">
