@@ -1,3 +1,16 @@
+/* Scrollbar */
+::-webkit-scrollbar{
+	width:3px;
+	background-color: #5E6B9C;
+}
+::-webkit-scrollbar-thumb{
+	background-color: #457AFF;
+}
+::-webkit-scrollbar-thumb:hover{
+	background-color: #D0D6ED;
+}
+
+/* Forms */
 .form-control {
 	height: 50px;
 	font-size: 17px;
@@ -13,6 +26,8 @@
 .form-control.error {
 	border: 1px solid #FB5551;
 }
+
+/* Tips */
 .tip:hover:after {
 	content: attr(data-title); 
 	position: absolute;
@@ -23,11 +38,10 @@
 	padding: 3px 5px; /* Поля */
 	border: 1px solid #BDBDBD; /* Параметры рамки */
 }
+
+/* Learn more */
 .learn-more {
 	color: #BDBDBD;
-}
-.pageHeader {
-	word-spacing: 10px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;

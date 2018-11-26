@@ -7,7 +7,7 @@ $createFormNames: #BEC5E1
 // special classes
 
 body
-    font-family: AvenirNext-Regular
+    font-family: Avenir Next Cyr Regular
 .container   
     color: #fff
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, rgb(34,48,97) 0%, rgb(14,25,63) 100%)
@@ -48,7 +48,7 @@ body
                     float: left
                     padding-left: 30px  
                 .key
-                    color: #5E6B9C
+                    color: $menuInactiveColor
                 .status
                     color: #3DD91E
                 .status-lamp
@@ -122,20 +122,17 @@ body
     > h2
         margin: 100px 0 0 0
         font-size: 58px
-        font-family: AvenirNext-Regular
         span
-            font-family: AvenirNext-Medium
+            font-family: Avenir Next Cyr Medium
             color: $redColor
     h3
         margin: 100px 0 0 0
         font-size: 40px
-        font-family: AvenirNext-Regular
         span
             color: $blueColor
     h5
         margin: 25px 0 100px 0
         font-size: 20px
-        font-family: AvenirNext-Regular
         line-height: 1.5
         span
             color: $blueColor
@@ -186,7 +183,7 @@ body
         font-size: 15px
         color: $createFormNames
         h3
-            margin-top: 40px
+            margin-top: 70px
             margin-bottom: 30px
             font-size: 30px
             color: #fff
@@ -206,13 +203,56 @@ body
             margin: auto
             margin-top: 40px
             margin-bottom: 120px
-            padding-top: 10px
-            height: 40px
-            width: 150px
+            padding-top: 15px
+            height: 46px
+            width: 154px
             background: $redColor
             color: #fff
             font-size: 18px
-
+#select
+    margin: auto
+    max-width: 960px
+    position: relative
+    > h3
+        margin-top: 100px
+        font-size: 30px
+    .tableWrapper
+        margin-top: 60px
+        background-color: #121C42
+        box-shadow: 0 0 50px 0 rgba(101,114,195,0.15)
+        > table
+            width: 100%
+            > thead
+                font-size: 16px
+                color: $menuInactiveColor
+                tr
+                    th
+                        padding-top: 45px
+                        padding-left: 60px
+                        border-bottom: 0px
+            > tbody
+                font-size: 17px
+                > tr
+                    border-top: 1px solid #444871
+                    &:nth-child(1)
+                        border-top: 0px
+                    &:hover
+                        background-color: #3C5283
+                    > td
+                        padding: 17px 0 17px 60px
+                        vertical-align: middle
+                        border-top: 0px
+    button
+        display: table
+        margin: auto
+        margin-top: 40px
+        margin-bottom: 120px
+        padding-top: 15px
+        height: 46px
+        width: 154px
+        background: $redColor
+        color: #fff
+        font-size: 18px
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
     background-image: -ms-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
