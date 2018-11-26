@@ -1,5 +1,5 @@
 body {
-  font-family: AvenirNext-Regular;
+  font-family: Avenir Next Cyr Regular;
 }
 
 .container {
@@ -167,18 +167,16 @@ body {
 #home > h2 {
   margin: 100px 0 0 0;
   font-size: 58px;
-  font-family: AvenirNext-Regular;
 }
 
 #home > h2 span {
-  font-family: AvenirNext-Medium;
+  font-family: Avenir Next Cyr Medium;
   color: #FB5551;
 }
 
 #home h3 {
   margin: 100px 0 0 0;
   font-size: 40px;
-  font-family: AvenirNext-Regular;
 }
 
 #home h3 span {
@@ -188,7 +186,6 @@ body {
 #home h5 {
   margin: 25px 0 100px 0;
   font-size: 20px;
-  font-family: AvenirNext-Regular;
   line-height: 1.5;
 }
 
@@ -269,7 +266,7 @@ body {
 }
 
 #create .tab-content h3 {
-  margin-top: 40px;
+  margin-top: 70px;
   margin-bottom: 30px;
   font-size: 30px;
   color: #fff;
@@ -297,12 +294,40 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 120px;
-  padding-top: 10px;
-  height: 40px;
-  width: 150px;
+  padding-top: 15px;
+  height: 46px;
+  width: 154px;
   background: #FB5551;
   color: #fff;
   font-size: 18px;
+}
+
+#select {
+  margin: auto;
+  max-width: 960px;
+  position: relative;
+}
+
+#select > h3 {
+  margin-top: 100px;
+  font-size: 30px;
+}
+
+#select .tableWrapper {
+  margin-top: 60px;
+  padding-left: 60px;
+  background-color: #121C42;
+  -webkit-box-shadow: 0 0 50px 0 rgba(101, 114, 195, 0.15);
+          box-shadow: 0 0 50px 0 rgba(101, 114, 195, 0.15);
+}
+
+#select .tableWrapper > table > thead {
+  color: #5E6B9C;
+}
+
+#select .tableWrapper > table > thead > tr > th {
+  padding-top: 48px;
+  border-bottom: 0px;
 }
 
 #footer {

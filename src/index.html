@@ -9,6 +9,7 @@
 	<!-- Bootstrap CSS 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	-->
+	<link rel="stylesheet" href="fonts/fonts.css" type="text/css"/>
 	<link rel="stylesheet" href="sass/bootstrap.css" type="text/css"/>
 	<link rel="stylesheet" href="css/index.css" type="text/css"/>
 	<link rel="stylesheet" href="sass/no-bootstrap.css" type="text/css"/>
@@ -90,7 +91,7 @@
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<!-- Home content -->
-				<div class="tab-pane active" id="home" role="tabpanel">
+				<div class="tab-pane" id="home" role="tabpanel">
 					<h2 class="text-center">Welcome to the <span>Airdrop dapp</span></h2>
 					<h3 class="text-center"><span>What</span> is Airdrop?</h3>
 					<h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list (up to 100). 
@@ -133,7 +134,7 @@
 					<div class="tab-content">
 						<!-- Create standard -->	
 						<div class="tab-pane active" id="standard-token" role="tabpanel">
-							<h3 class="text-center"><br>Standard token</h3> 	
+							<h3 class="text-center">Standard token</h3> 	
 							<div class="form-group">
 								<label for="stand-name">Token name (optional):</label>
 								<input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
@@ -152,7 +153,6 @@
 							</div>
 							<div class="form-group">
 								<label for="stand-transferable">Transferable:</label>
-								<br>
 								<select class="custom-select" v-model="standTransferable">
 									<option value="Yes">Yes</option>
 									<option value="">No</option>
@@ -162,7 +162,7 @@
 						</div>
 						<!-- Create mintable -->
 						<div class="tab-pane" id="mintable-token" role="tabpanel">
-							<h3 class="text-center"><br>Mintable token</h3>
+							<h3 class="text-center">Mintable token</h3>
 							<div class="form-group">
 								<label for="mint-name">Token name (optional):</label>
 								<input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
@@ -177,7 +177,6 @@
 							</div>
 							<div class="form-group">
 								<label for="mint-transferable">Transferable:</label>
-								<br>
 								<select class="custom-select" v-model="mintTransferable">
 									<option value="Yes">Yes</option>
 									<option value="">No</option>
@@ -188,32 +187,32 @@
 					</div>			
 				</div>
 				<!-- Select content -->
-				<div class="tab-pane" :class="{active: isActiveSelect}" id="select" role="tabpanel">
-					<br>
+				<div class="tab-pane active" :class="{active: isActiveSelect}" id="select" role="tabpanel">
 					<h3 class="text-center">Select token to interact</h3>
-					<br>
-					<table class="table table-hover table-responsive">
-						<thead>
-							<tr>
-								<th>Selected</th>
-								<th>Symbol</th>
-								<th>Type</th>
-								<th>Address</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(yourToken, index) in arrOfTokens" @click="changeRadio(index)">				    		
-								<td>								
-									<label class="form-check-label">
-										<input type="radio" class="form-check-input" name="optionsRadios" :value="index" v-model="picked">
-									</label>
-								</td>
-								<td>{{ yourToken.symbol }}</td>
-								<td>{{ yourToken.type }}</td>							
-								<td>{{ yourToken.address }}</td>							
-							</tr>
-						</tbody>
-					</table>
+					<div class="tableWrapper">
+						<table class="table table-hover table-responsive">
+							<thead>
+								<tr>
+									<th>SELECTED</th>
+									<th>SYMBOL</th>
+									<th>TYPE</th>
+									<th>ADDRESS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(yourToken, index) in arrOfTokens" @click="changeRadio(index)">				    		
+									<td>								
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" name="optionsRadios" :value="index" v-model="picked">
+										</label>
+									</td>
+									<td>{{ yourToken.symbol }}</td>
+									<td>{{ yourToken.type }}</td>							
+									<td>{{ yourToken.address }}</td>							
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					<button id="interact-token" class="btn btn-outline-primary" @click="interactWithToken()">Interact</button>
 				</div>
 				<!-- Interact content -->
