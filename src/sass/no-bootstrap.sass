@@ -218,16 +218,41 @@ body
         font-size: 30px
     .tableWrapper
         margin-top: 60px
-        padding-left: 60px
         background-color: #121C42
         box-shadow: 0 0 50px 0 rgba(101,114,195,0.15)
         > table
+            width: 100%
             > thead
+                font-size: 16px
                 color: $menuInactiveColor
-                > tr
-                    > th
-                        padding-top: 48px
+                tr
+                    th
+                        padding-top: 45px
+                        padding-left: 60px
                         border-bottom: 0px
+            > tbody
+                font-size: 17px
+                > tr
+                    border-top: 1px solid #444871
+                    &:nth-child(1)
+                        border-top: 0px
+                    &:hover
+                        background-color: #3C5283
+                    > td
+                        padding: 17px 0 17px 60px
+                        vertical-align: middle
+                        border-top: 0px
+    button
+        display: table
+        margin: auto
+        margin-top: 40px
+        margin-bottom: 120px
+        padding-top: 15px
+        height: 46px
+        width: 154px
+        background: $redColor
+        color: #fff
+        font-size: 18px
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
     background-image: -ms-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
