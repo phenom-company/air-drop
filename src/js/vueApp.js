@@ -48,14 +48,14 @@ const VueApp = new Vue({
 /* Select token */    
     arrOfTokens: [],
 /* Interact with token */
+    selectedAddress: '0x6740f858570a0d0b6ee192b3d4791c8233e57868', // Should be ''
     picked: '-1',
     isActiveSelect: false,
     isActiveSelectTab: false,
     isActiveInteract: false,
     isActiveInteractTab: false,
     hrefToInteract: false,
-    selectedAddress: '',
-    tokenInfo: [],
+    tokenInfo: [0], // Should be []
     showCanMint: false,
     canMint: false,
     selectedMethod: 'Drop token',
@@ -209,7 +209,7 @@ const VueApp = new Vue({
     	if (accounts === undefined) {
 
     	} else {
-        this.userAddress = accounts[0].substr(0, 10);       
+        this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);       
         web3.version.getNetwork((err, netId) => {
           switch (netId) {
             case "1":
@@ -249,6 +249,9 @@ const VueApp = new Vue({
                       let standardTokenInstance = StandardToken.at(addressOfToken);             
                       standardTokenInstance.symbol((err, symbolOfToken) => {
                         if (!err) {
+                          if (symbolOfToken.length >= 15) {
+                            symbolOfToken = symbolOfToken.substr(0, 15) + "..."
+                          }
                           this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
                         }  
                       });               

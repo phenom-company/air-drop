@@ -212,6 +212,7 @@ body
 #select
     margin: auto
     max-width: 960px
+    min-height: 500px
     position: relative
     > h3
         margin-top: 100px
@@ -228,8 +229,11 @@ body
                 tr
                     th
                         padding-top: 45px
-                        padding-left: 60px
+                        padding-left: 30px
+                        padding-bottom: 20px
                         border-bottom: 0px
+                        &:nth-child(1)
+                            padding-left: 60px
             > tbody
                 font-size: 17px
                 > tr
@@ -239,9 +243,11 @@ body
                     &:hover
                         background-color: #3C5283
                     > td
-                        padding: 17px 0 17px 60px
+                        padding: 17px 0 17px 30px
                         vertical-align: middle
                         border-top: 0px
+                        &:nth-child(1)
+                            padding-left: 60px
     button
         display: table
         margin: auto
@@ -253,6 +259,31 @@ body
         background: $redColor
         color: #fff
         font-size: 18px
+#interact
+    margin: auto
+    max-width: 900px
+    position: relative
+    > h6
+        margin-top: 80px
+        text-align: center
+        font-size: 24px
+        color: $blueColor
+    > h5
+        margin-top: 20px
+        text-align: center
+        font-size: 24px
+    .token-info-background
+        z-index: 1
+        position: relative
+        width: 350px
+        height: 320px
+        border-radius: 5px
+        background-color: rgba(60, 82, 131, 0.4)
+    .token-info-stuff
+        position: relative
+        z-index: 2
+        color: #fff
+
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
     background-image: -ms-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
