@@ -312,7 +312,7 @@ const VueApp = new Vue({
                                   };
                                   this.tokenInfo.push({ name: nameOfToken,
                                                         symbol: symbolOfToken,
-                                                        decimals: decimalsOfToken,
+                                                        decimals: decimalsOfToken * 1,
                                                         totalSupply: totalSupplyOfToken / 10 ** decimalsOfToken,
                                                         transferable: transferableOfToken,
                                                         type: 'Standard', 

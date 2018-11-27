@@ -400,18 +400,37 @@ body {
 }
 
 #interact .token-info-background {
-  z-index: 1;
   position: relative;
   width: 350px;
   height: 320px;
+  margin-top: 140px;
   border-radius: 5px;
   background-color: rgba(60, 82, 131, 0.4);
 }
 
 #interact .token-info-stuff {
   position: relative;
-  z-index: 2;
+  padding: 22px 0 0 28px;
   color: #fff;
+}
+
+#interact .token-info-stuff > span {
+  position: absolute;
+  margin-top: -60px;
+  margin-left: -28px;
+  font-size: 24px;
+  color: #457AFF;
+}
+
+#interact .token-info-stuff > ul > li {
+  font-size: 17px;
+}
+
+#interact .token-info-stuff .key-info {
+  position: relative;
+  padding-top: 40px;
+  font-size: 16px;
+  color: #5E6B9C;
 }
 
 #footer {

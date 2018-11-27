@@ -273,16 +273,30 @@ body
         text-align: center
         font-size: 24px
     .token-info-background
-        z-index: 1
         position: relative
         width: 350px
         height: 320px
+        margin-top: 140px
         border-radius: 5px
         background-color: rgba(60, 82, 131, 0.4)
     .token-info-stuff
         position: relative
-        z-index: 2
+        padding: 22px 0 0 28px
         color: #fff
+        > span
+            position: absolute
+            margin-top: -60px
+            margin-left: -28px
+            font-size: 24px
+            color: $blueColor
+        > ul
+            > li
+                font-size: 17px
+        .key-info
+            position: relative
+            padding-top: 40px
+            font-size: 16px
+            color: $menuInactiveColor
 
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
