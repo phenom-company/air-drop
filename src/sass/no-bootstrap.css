@@ -218,6 +218,10 @@ body {
   color: #D0D6ED;
 }
 
+#home .home-h3-bottom {
+  margin-bottom: 150px;
+}
+
 #create {
   margin: auto;
   max-width: 540px;
@@ -305,6 +309,7 @@ body {
 #select {
   margin: auto;
   max-width: 960px;
+  min-height: 500px;
   position: relative;
 }
 
@@ -331,8 +336,13 @@ body {
 
 #select .tableWrapper > table > thead tr th {
   padding-top: 45px;
-  padding-left: 60px;
+  padding-left: 30px;
+  padding-bottom: 20px;
   border-bottom: 0px;
+}
+
+#select .tableWrapper > table > thead tr th:nth-child(1) {
+  padding-left: 60px;
 }
 
 #select .tableWrapper > table > tbody {
@@ -352,9 +362,13 @@ body {
 }
 
 #select .tableWrapper > table > tbody > tr > td {
-  padding: 17px 0 17px 60px;
+  padding: 17px 0 17px 30px;
   vertical-align: middle;
   border-top: 0px;
+}
+
+#select .tableWrapper > table > tbody > tr > td:nth-child(1) {
+  padding-left: 60px;
 }
 
 #select button {
@@ -365,6 +379,138 @@ body {
   padding-top: 15px;
   height: 46px;
   width: 154px;
+  background: #FB5551;
+  color: #fff;
+  font-size: 18px;
+}
+
+#interact {
+  margin: auto;
+  max-width: 900px;
+  position: relative;
+}
+
+#interact > h6 {
+  margin-top: 80px;
+  text-align: center;
+  font-size: 24px;
+  color: #457AFF;
+}
+
+#interact > h5 {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+
+#interact .token-info-background {
+  float: left;
+  position: relative;
+  width: 350px;
+  height: 100%;
+  margin-top: 140px;
+  margin-bottom: 200px;
+  border-radius: 5px;
+  background-color: rgba(60, 82, 131, 0.4);
+}
+
+#interact .token-info-background > span {
+  position: absolute;
+  margin-top: -40px;
+  font-size: 24px;
+  color: #457AFF;
+}
+
+#interact .token-info-stuff {
+  position: relative;
+  padding-top: 20px;
+  color: #fff;
+}
+
+#interact .token-info-stuff tr td {
+  padding-bottom: 20px;
+  padding-left: 30px;
+  font-size: 17px;
+}
+
+#interact .token-info-stuff .key-info {
+  font-size: 16px;
+  color: #5E6B9C;
+}
+
+#interact .token-methods {
+  float: right;
+  position: relative;
+  width: 450px;
+  height: 100%;
+  margin-top: 140px;
+}
+
+#interact .token-methods > h3 {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin-top: -60px;
+  font-size: 32px;
+}
+
+#interact .choice-of-method > span {
+  font-size: 16px;
+}
+
+#interact select {
+  margin-top: 1px;
+  height: 50px;
+  width: 100%;
+  font-size: 17px;
+  color: #fff;
+  border: 0px;
+  background: #121C42;
+  cursor: pointer;
+}
+
+#interact label {
+  margin-top: 30px;
+  margin-bottom: 0px;
+  font-weight: normal;
+  font-size: 19px;
+  color: #BEC5E1;
+}
+
+#interact input {
+  margin-top: 1px;
+  background: #121C42;
+}
+
+#interact input::-webkit-input-placeholder {
+  color: #5E6B9C;
+}
+
+#interact input[type="file"] {
+  cursor: pointer;
+}
+
+#interact .balanceOf {
+  position: absolute;
+  left: 0;
+  margin-top: 100px;
+  font-weight: normal;
+  font-size: 19px;
+  color: #BEC5E1;
+}
+
+#interact .balanceOf > span {
+  color: #fff;
+}
+
+#interact button {
+  margin-top: 30px;
+  margin-bottom: 160px;
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 46px;
+  max-width: 100%;
   background: #FB5551;
   color: #fff;
   font-size: 18px;

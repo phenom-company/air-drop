@@ -151,6 +151,8 @@ body
         .tips
             font-size: 16px
             color: $menuActiveColor
+    .home-h3-bottom
+        margin-bottom: 150px
 #create
     margin: auto
     max-width: 540px
@@ -212,6 +214,7 @@ body
 #select
     margin: auto
     max-width: 960px
+    min-height: 500px
     position: relative
     > h3
         margin-top: 100px
@@ -228,8 +231,11 @@ body
                 tr
                     th
                         padding-top: 45px
-                        padding-left: 60px
+                        padding-left: 30px
+                        padding-bottom: 20px
                         border-bottom: 0px
+                        &:nth-child(1)
+                            padding-left: 60px
             > tbody
                 font-size: 17px
                 > tr
@@ -239,9 +245,11 @@ body
                     &:hover
                         background-color: #3C5283
                     > td
-                        padding: 17px 0 17px 60px
+                        padding: 17px 0 17px 30px
                         vertical-align: middle
                         border-top: 0px
+                        &:nth-child(1)
+                            padding-left: 60px
     button
         display: table
         margin: auto
@@ -253,6 +261,103 @@ body
         background: $redColor
         color: #fff
         font-size: 18px
+#interact
+    margin: auto
+    max-width: 900px
+    position: relative
+    > h6
+        margin-top: 80px
+        text-align: center
+        font-size: 24px
+        color: $blueColor
+    > h5
+        margin-top: 20px
+        text-align: center
+        font-size: 24px
+    .token-info-background
+        float: left
+        position: relative
+        width: 350px
+        height: 100%
+        margin-top: 140px
+        margin-bottom: 200px
+        border-radius: 5px
+        background-color: rgba(60, 82, 131, 0.4)
+        > span
+            position: absolute
+            margin-top: -40px
+            font-size: 24px
+            color: $blueColor
+    .token-info-stuff
+        position: relative
+        padding-top: 20px
+        color: #fff     
+        tr
+            td
+                padding-bottom: 20px
+                padding-left: 30px
+                font-size: 17px
+        .key-info
+            font-size: 16px
+            color: $menuInactiveColor
+    .token-methods
+        float: right
+        position: relative
+        width: 450px
+        height: 100%
+        margin-top: 140px
+        > h3
+            position: absolute
+            text-align: center
+            width: 100%
+            margin-top: -60px
+            font-size: 32px
+    .choice-of-method
+        > span
+            font-size: 16px
+    select
+        margin-top: 1px
+        height: 50px
+        width: 100%
+        font-size: 17px
+        color: #fff
+        border: 0px
+        background: #121C42
+        cursor: pointer
+    label
+        margin-top: 30px
+        margin-bottom: 0px
+        font-weight: normal
+        font-size: 19px
+        color: $createFormNames
+    input
+        margin-top: 1px
+        background: #121C42
+        &::-webkit-input-placeholder 
+            color: #5E6B9C
+        &[type="file"]
+            cursor: pointer
+    .balanceOf
+        position: absolute
+        left: 0
+        margin-top: 100px
+        font-weight: normal
+        font-size: 19px
+        color: $createFormNames
+        > span
+            color: #fff
+    button
+        margin-top: 30px
+        margin-bottom: 160px
+        padding-top: 15px
+        padding-left: 20px
+        padding-right: 20px
+        height: 46px
+        max-width: 100%
+        background: $redColor
+        color: #fff
+        font-size: 18px
+
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
     background-image: -ms-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
