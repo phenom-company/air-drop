@@ -400,37 +400,63 @@ body {
 }
 
 #interact .token-info-background {
+  float: left;
   position: relative;
   width: 350px;
-  height: 320px;
+  height: 100%;
   margin-top: 140px;
+  margin-bottom: 200px;
   border-radius: 5px;
   background-color: rgba(60, 82, 131, 0.4);
 }
 
-#interact .token-info-stuff {
-  position: relative;
-  padding: 22px 0 0 28px;
-  color: #fff;
-}
-
-#interact .token-info-stuff > span {
+#interact .token-info-background > span {
   position: absolute;
-  margin-top: -60px;
-  margin-left: -28px;
+  margin-top: -40px;
   font-size: 24px;
   color: #457AFF;
 }
 
-#interact .token-info-stuff > ul > li {
+#interact .token-info-stuff {
+  position: relative;
+  padding-top: 20px;
+  color: #fff;
+}
+
+#interact .token-info-stuff tr td {
+  padding-bottom: 20px;
+  padding-left: 30px;
   font-size: 17px;
 }
 
 #interact .token-info-stuff .key-info {
-  position: relative;
-  padding-top: 40px;
   font-size: 16px;
   color: #5E6B9C;
+}
+
+#interact .token-methods {
+  float: right;
+  position: relative;
+  width: 450px;
+  height: 100%;
+  margin-top: 140px;
+  background-color: rgba(60, 82, 131, 0.4);
+}
+
+#interact .token-methods > h3 {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin-top: -60px;
+  font-size: 32px;
+}
+
+#interact .choice-of-method {
+  background-color: #457AFF;
+}
+
+#interact .choice-of-method > span {
+  font-size: 16px;
 }
 
 #footer {

@@ -91,7 +91,7 @@
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<!-- Home content -->
-				<div class="tab-pane active" id="home" role="tabpanel">
+				<div class="tab-pane" id="home" role="tabpanel">
 					<h2 class="text-center">Welcome to the <span>Airdrop dapp</span></h2>
 					<h3 class="text-center"><span>What</span> is Airdrop?</h3>
 					<h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list (up to 100). 
@@ -216,41 +216,58 @@
 					<button id="interact-token" class="btn btn-outline-primary" @click="interactWithToken()">INTERACT</button>
 				</div>
 				<!-- Interact content -->
-				<div class="tab-pane" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
+				<div class="tab-pane active" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
 					<h6>Selected token</h6>
 					<h5>{{ selectedAddress }}</h5>
 					<!-- Token info -->				
 					<div class="token-info-background">
-						<div class="token-info-stuff" v-for="token in tokenInfo">
-							<span>Token info</span>	
-							<ul class="nav">
-								<li v-if="token.name"><span class="key-info">Name:</span> {{ token.name }}</li>
-								<li><span class="key-info">Symbol:</span> {{ token.symbol }}</li>
-								<li><span class="key-info">Decimals:</span> {{ token.decimals }}</li>					
-								<li v-if="canMint" class="tip" data-title="Current supply means you can still mint new tokens">
-									<span class="key-info">Current Supply:</span> {{ token.totalSupply }}
-								</li>
-								<li v-else>
-									<span class="key-info">Total Supply:</span> {{ token.totalSupply }}
-								</li>
-								<li class="tip" data-title="Сan holders send token?">
-									<span class="key-info">Transferable:</span> {{ token.transferable }}
-								</li>
-								<li v-if="showCanMint" class="tip" data-title="Сan you mint new tokens?">
-									<span class="key-info">Can mint:</span> {{ token.mintingFinished }}	
-								</li>
-								<li class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens.">
-									<span class="key-info">Type:</span> {{ token.type }}
-								</li>
-								<li><span class="key-info">Your balance:</span> {{ token.balance }}</li>
-							</ul>
+						<span>Token info</span>	
+						<div class="token-info-stuff">
+							<table v-for="token in tokenInfo">
+								<tr v-if="token.name">
+									<td class="key-info">Name:</td> 
+									<td>{{ token.name }}</td>
+								</tr>
+								<tr>
+									<td class="key-info">Symbol:</td> 
+									<td>{{ token.symbol }}</td>
+								</tr>
+								<tr>
+									<td class="key-info">Decimals:</td> 
+									<td>{{ token.decimals }}</td>
+								</tr>					
+								<tr v-if="canMint">
+									<td class="key-info"><span class="tip" data-title="Current supply means you can still mint new tokens">Current Supply:</span></td>
+									<td>{{ token.totalSupply }}</td>
+								</tr>
+								<tr v-else>
+									<td class="key-info">Total Supply:</td>
+									<td>{{ token.totalSupply }}</td>
+								</tr>
+								<tr>
+									<td class="key-info"><span class="tip" data-title="Сan holders send token?">Transferable:</span></td>
+									<td>{{ token.transferable }}</td>
+								</tr>
+								<tr v-if="showCanMint">
+									<td class="key-info"><span class="tip" data-title="Сan you mint new tokens?">Can mint:</span></td>
+									<td>{{ token.mintingFinished }}</td>
+								</tr>
+								<tr>
+									<td class="key-info"><span class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens.">Type:</span></td>
+									<td>{{ token.type }}</td>
+								</tr>
+								<tr>
+									<td class="key-info">Your balance:</td>
+									<td>{{ token.balance }}</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 					<!-- Select method -->					
-					<div>
-						<h4>Select method</h4>
-						<div class="form-group">
-							<label>Method name:</label>
+					<div class="token-methods">
+						<h3>Select method</h3>
+						<div class="choice-of-method">
+							<span>Method name:</span>
 							<br>
 							<select class="custom-select" v-model="selectedMethod" @input="selectMethod($event.target.value)">
 								<option value="Drop token">Drop token</option>

@@ -273,30 +273,48 @@ body
         text-align: center
         font-size: 24px
     .token-info-background
+        float: left
         position: relative
         width: 350px
-        height: 320px
+        height: 100%
         margin-top: 140px
+        margin-bottom: 200px
         border-radius: 5px
         background-color: rgba(60, 82, 131, 0.4)
-    .token-info-stuff
-        position: relative
-        padding: 22px 0 0 28px
-        color: #fff
         > span
             position: absolute
-            margin-top: -60px
-            margin-left: -28px
+            margin-top: -40px
             font-size: 24px
             color: $blueColor
-        > ul
-            > li
+    .token-info-stuff
+        position: relative
+        padding-top: 20px
+        color: #fff     
+        tr
+            td
+                padding-bottom: 20px
+                padding-left: 30px
                 font-size: 17px
         .key-info
-            position: relative
-            padding-top: 40px
             font-size: 16px
             color: $menuInactiveColor
+    .token-methods
+        float: right
+        position: relative
+        width: 450px
+        height: 100%
+        margin-top: 140px
+        background-color: rgba(60, 82, 131, 0.4)
+        > h3
+            position: absolute
+            text-align: center
+            width: 100%
+            margin-top: -60px
+            font-size: 32px
+    .choice-of-method
+        background-color: $blueColor
+        > span
+            font-size: 16px
 
 #footer
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)

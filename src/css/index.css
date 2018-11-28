@@ -29,14 +29,16 @@
 
 /* Tips */
 .tip:hover:after {
-	content: attr(data-title); 
+	content: attr(data-title);
 	position: absolute;
-	z-index: 1;
-	font-size: 13px; /* Размер текста подсказки */
-	color: #A4A4A4;
-	background-color: #fff;
-	padding: 3px 5px; /* Поля */
-	border: 1px solid #BDBDBD; /* Параметры рамки */
+	margin-left: 2px;
+    padding: 2px 6px;
+    max-width: 200px;
+    font-size: 14px;
+    color: #D0D6ED;
+    background-color: #121C42;
+    box-shadow: 0 0 50px 0 rgba(101,114,195,0.15);
+    border-radius: 5px;
 }
 
 /* Learn more */
