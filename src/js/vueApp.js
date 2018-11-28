@@ -284,11 +284,7 @@ const VueApp = new Vue({
       this.selectedAddress = this.arrOfTokens[index].address
     },
     interactWithToken() {
-      if (this.picked>=0) {
-        this.isActiveSelect = false;
-        this.isActiveInteractTab = true;
-        this.isActiveInteract = true;
-        this.hrefToInteract = true;  
+      if (this.picked>=0) { 
         if (this.arrOfTokens[this.picked].type == 'Standard') {  
           this.tokenInfo = [];        
           let standardTokenInstance = StandardToken.at(this.selectedAddress);             
@@ -319,6 +315,11 @@ const VueApp = new Vue({
                                                         balance: balanceOfOwner / 10 ** decimalsOfToken });
                                   this.showCanMint = false;
                                   this.canMint = false;
+                                  this.isActiveSelect = false;
+                                  this.isActiveInteractTab = true;
+                                  this.isActiveInteract = true;
+                                  this.hrefToInteract = true; 
+                                  this.tokenInfo.length = 1;
                                 }  
                               }); 
                             }  
@@ -372,6 +373,11 @@ const VueApp = new Vue({
                                                             type: 'Mintable', 
                                                             balance: balanceOfOwner / 10 ** decimalsOfToken });
                                       this.showCanMint = true;
+                                      this.isActiveSelect = false;
+                                      this.isActiveInteractTab = true;
+                                      this.isActiveInteract = true;
+                                      this.hrefToInteract = true; 
+                                      this.tokenInfo.length = 1;
                                     }  
                                   });
                                 }  

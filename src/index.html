@@ -91,7 +91,7 @@
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<!-- Home content -->
-				<div class="tab-pane" id="home" role="tabpanel">
+				<div class="tab-pane active" id="home" role="tabpanel">
 					<h2 class="text-center">Welcome to the <span>Airdrop dapp</span></h2>
 					<h3 class="text-center"><span>What</span> is Airdrop?</h3>
 					<h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list (up to 100). 
@@ -102,7 +102,7 @@
 						</transition>
 					</h5>			
 					<h3 class="text-center"><span>How</span> to use Airdrop?</h3>
-					<h5 class="text-center" v-if="userAddress">First, you need to <span>“Create“</span> a token, then <span>“Select“</span> it and go to the <span>“Interact“</span> tab,  then select the <span>“Drop token“</span> method and drop your tokens. 
+					<h5 class="text-center home-h3-bottom" v-if="userAddress">First, you need to <span>“Create“</span> a token, then <span>“Select“</span> it and go to the <span>“Interact“</span> tab,  then select the <span>“Drop token“</span> method and drop your tokens. 
 						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
@@ -110,7 +110,7 @@
 						</transition>
 					</h5>
 					
-					<h5 class="text-center" v-else>To start working with Airdrop, you need to <span class="learn-more"><a href="https://metamask.io/">download</a></span> and log in to the Chrome <span>"MetaMask"</span> browser extension. 
+					<h5 class="text-center home-h3-bottom" v-else>To start working with Airdrop, you need to <span class="learn-more"><a href="https://metamask.io/">download</a></span> and log in to the Chrome <span>"MetaMask"</span> browser extension. 
 						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
@@ -216,7 +216,7 @@
 					<button id="interact-token" class="btn btn-outline-primary" @click="interactWithToken()">INTERACT</button>
 				</div>
 				<!-- Interact content -->
-				<div class="tab-pane active" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
+				<div class="tab-pane" :class="{active: isActiveInteract}" id="interact" role="tabpanel">
 					<h6>Selected token</h6>
 					<h5>{{ selectedAddress }}</h5>
 					<!-- Token info -->				
@@ -269,7 +269,7 @@
 						<div class="choice-of-method">
 							<span>Method name:</span>
 							<br>
-							<select class="custom-select" v-model="selectedMethod" @input="selectMethod($event.target.value)">
+							<select v-model="selectedMethod" @input="selectMethod($event.target.value)">
 								<option value="Drop token">Drop token</option>
 								<option value="Balance of">Balance of</option>
 								<option value="Transfer">Transfer</option>
@@ -284,23 +284,18 @@
 						<!-- Drop token -->
 						<div class="form-group" v-if="isActiveDrop">					    	
 							<label for="list-of-recipients">List of addresses and number of tokens:</label>
-							<br>
-							<label class="custom-file">
-								<input type="file" id="file" accept=".csv, .txt" @change="handleFileChange" class="custom-file-input">
-								<span class="custom-file-control"></span>
-							</label>
-							<br><br>
-							<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">Drop</button>		
+							<input type="file" class="form-control" accept=".csv, .txt" @change="handleFileChange">
+							<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">DROP</button>		
 						</div>
 						<!-- Balance of -->
 						<div class="form-group" v-if="isActiveBalance">					    	
 							<label>Wallet address:</label>
 							<input type="text" class="form-control" :class="status($v.balanceAddress)" v-model.trim="$v.balanceAddress.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
-							<br>
-							<button id="check-balance" class="btn btn-outline-primary" @click="checkBalance()">Check balance</button>
-							<br><br>Balance of wallet: 
-							<span v-if="balanceOfWallet">{{ balanceOfWallet }}</span>
-							<span v-else>0</span>
+							<button id="check-balance" class="btn btn-outline-primary" @click="checkBalance()">CHECK BALANCE</button>
+							<span class="balanceOf">Balance of wallet:
+								<span v-if="balanceOfWallet">{{ balanceOfWallet }}</span>
+								<span v-else>0</span>
+							</span> 
 						</div>
 						<!-- Transfer -->
 						<div class="form-group" v-if="isActiveTransfer">					    	
@@ -308,8 +303,7 @@
 							<input type="text" class="form-control" :class="status($v.recepientAddressTransfer)" v-model.trim="$v.recepientAddressTransfer.$model" placeholder="0x...">
 							<label>Amount of tokens:</label>
 							<input type="text" class="form-control" :class="status($v.amountOfTokensTransfer)" v-model.trim="$v.amountOfTokensTransfer.$model" placeholder="0">
-							<br>
-							<button id="transfer" class="btn btn-outline-primary" @click="transfer()">Transfer</button>
+							<button id="transfer" class="btn btn-outline-primary" @click="transfer()">TRANSFER</button>
 						</div>
 						<!-- Transfer from -->
 						<div class="form-group" v-if="isActiveTransferFrom">					    	
@@ -319,8 +313,7 @@
 							<input type="text" class="form-control" :class="status($v.recepientAddressTransferFrom)" v-model.trim="$v.recepientAddressTransferFrom.$model" placeholder="0x...">
 							<label>Amount of tokens:</label>
 							<input type="text" class="form-control" :class="status($v.amountOfTokensTransferFrom)" v-model.trim="$v.amountOfTokensTransferFrom.$model" placeholder="0">
-							<br>
-							<button id="transfer-from" class="btn btn-outline-primary" @click="transferFrom()">Transfer</button>
+							<button id="transfer-from" class="btn btn-outline-primary" @click="transferFrom()">TRANSFER</button>
 						</div>
 						<!-- Approve -->
 						<div class="form-group" v-if="isActiveApprove">					    	
@@ -328,8 +321,7 @@
 							<input type="text" class="form-control" :class="status($v.spenderAddressApprove)" v-model.trim="$v.spenderAddressApprove.$model" placeholder="0x...">
 							<label>Amount of tokens:</label>
 							<input type="text" class="form-control" :class="status($v.amountOfTokensApprove)" v-model.trim="$v.amountOfTokensApprove.$model" placeholder="0">
-							<br>
-							<button id="approve" class="btn btn-outline-primary" @click="approve()">Approve</button>
+							<button id="approve" class="btn btn-outline-primary" @click="approve()">APPROVE</button>
 						</div>
 						<!-- Allowance -->
 						<div class="form-group" v-if="isActiveAllowance">					    	
@@ -337,33 +329,29 @@
 							<input type="text" class="form-control" :class="status($v.ownerAddressAllowance)" v-model.trim="$v.ownerAddressAllowance.$model" @change="inactiveBalanceOfWallet" placeholder="0x...">
 							<label>Spender address:</label>
 							<input type="text" class="form-control" :class="status($v.spenderAddressAllowance)" v-model.trim="$v.spenderAddressAllowance.$model" @change="inactiveAllowanceOfWallet" placeholder="0x...">
-							<br>
-							<button id="check-allowance" class="btn btn-outline-primary" @click="checkAllowance()">Check allowance</button>
-							<br><br>Allowance of wallet: 
-							<span v-if="allowanceOfWallet">{{ allowanceOfWallet }}</span>
-							<span v-else>0</span>
+							<button id="check-allowance" class="btn btn-outline-primary" @click="checkAllowance()">CHECK ALLOWANCE</button>
+							<span class="balanceOf">Allowance of wallet:
+								<span v-if="allowanceOfWallet">{{ allowanceOfWallet }}</span>
+								<span v-else>0</span>
+							</span>
 						</div>
 						<!-- Make transferable -->
 						<div class="form-group" v-if="isActiveMakeTransferable">					    	
-							<label>After this action, each holder will be able to send tokens.<br>Are you sure?</label>
-							<br>
-							<select class="custom-select" v-model="makeTransferableBool">
+							<label>After this action, each holder will be able to send tokens. Are you sure?</label>
+							<select v-model="makeTransferableBool">
 								<option value="">No</option>
 								<option value="Yes">Yes</option>
 							</select>
-							<br><br>
-							<button id="make-transferable" class="btn btn-outline-primary" @click="makeTransferable()">Make transferable</button>
+							<button id="make-transferable" class="btn btn-outline-primary" @click="makeTransferable()">MAKE TRANSFERABLE</button>
 						</div>
 						<!-- Finish Minting -->
 						<div class="form-group" v-if="isActiveFinishMinting">					    	
-							<label>After this action, you will not be able to mint new tokens.<br>Are you sure?</label>
-							<br>
+							<label>After this action, you will not be able to mint new tokens. Are you sure?</label>
 							<select class="custom-select" v-model="finishMintingBool">
 								<option value="">No</option>
 								<option value="Yes">Yes</option>
 							</select>
-							<br><br>
-							<button id="finish-minting" class="btn btn-outline-primary" @click="finishMinting()">Finish minting</button>
+							<button id="finish-minting" class="btn btn-outline-primary" @click="finishMinting()">FINISH MINTING</button>
 						</div>
 						<!-- Mint tokens -->
 						<div class="form-group" v-if="isActiveMintTokens">					    	
@@ -371,8 +359,7 @@
 							<input type="text" class="form-control" :class="status($v.recepientAddressMintTokens)" v-model.trim="$v.recepientAddressMintTokens.$model" placeholder="0x...">
 							<label>Amount of tokens:</label>
 							<input type="text" class="form-control" :class="status($v.amountOfTokensMintTokens)" v-model.trim="$v.amountOfTokensMintTokens.$model" placeholder="0">
-							<br>
-							<button id="mint-tokens" class="btn btn-outline-primary" @click="mintTokens()">Mint tokens</button>
+							<button id="mint-tokens" class="btn btn-outline-primary" @click="mintTokens()">MINT TOKENS</button>
 						</div>
 					</div>				
 				</div>
