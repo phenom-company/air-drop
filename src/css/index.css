@@ -26,6 +26,9 @@
 .form-control.error {
 	border: 1px solid #FB5551;
 }
+.form-control.nothing {
+	border: 0px;
+}
 
 /* Tips */
 .tip:hover:after {

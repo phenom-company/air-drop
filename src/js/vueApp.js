@@ -176,8 +176,9 @@ const VueApp = new Vue({
   methods: {
     status(validation) {
       return {
-        error: validation.$error,
-        dirty: validation.$dirty,
+        error: validation.$anyError,
+        dirty: !validation.$anyError,
+        nothing: !validation.required,
       }
     },
     createStandard () {
