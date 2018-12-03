@@ -24,6 +24,7 @@ let fileTxt = '';
 Vue.use(window.vuelidate.default);
 const alphaNum42 = validators.helpers.regex('alphaNum', /^[0-9a-fx-xA-FX-X]*$/);
 const length42 = validators.minLength(42) || validators.maxLength(42);
+const lengthMax27 = validators.maxLength(27);
 
 const VueApp = new Vue({
   el: '#app',
@@ -69,6 +70,7 @@ const VueApp = new Vue({
     isActiveMakeTransferable: false,
     isActiveFinishMinting: false,
     isActiveMintTokens: false,
+    showTransferable: false,
     /* Methods content */
     balanceAddress: '',
     balanceOfWallet: '',
@@ -95,6 +97,7 @@ const VueApp = new Vue({
     amountOfTokensMintTokens: '',
   },
   validations: {
+/* Create */
     standSymbol: {
       required: validators.required,
     },
@@ -107,6 +110,7 @@ const VueApp = new Vue({
       required: validators.required,
       integer: validators.integer,
       minValue: validators.minValue(0),
+      lengthMax27: lengthMax27,
     },
     mintSymbol: {
       required: validators.required,
@@ -116,6 +120,7 @@ const VueApp = new Vue({
       integer: validators.integer,
       between: validators.between(0, 50),
     },
+/* Interact */
     balanceAddress: {
       required: validators.required,
       alphaNum42: alphaNum42,
@@ -250,8 +255,8 @@ const VueApp = new Vue({
                       let standardTokenInstance = StandardToken.at(addressOfToken);             
                       standardTokenInstance.symbol((err, symbolOfToken) => {
                         if (!err) {
-                          if (symbolOfToken.length >= 15) {
-                            symbolOfToken = symbolOfToken.substr(0, 15) + "..."
+                          if (symbolOfToken.length > 10) {
+                            symbolOfToken = symbolOfToken.substr(0, 9) + "..."
                           }
                           this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
                         }  
@@ -265,6 +270,9 @@ const VueApp = new Vue({
                       let mintableTokenInstance = MintableToken.at(addressOfToken);             
                       mintableTokenInstance.symbol((err, symbolOfToken) => {
                         if (!err) {
+                          if (symbolOfToken.length > 10) {
+                            symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                          }
                           this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
                         }  
                       });               
@@ -282,7 +290,8 @@ const VueApp = new Vue({
       this.isActiveSelect = true;
       this.isActiveInteract = false;
       this.hrefToInteract = false;
-      this.selectedAddress = this.arrOfTokens[index].address
+      this.selectedAddress = this.arrOfTokens[index].address;
+      this.showTransferable = false;
     },
     interactWithToken() {
       if (this.picked>=0) { 
@@ -306,7 +315,14 @@ const VueApp = new Vue({
                                   };
                                   if (transferableOfToken == false) {
                                     transferableOfToken = 'No';
+                                    this.showTransferable = true;
                                   };
+                                  if (nameOfToken.length > 10) {
+                                    nameOfToken = nameOfToken.substr(0, 9) + "..."
+                                  }
+                                  if (symbolOfToken.length > 10) {
+                                    symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                                  }
                                   this.tokenInfo.push({ name: nameOfToken,
                                                         symbol: symbolOfToken,
                                                         decimals: decimalsOfToken * 1,
@@ -356,6 +372,7 @@ const VueApp = new Vue({
                                       };
                                       if (transferableOfToken == false) {
                                         transferableOfToken = 'No';
+                                        this.showTransferable = true;
                                       };
                                       if (mintingFinishedOfToken == true) {
                                         mintingFinishedOfToken = 'No';
@@ -365,6 +382,12 @@ const VueApp = new Vue({
                                         mintingFinishedOfToken = 'Yes';
                                         this.canMint = true;
                                       };
+                                      if (nameOfToken.length > 10) {
+                                        nameOfToken = nameOfToken.substr(0, 9) + "..."
+                                      }
+                                      if (symbolOfToken.length > 10) {
+                                        symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                                      }
                                       this.tokenInfo.push({ name: nameOfToken,
                                                             symbol: symbolOfToken,
                                                             decimals: decimalsOfToken * 1,

@@ -102,7 +102,7 @@
 						</transition>
 					</h5>			
 					<h3 class="text-center"><span>How</span> to use Airdrop?</h3>
-					<h5 class="text-center home-h3-bottom" v-if="userAddress">First, you need to <span>“Create“</span> a token, then <span>“Select“</span> it and go to the <span>“Interact“</span> tab,  then select the <span>“Drop token“</span> method and drop your tokens. 
+					<h5 class="text-center home-h3-bottom" v-if="userAddress">First, you need to <span>“Create“</span> a token, then <span>“Select“</span> it and go to the <span>“Interact“</span><span>“Drop token“</span> method and drop your tokens. 
 						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
@@ -274,7 +274,7 @@
 								<option value="Transfer from">Transfer from</option>
 								<option value="Approve">Approve</option>
 								<option value="Allowance">Allowance</option>
-								<option value="Make transferable">Make transferable</option>
+								<option v-if="showTransferable" value="Make transferable">Make transferable</option>
 								<option v-if="canMint" value="Finish minting">Finish minting</option>
 								<option v-if="canMint" value="Mint tokens">Mint tokens</option>
 							</select>
