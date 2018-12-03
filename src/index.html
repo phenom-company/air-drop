@@ -78,10 +78,10 @@
 						<a class="nav-link active start" data-toggle="tab" href="#home" role="tab">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab" data-title="Log in to the extension MetaMask">Create</a>
+						<a class="nav-link" :class="{disabled: !userAddress}" data-toggle="tab" href="#create" role="tab" data-title="Log in to the MetaMask extension">Create</a>
 					</li>
 					<li class="nav-item" @click="fromInteractToSelect()">
-						<a class="nav-link" :class="{active: isActiveSelect, disabled: !isActiveSelectTab}" data-toggle="tab" href="#select" role="tab" data-title="Create a token to interact with it">Select</a>
+						<a class="nav-link" :class="{active: isActiveSelect, disabled: !isActiveSelectTab}" data-toggle="tab" href="#select" role="tab" data-title="Create a token to interact with">Select</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" :class="{active: isActiveInteract, disabled: !isActiveInteractTab}" data-toggle="tab" href="#interact" role="tab" data-title="Select your token for interaction">Interact</a>
@@ -135,7 +135,7 @@
 							<h3 class="text-center">Standard token</h3> 	
 							<div class="form-group">
 								<label for="stand-name">Token name (optional):</label>
-								<input type="text" class="form-control dirty" id="stand-name" v-model.trim="standName" placeholder="MyToken">
+								<input type="text" class="form-control" id="stand-name" v-model.trim="standName" placeholder="MyToken">
 							</div>
 							<div class="form-group">
 								<label for="stand-symbol">Symbol:</label>
@@ -163,7 +163,7 @@
 							<h3 class="text-center">Mintable token</h3>
 							<div class="form-group">
 								<label for="mint-name">Token name (optional):</label>
-								<input type="text" class="form-control dirty" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
+								<input type="text" class="form-control" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
 							</div>
 							<div class="form-group">
 								<label for="mint-symbol">Symbol:</label>
