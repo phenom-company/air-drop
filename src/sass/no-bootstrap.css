@@ -246,7 +246,7 @@ body {
 }
 
 #create .token-type ul li a {
-  padding: 20px 20px 10px 20px;
+  padding: 17px 20px 13px 20px;
   color: #FB5551;
 }
 
@@ -298,7 +298,7 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 120px;
-  padding-top: 15px;
+  padding-top: 9px;
   height: 46px;
   width: 154px;
   background: #FB5551;
@@ -376,7 +376,7 @@ body {
   margin: auto;
   margin-top: 40px;
   margin-bottom: 120px;
-  padding-top: 15px;
+  padding-top: 9px;
   height: 46px;
   width: 154px;
   background: #FB5551;
@@ -506,7 +506,7 @@ body {
 #interact button {
   margin-top: 30px;
   margin-bottom: 160px;
-  padding-top: 15px;
+  padding-top: 9px;
   padding-left: 20px;
   padding-right: 20px;
   height: 46px;
