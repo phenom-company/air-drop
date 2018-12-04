@@ -64,6 +64,17 @@ body
                 .status-lamp
                     padding-left: 5px
                     margin-top: 3px
+    i
+        color: $menuInactiveColor
+        &:hover
+            cursor: pointer
+            &:after
+                content: attr(data-title)
+                position: absolute
+                margin-top: 20px
+                margin-left: -28px
+                font-size: 16px
+                font-family: Avenir Next Cyr Regular
 #wrapper
     margin: auto
     max-width: 1024px
@@ -295,7 +306,7 @@ body
         tr
             td
                 padding-bottom: 20px
-                padding-left: 30px
+                padding-left: 20px
                 font-size: 17px
         .key-info
             font-size: 16px
@@ -385,5 +396,6 @@ body
                 a
                     padding: 0
                     color: #fff
-                    &:hover
-                        opacity: 0.7
+    i
+        &:hover
+            opacity: 0.7

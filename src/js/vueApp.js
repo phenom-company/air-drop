@@ -186,6 +186,9 @@ const VueApp = new Vue({
         nothing: !validation.required,
       }
     },
+    copyFullAddress() {
+      navigator.clipboard.writeText(accounts[0]);
+    },
     createStandard () {
       if (this.$v.standSymbol.$invalid || this.$v.standDecimals.$invalid || this.$v.standTotalSupply.$invalid) {
         return;
@@ -215,7 +218,7 @@ const VueApp = new Vue({
     	if (accounts === undefined) {
 
     	} else {
-        this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);       
+        this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);   
         web3.version.getNetwork((err, netId) => {
           switch (netId) {
             case "1":

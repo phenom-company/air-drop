@@ -80,6 +80,23 @@ body {
   margin-top: 3px;
 }
 
+#header i {
+  color: #5E6B9C;
+}
+
+#header i:hover {
+  cursor: pointer;
+}
+
+#header i:hover:after {
+  content: attr(data-title);
+  position: absolute;
+  margin-top: 20px;
+  margin-left: -28px;
+  font-size: 16px;
+  font-family: Avenir Next Cyr Regular;
+}
+
 #wrapper {
   margin: auto;
   max-width: 1024px;
@@ -429,7 +446,7 @@ body {
 
 #interact .token-info-stuff tr td {
   padding-bottom: 20px;
-  padding-left: 30px;
+  padding-left: 20px;
   font-size: 17px;
 }
 
@@ -554,7 +571,7 @@ body {
   color: #fff;
 }
 
-#footer > div > ul li a:hover {
+#footer i:hover {
   opacity: 0.7;
 }
 /*# sourceMappingURL=no-bootstrap.css.map */

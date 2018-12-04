@@ -32,7 +32,7 @@
 			<div>
 				<a href="https://www.phenom.team/"><img src="images/logo.svg" alt="logo"></a>
 				<ul class="nav online" v-if="userAddress">
-					<li><span class="key">Account:</span> {{ userAddress }}</li>
+					<li><span class="key">Account:</span> {{ userAddress }} <i class="far fa-copy" data-title="Copy" @click="copyFullAddress()"></i></li>
 					<li><span class="key">Balance:</span> {{ userBalance }}ETH</li>
 					<li><span class="key">Nonce:</span> {{ userNonce }}</li>
 					<li>{{ network }}</li>
@@ -223,39 +223,39 @@
 						<div class="token-info-stuff">
 							<table v-for="token in tokenInfo">
 								<tr v-if="token.name">
-									<td class="key-info">Name:</td> 
+									<td class="key-info">Name</td> 
 									<td>{{ token.name }}</td>
 								</tr>
 								<tr>
-									<td class="key-info">Symbol:</td> 
+									<td class="key-info">Symbol</td> 
 									<td>{{ token.symbol }}</td>
 								</tr>
 								<tr>
-									<td class="key-info">Decimals:</td> 
+									<td class="key-info">Decimals</td> 
 									<td>{{ token.decimals }}</td>
 								</tr>					
 								<tr v-if="canMint">
-									<td class="key-info"><span class="tip" data-title="Current supply means you can still mint new tokens">Current Supply:</span></td>
+									<td class="key-info">Current Supply <span class="tip" data-title="Current supply means you can still mint new tokens"><i class="fas fa-question-circle"></i></span></td>
 									<td>{{ token.totalSupply }}</td>
 								</tr>
 								<tr v-else>
-									<td class="key-info">Total Supply:</td>
+									<td class="key-info">Total Supply</td>
 									<td>{{ token.totalSupply }}</td>
 								</tr>
 								<tr>
-									<td class="key-info"><span class="tip" data-title="Сan holders send token?">Transferable:</span></td>
+									<td class="key-info">Transferable <span class="tip" data-title="Сan holders send token?"><i class="fas fa-question-circle"></i></span></td>
 									<td>{{ token.transferable }}</td>
 								</tr>
 								<tr v-if="showCanMint">
-									<td class="key-info"><span class="tip" data-title="Сan you mint new tokens?">Can mint:</span></td>
+									<td class="key-info">Can mint <span class="tip" data-title="Сan you mint new tokens?"><i class="fas fa-question-circle"></i></span></td>
 									<td>{{ token.mintingFinished }}</td>
 								</tr>
 								<tr>
-									<td class="key-info"><span class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens.">Type:</span></td>
+									<td class="key-info">Type <span class="tip" data-title="Standard - has fixed total supply. Mintable - has opportunity to mint new tokens."><i class="fas fa-question-circle"></i></span></td>
 									<td>{{ token.type }}</td>
 								</tr>
 								<tr>
-									<td class="key-info">Your balance:</td>
+									<td class="key-info">Your balance</td>
 									<td>{{ token.balance }}</td>
 								</tr>
 							</table>
