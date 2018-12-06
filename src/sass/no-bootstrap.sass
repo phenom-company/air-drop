@@ -62,6 +62,18 @@ body
                 margin-top: 30px
                 li
                     float: left
+                    &:hover
+                        opacity: 1
+                        cursor: help
+                        &:after
+                            content: attr(data-title)
+                            position: absolute
+                            width: 300px
+                            margin-top: 24px
+                            margin-left: -275px
+                            z-index: 1
+                            font-size: 13px
+                            color: $menuActiveColor
                 .status-lamp
                     padding-left: 5px
                     margin-top: 3px
@@ -150,12 +162,13 @@ body
             color: $blueColor
         .learn-more
             color: $redColor
-            border-bottom: 1px solid $redColor
+            border-bottom: 0px
             display: inline-block
             line-height: 0.8
             cursor: pointer
             &:hover
                 opacity: 0.7
+                border-bottom: 1px solid $redColor
             a
                 color: $redColor
                 &:hover
@@ -201,6 +214,9 @@ body
             margin-bottom: 30px
             font-size: 30px
             color: #fff
+            > span
+                font-size: 22px
+                color: $menuInactiveColor
         input
             background: #121C42
             &::-webkit-input-placeholder 
@@ -342,6 +358,17 @@ body
         font-weight: normal
         font-size: 19px
         color: $createFormNames
+        .download-file
+            color: $redColor
+            border-bottom: 0px
+            display: inline-block
+            line-height: 0.8
+            cursor: pointer
+            &:hover
+                opacity: 0.7
+                border-bottom: 1px solid $redColor
+        a
+            color: $blueColor
     input
         margin-top: 1px
         background: #121C42

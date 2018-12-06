@@ -51,7 +51,7 @@
 					</svg></li>
 				</ul>
 				<ul class="nav offline" v-else>
-					<li>Offline</li>
+					<li data-title="Log in and select Mainnet or Rinkeby in MetaMask">Offline</li>
 					<li class="status-lamp"><svg class="svg-red" width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 							<g id="Artboard" transform="translate(-1304.000000, -33.000000)" fill="#FB5551">
@@ -92,7 +92,7 @@
 			<div class="tab-content">
 				<!-- Home content -->
 				<div class="tab-pane active" id="home" role="tabpanel">
-					<h2 class="text-center">Welcome to the <span>Airdrop dapp</span></h2>
+					<h2 class="text-center">Welcome to the <span>Airdrop dApp</span></h2>
 					<h3 class="text-center"><span>What</span> is Airdrop?</h3>
 					<h5 class="text-center">Airdrop is an application to send ERC20 tokens to Ethereum wallet list (up to 100). 
 						<span class="learn-more" @click="learnMoreOne = !learnMoreOne">Learn more...</span>
@@ -104,18 +104,18 @@
 					</h5>			
 					<h3 class="text-center"><span>How</span> to use Airdrop?</h3>
 					<h5 class="text-center home-h3-bottom" v-if="userAddress">First, you need to <span>“Create“</span> a token, then <span>“Select“</span> it and go to the <span>“Interact“</span> tab, then select the <span>“Drop token“</span> method and drop your tokens. 
-						<!--<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
+						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
-							<span v-if="learnMoreTwo" class="tips">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga fugit ad quis excepturi, culpa fugiat praesentium tempora nostrum rerum reiciendis! Cupiditate modi repellendus, beatae ut optio, dolor eveniet corrupti aut! Doloribus aspernatur sapiente unde soluta sit placeat maxime, cupiditate non, assumenda, minus consectetur. A non, debitis, culpa tenetur reiciendis rerum dolore voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure quidem recusandae, voluptatibus, ratione consectetur aut, ipsa illo earum blanditiis inventore veniam asperiores, accusantium aliquam a quaerat laborum assumenda sed! Aperiam.</span>
-						</transition>-->
+							<span v-if="learnMoreTwo" class="tips">You can create either standard (with fixed total supply) or mintable (with the opportunity to mint new tokens) ERC20 token in “Create” tab. Select your token in “Select” tab and the method of smart-contract in “Interact” tab. For airdrop just choose “Drop token” from the dropdown menu and upload CSV or TXT file where a set of Ethereum addresses (up to 100) and amount of tokens to be sent are specified.</span>
+						</transition>
 					</h5>
 					<h5 class="text-center home-h3-bottom" v-else>To start working with Airdrop, you need to <span class="learn-more"><a href="https://metamask.io/">download</a></span> and log in to the Chrome <span>"MetaMask"</span> browser extension. 
-						<!--<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
+						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
-							<span v-if="learnMoreTwo" class="tips">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga fugit ad quis excepturi, culpa fugiat praesentium tempora nostrum rerum reiciendis! Cupiditate modi repellendus, beatae ut optio, dolor eveniet corrupti aut! Doloribus aspernatur sapiente unde soluta sit placeat maxime, cupiditate non, assumenda, minus consectetur. A non, debitis, culpa tenetur reiciendis rerum dolore voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure quidem recusandae, voluptatibus, ratione consectetur aut, ipsa illo earum blanditiis inventore veniam asperiores, accusantium aliquam a quaerat laborum assumenda sed! Aperiam.</span>
-						</transition>-->
+							<span v-if="learnMoreTwo" class="tips">After you logged in, you have to reload the page. Select Mainnet or Rinkeby in MetaMask to work with Airdrop dApp.</span>
+						</transition>
 					</h5>	
 				</div>
 				<!-- Create content -->		
@@ -133,7 +133,7 @@
 					<div class="tab-content">
 						<!-- Create standard -->	
 						<div class="tab-pane active" id="standard-token" role="tabpanel">
-							<h3 class="text-center">Standard token</h3> 	
+							<h3 class="text-center">Standard token <span class="tip" data-title="Standard token - has fixed total supply."><i class="fas fa-question-circle"></i></span></h3> 	
 							<div class="form-group">
 								<label for="stand-name">Token name (optional):</label>
 								<input type="text" class="form-control" id="stand-name" v-model.trim="standName" placeholder="MyToken">
@@ -161,7 +161,7 @@
 						</div>
 						<!-- Create mintable -->
 						<div class="tab-pane" id="mintable-token" role="tabpanel">
-							<h3 class="text-center">Mintable token</h3>
+							<h3 class="text-center">Mintable token <span class="tip" data-title="Mintable token - has opportunity to mint new tokens."><i class="fas fa-question-circle"></i></span></h3>
 							<div class="form-group">
 								<label for="mint-name">Token name (optional):</label>
 								<input type="text" class="form-control" id="mint-name" v-model.trim="mintName" placeholder="MyToken">
@@ -282,8 +282,9 @@
 						</div>
 						<!-- Drop token -->
 						<div class="form-group" v-if="isActiveDrop">					    	
-							<label for="list-of-recipients">List of addresses and number of tokens:</label>
+							<label for="list-of-recipients">List of addresses and amount of tokens (.csv or .txt):</label>
 							<input type="file" class="form-control" accept=".csv, .txt" @change="handleFileChange">
+							<label>Example of the file can be downloaded from <a href="./files/addressesAndAmount.csv" download><span class="download-file">here</span></a>. To drop tokens to more then 100 addresses, please contact us at <a href="mailto:info@phenom.team">info@phenom.team.</a></label>
 							<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">DROP</button>		
 						</div>
 						<!-- Balance of -->

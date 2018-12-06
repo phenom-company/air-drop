@@ -76,6 +76,22 @@ body {
   float: left;
 }
 
+#header > div > ul.offline li:hover {
+  opacity: 1;
+  cursor: help;
+}
+
+#header > div > ul.offline li:hover:after {
+  content: attr(data-title);
+  position: absolute;
+  width: 300px;
+  margin-top: 24px;
+  margin-left: -275px;
+  z-index: 1;
+  font-size: 13px;
+  color: #D0D6ED;
+}
+
 #header > div > ul.offline .status-lamp {
   padding-left: 5px;
   margin-top: 3px;
@@ -213,7 +229,7 @@ body {
 
 #home h5 .learn-more {
   color: #FB5551;
-  border-bottom: 1px solid #FB5551;
+  border-bottom: 0px;
   display: inline-block;
   line-height: 0.8;
   cursor: pointer;
@@ -221,6 +237,7 @@ body {
 
 #home h5 .learn-more:hover {
   opacity: 0.7;
+  border-bottom: 1px solid #FB5551;
 }
 
 #home h5 .learn-more a {
@@ -292,6 +309,11 @@ body {
   margin-bottom: 30px;
   font-size: 30px;
   color: #fff;
+}
+
+#create .tab-content h3 > span {
+  font-size: 22px;
+  color: #5E6B9C;
 }
 
 #create .tab-content input {
@@ -493,6 +515,23 @@ body {
   font-weight: normal;
   font-size: 19px;
   color: #BEC5E1;
+}
+
+#interact label .download-file {
+  color: #FB5551;
+  border-bottom: 0px;
+  display: inline-block;
+  line-height: 0.8;
+  cursor: pointer;
+}
+
+#interact label .download-file:hover {
+  opacity: 0.7;
+  border-bottom: 1px solid #FB5551;
+}
+
+#interact label a {
+  color: #457AFF;
 }
 
 #interact input {
