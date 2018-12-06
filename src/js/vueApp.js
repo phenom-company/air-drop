@@ -450,7 +450,7 @@ const VueApp = new Vue({
       let fullArr = fileTxt.split(/\;|\n/);
       arrOfAddresses = [];
       arrOfValues = [];
-      console.log(fullArr)
+      /*console.log(fullArr)*/
       if (fullArr.length > 200) {
         fullArr = fullArr.slice(0, 200);
       };
@@ -461,8 +461,8 @@ const VueApp = new Vue({
           arrOfAddresses.push(fullArr[i]);
         }; 
       };
-      console.log(arrOfValues)
-      console.log(arrOfAddresses)
+      /*console.log(arrOfValues)
+      console.log(arrOfAddresses)*/
       if (arrOfAddresses.length > 0) {
         const airdropInstance = AirdropContract.at(this.selectedAddress);
         airdropInstance.airdrop(arrOfAddresses, arrOfValues, console.log); 
