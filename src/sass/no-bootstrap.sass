@@ -22,6 +22,8 @@ body
     padding: 
         left: 0px
         right: 0px
+    @media screen and (max-width:1040px)
+        min-width: 768px
 #header
     background-image: -moz-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
     background-image: -ms-radial-gradient( 50% 50%, circle closest-side, #091232 0%, #091232 100%)
@@ -36,6 +38,8 @@ body
         margin: auto
         max-width: 1024px
         height: 80px
+        @media screen and (max-width:1040px)
+            max-width: 760px
         > a img
             height: 50px
             margin-top: 15px
@@ -48,6 +52,10 @@ body
                 li
                     float: left
                     padding-left: 30px  
+                    @media screen and (max-width:1040px)
+                        padding-left: 20px
+                        &:nth-child(3)
+                            display: none
                 .key
                     color: $menuInactiveColor
                 .status
@@ -91,21 +99,31 @@ body
 #wrapper
     margin: auto
     max-width: 1024px
+    @media screen and (max-width:1040px)
+        max-width: 760px
     img
         position: absolute
         z-index: 0
         opacity: 0.3
     .parashut-large
         margin-top: 140px
-        max-width: 340px
+        width: 340px
+        @media screen and (max-width:1040px)
+            width: 260px
     .parashut-medium
         margin-top: 300px
         margin-left: 660px
         width: 240px
+        @media screen and (max-width:1040px)
+            margin-left: 500px
+            width: 180px
     .parashut-small
         margin-top: 140px
         margin-left: 860px
         width: 140px
+        @media screen and (max-width:1040px)
+            margin-left: 640px
+            width: 120px
 #menu
     display: table
     margin: auto
@@ -146,12 +164,16 @@ body
     > h2
         margin: 100px 0 0 0
         font-size: 58px
+        @media screen and (max-width:1040px)
+            font-size: 50px
         span
             font-family: Avenir Next Cyr Medium
             color: $redColor
     h3
         margin: 100px 0 0 0
         font-size: 40px
+        @media screen and (max-width:1040px)
+            font-size: 38px
         span
             color: $blueColor
     h5
@@ -410,6 +432,8 @@ body
         margin: auto
         max-width: 1024px
         height: 80px
+        @media screen and (max-width:1040px)
+            max-width: 760px
         > span
             position: absolute
             margin-top: 34px

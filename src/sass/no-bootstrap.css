@@ -15,6 +15,12 @@ body {
   padding-right: 0px;
 }
 
+@media screen and (max-width: 1040px) {
+  .container {
+    min-width: 768px;
+  }
+}
+
 #header {
   background-image: -webkit-radial-gradient(50% 50%, circle closest-side, #091232 0%, #091232 100%);
   -webkit-box-shadow: 0px 10px 25px 0px rgba(8, 18, 56, 0.45);
@@ -30,6 +36,12 @@ body {
   margin: auto;
   max-width: 1024px;
   height: 80px;
+}
+
+@media screen and (max-width: 1040px) {
+  #header > div {
+    max-width: 760px;
+  }
 }
 
 #header > div > a img {
@@ -50,6 +62,15 @@ body {
 #header > div > ul.online li {
   float: left;
   padding-left: 30px;
+}
+
+@media screen and (max-width: 1040px) {
+  #header > div > ul.online li {
+    padding-left: 20px;
+  }
+  #header > div > ul.online li:nth-child(3) {
+    display: none;
+  }
 }
 
 #header > div > ul.online .key {
@@ -119,6 +140,12 @@ body {
   max-width: 1024px;
 }
 
+@media screen and (max-width: 1040px) {
+  #wrapper {
+    max-width: 760px;
+  }
+}
+
 #wrapper img {
   position: absolute;
   z-index: 0;
@@ -127,7 +154,13 @@ body {
 
 #wrapper .parashut-large {
   margin-top: 140px;
-  max-width: 340px;
+  width: 340px;
+}
+
+@media screen and (max-width: 1040px) {
+  #wrapper .parashut-large {
+    width: 260px;
+  }
 }
 
 #wrapper .parashut-medium {
@@ -136,10 +169,24 @@ body {
   width: 240px;
 }
 
+@media screen and (max-width: 1040px) {
+  #wrapper .parashut-medium {
+    margin-left: 500px;
+    width: 180px;
+  }
+}
+
 #wrapper .parashut-small {
   margin-top: 140px;
   margin-left: 860px;
   width: 140px;
+}
+
+@media screen and (max-width: 1040px) {
+  #wrapper .parashut-small {
+    margin-left: 640px;
+    width: 120px;
+  }
 }
 
 #menu {
@@ -203,6 +250,12 @@ body {
   font-size: 58px;
 }
 
+@media screen and (max-width: 1040px) {
+  #home > h2 {
+    font-size: 50px;
+  }
+}
+
 #home > h2 span {
   font-family: Avenir Next Cyr Medium;
   color: #FB5551;
@@ -211,6 +264,12 @@ body {
 #home h3 {
   margin: 100px 0 0 0;
   font-size: 40px;
+}
+
+@media screen and (max-width: 1040px) {
+  #home h3 {
+    font-size: 38px;
+  }
 }
 
 #home h3 span {
@@ -587,6 +646,12 @@ body {
   margin: auto;
   max-width: 1024px;
   height: 80px;
+}
+
+@media screen and (max-width: 1040px) {
+  #footer > div {
+    max-width: 760px;
+  }
 }
 
 #footer > div > span {
