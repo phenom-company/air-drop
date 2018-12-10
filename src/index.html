@@ -30,7 +30,7 @@
 		<!-- Header --> 
 		<div id="header">
 			<div>
-				<a href="https://www.phenom.team/"><img src="images/logo.svg" alt="logo"></a>
+				<a href="https://www.phenom.team/" target="_blank"><img src="images/logo.svg" alt="logo"></a>
 				<ul class="nav online" v-if="userAddress">
 					<li><span class="key">Account:</span> {{ userAddress }} <i class="far fa-copy" data-title="Copy" @click="copyFullAddress()"></i></li>
 					<li><span class="key">Balance:</span> {{ userBalance }}ETH</li>
@@ -110,7 +110,7 @@
 							<span v-if="learnMoreTwo" class="tips">You can create either standard (with fixed total supply) or mintable (with the opportunity to mint new tokens) ERC20 token in “Create” tab. Select your token in “Select” tab and the method of smart-contract in “Interact” tab. For airdrop just choose “Drop token” from the dropdown menu and upload CSV or TXT file where a set of Ethereum addresses (up to 100) and amount of tokens to be sent are specified.</span>
 						</transition>
 					</h5>
-					<h5 class="text-center home-h3-bottom" v-else>To start working with Airdrop, you need to <span class="learn-more"><a href="https://metamask.io/">download</a></span> and log in to the Chrome <span>"MetaMask"</span> browser extension. 
+					<h5 class="text-center home-h3-bottom" v-else>To start working with Airdrop, you need to <span class="learn-more"><a href="https://metamask.io/" target="_blank">download</a></span> and log in to the Chrome <span>"MetaMask"</span> browser extension. 
 						<span class="learn-more" @click="learnMoreTwo = !learnMoreTwo">Learn more...</span>
 						<br>
 						<transition name="fade">
@@ -284,7 +284,7 @@
 						<div class="form-group" v-if="isActiveDrop">					    	
 							<label for="list-of-recipients">List of addresses and amount of tokens (.csv or .txt):</label>
 							<input type="file" class="form-control" accept=".csv, .txt" @change="handleFileChange">
-							<label>Example of the file can be downloaded from <a href="./files/addressesAndAmount.csv" download><span class="download-file">here</span></a>. To drop tokens to more then 100 addresses, please contact us at <a href="mailto:info@phenom.team">info@phenom.team.</a></label>
+							<label>Example of the file can be downloaded from <a href="./files/addressesAndAmount.csv" download><span class="download-file">here</span></a>. To drop tokens to more then 100 addresses, please contact us at <a href="mailto:info@phenom.team" target="_blank">info@phenom.team.</a></label>
 							<button id="drop-tokens" class="btn btn-outline-primary" @click="dropToken()">DROP</button>		
 						</div>
 						<!-- Balance of -->
@@ -368,11 +368,12 @@
 		<!-- Footer --> 
 		<div id="footer">
 			<div>
-				<span>© 2018, Phenom — Blockchain Team</span>
+				<span>© 2018, Phenom - Blockchain Team</span>
 				<ul class="nav">
-					<li><a href="https://t.me/phenomteam"><i class="fab fa-telegram-plane"></i></a></li>
-					<li><a href="https://www.facebook.com/PhenomCompany/"><i class="fab fa-facebook-f"></i></a></li>
-					<li><a href="https://twitter.com/phenom_company"><i class="fab fa-twitter"></i></a></li>
+					<li><a href="https://t.me/phenomteam" target="_blank"><i class="fab fa-telegram-plane"></i></a></li>
+					<li><a href="https://www.facebook.com/PhenomCompany/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+					<li><a href="https://twitter.com/phenom_company" target="_blank"><i class="fab fa-twitter"></i></a></li>
+					<li><a href="https://github.com/phenom-company/air-drop" target="_blank"><i class="fab fa-github"></i></a></li>
 				</ul>				
 			</div>
 		</div>

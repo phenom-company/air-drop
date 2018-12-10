@@ -592,7 +592,8 @@ body {
 #footer > div > span {
   position: absolute;
   margin-top: 34px;
-  font-size: 14px;
+  font-size: 15px;
+  opacity: 0.2;
 }
 
 #footer > div > ul {
