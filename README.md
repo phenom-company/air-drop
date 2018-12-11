@@ -118,8 +118,8 @@ event MintFinished(uint indexed _timestamp);
 * run `truffle test` in another terminal
 ## Collaborators
 * **[Alex Smirnov](https://github.com/AlekseiSmirnov)**
-* **[Andrew Khizhnyak](https://github.com/AndrewKhizhnyak)**
 * **[Max Petriev](https://github.com/maxpetriev)**
+* **[Andrew Khizhnyak](https://github.com/AndrewKhizhnyak)**
 
 [airdrop]: https://airdrop.phenom.team/
 [phenom]: https://phenom.team/

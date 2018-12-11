@@ -245,7 +245,8 @@ const VueApp = new Vue({
                           if (symbolOfToken.length > 10) {
                             symbolOfToken = symbolOfToken.substr(0, 9) + "..."
                           }
-                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
+                          addressOfTokenShort = addressOfToken.substr(0, 12) + "..." + addressOfToken.substr(32);
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken, addressShort: addressOfTokenShort});
                         }  
                       });               
                     }
@@ -260,7 +261,8 @@ const VueApp = new Vue({
                           if (symbolOfToken.length > 10) {
                             symbolOfToken = symbolOfToken.substr(0, 9) + "..."
                           }
-                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
+                          addressOfTokenShort = addressOfToken.substr(0, 12) + "..." + addressOfToken.substr(32);
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken, addressShort: addressOfTokenShort});
                         }  
                       });               
                     }
