@@ -1,4 +1,4 @@
-#Airdrop Dapp
+# Airdrop Dapp
 <hr>
 
 [Airdrop][airdrop] is an application to send [ERC20][erc20] tokens to Ethereum wallet list (up to 100), developed by [Phenom.Team][phenom].
@@ -7,11 +7,11 @@
 
 With Phenom Airdrop decentralized application you can easily create ERC20 tokens, interact and send them to dozens of addresses in a couple of clicks. Airdrops are commonly used as a marketing strategy and can increase awareness of your project and attract new supporters. Try it out, this solution makes the process of Airdrop intuitive as it should be.
 
-##Installation
+## Installation
 Clone this repository into your local machine.
 Run `truffle compile` to compile smart contracts
-##Contract functions
-####contract TokenCreator
+## Contract functions
+#### contract TokenCreator
 **Mappings**
 ```js
 mapping(address => address[]) public mintableTokens;
@@ -43,7 +43,7 @@ function createMintableToken(string _name, string _symbol, uint8 _decimals, bool
 ```js
 event TokenCreated(address indexed _creator, address indexed _token);
 ```
-####contract StandardToken
+#### contract StandardToken
 **constructor**
 ```js
 constructor(string _name, string _symbol, uint8 _decimals, uint _totalSupply, bool _transferable) public {   
@@ -66,7 +66,7 @@ function airdrop(address[] _addresses, uint256[] _values) public onlyOwner retur
     return true;
 }
 ```
-####contract MintableToken
+#### contract MintableToken
 **constructor**
 ```js
 constructor(string _name, string _symbol, uint8 _decimals, bool _transferable) public {
