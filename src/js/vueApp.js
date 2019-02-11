@@ -24,6 +24,7 @@ let fileTxt = '';
 Vue.use(window.vuelidate.default);
 const alphaNum42 = validators.helpers.regex('alphaNum', /^[0-9a-fx-xA-FX-X]*$/);
 const length42 = validators.minLength(42) || validators.maxLength(42);
+const lengthMax27 = validators.maxLength(27);
 
 const VueApp = new Vue({
   el: '#app',
@@ -48,14 +49,14 @@ const VueApp = new Vue({
 /* Select token */    
     arrOfTokens: [],
 /* Interact with token */
-    selectedAddress: '0x6740f858570a0d0b6ee192b3d4791c8233e57868', // Should be ''
+    selectedAddress: '',
     picked: '-1',
     isActiveSelect: false,
     isActiveSelectTab: false,
     isActiveInteract: false,
     isActiveInteractTab: false,
     hrefToInteract: false,
-    tokenInfo: [0], // Should be []
+    tokenInfo: [],
     showCanMint: false,
     canMint: false,
     selectedMethod: 'Drop token',
@@ -69,6 +70,7 @@ const VueApp = new Vue({
     isActiveMakeTransferable: false,
     isActiveFinishMinting: false,
     isActiveMintTokens: false,
+    showTransferable: false,
     /* Methods content */
     balanceAddress: '',
     balanceOfWallet: '',
@@ -95,6 +97,7 @@ const VueApp = new Vue({
     amountOfTokensMintTokens: '',
   },
   validations: {
+/* Create */
     standSymbol: {
       required: validators.required,
     },
@@ -107,6 +110,7 @@ const VueApp = new Vue({
       required: validators.required,
       integer: validators.integer,
       minValue: validators.minValue(0),
+      lengthMax27: lengthMax27,
     },
     mintSymbol: {
       required: validators.required,
@@ -116,6 +120,7 @@ const VueApp = new Vue({
       integer: validators.integer,
       between: validators.between(0, 50),
     },
+/* Interact */
     balanceAddress: {
       required: validators.required,
       alphaNum42: alphaNum42,
@@ -181,6 +186,9 @@ const VueApp = new Vue({
         nothing: !validation.required,
       }
     },
+    copyFullAddress() {
+      navigator.clipboard.writeText(accounts[0]);
+    },
     createStandard () {
       if (this.$v.standSymbol.$invalid || this.$v.standDecimals.$invalid || this.$v.standTotalSupply.$invalid) {
         return;
@@ -210,28 +218,12 @@ const VueApp = new Vue({
     	if (accounts === undefined) {
 
     	} else {
-        this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);       
-        web3.version.getNetwork((err, netId) => {
-          switch (netId) {
-            case "1":
-              this.network = 'Mainnet';
-              break
-            case "3":
-              this.network = 'Ropsten';
-              break
-            case "4":
-              this.network = 'Rinkeby';
-              break
-            case "42":
-              this.network = 'Kovan';
-              break
-            default:
-              alert('This is an unknown network.')
-          }
-        })
         web3.eth.getBalance(accounts[0], (err, result) => {
           if (!err) {
             this.userBalance = (result.toNumber() / 10 ** 18).toFixed(3);
+            if (this.userBalance <= 0) {
+              this.userBalance = 0;
+            }
           }
         });
         web3.eth.getTransactionCount(accounts[0], (err, result) => {
@@ -250,10 +242,11 @@ const VueApp = new Vue({
                       let standardTokenInstance = StandardToken.at(addressOfToken);             
                       standardTokenInstance.symbol((err, symbolOfToken) => {
                         if (!err) {
-                          if (symbolOfToken.length >= 15) {
-                            symbolOfToken = symbolOfToken.substr(0, 15) + "..."
+                          if (symbolOfToken.length > 10) {
+                            symbolOfToken = symbolOfToken.substr(0, 9) + "..."
                           }
-                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken});
+                          addressOfTokenShort = addressOfToken.substr(0, 12) + "..." + addressOfToken.substr(32);
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Standard', address: addressOfToken, addressShort: addressOfTokenShort});
                         }  
                       });               
                     }
@@ -265,7 +258,11 @@ const VueApp = new Vue({
                       let mintableTokenInstance = MintableToken.at(addressOfToken);             
                       mintableTokenInstance.symbol((err, symbolOfToken) => {
                         if (!err) {
-                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken});
+                          if (symbolOfToken.length > 10) {
+                            symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                          }
+                          addressOfTokenShort = addressOfToken.substr(0, 12) + "..." + addressOfToken.substr(32);
+                          this.arrOfTokens.push({symbol: symbolOfToken, type: 'Mintable', address: addressOfToken, addressShort: addressOfTokenShort});
                         }  
                       });               
                     }
@@ -282,7 +279,8 @@ const VueApp = new Vue({
       this.isActiveSelect = true;
       this.isActiveInteract = false;
       this.hrefToInteract = false;
-      this.selectedAddress = this.arrOfTokens[index].address
+      this.selectedAddress = this.arrOfTokens[index].address;
+      this.showTransferable = false;
     },
     interactWithToken() {
       if (this.picked>=0) { 
@@ -306,7 +304,14 @@ const VueApp = new Vue({
                                   };
                                   if (transferableOfToken == false) {
                                     transferableOfToken = 'No';
+                                    this.showTransferable = true;
                                   };
+                                  if (nameOfToken.length > 10) {
+                                    nameOfToken = nameOfToken.substr(0, 9) + "..."
+                                  }
+                                  if (symbolOfToken.length > 10) {
+                                    symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                                  }
                                   this.tokenInfo.push({ name: nameOfToken,
                                                         symbol: symbolOfToken,
                                                         decimals: decimalsOfToken * 1,
@@ -356,6 +361,7 @@ const VueApp = new Vue({
                                       };
                                       if (transferableOfToken == false) {
                                         transferableOfToken = 'No';
+                                        this.showTransferable = true;
                                       };
                                       if (mintingFinishedOfToken == true) {
                                         mintingFinishedOfToken = 'No';
@@ -365,6 +371,12 @@ const VueApp = new Vue({
                                         mintingFinishedOfToken = 'Yes';
                                         this.canMint = true;
                                       };
+                                      if (nameOfToken.length > 10) {
+                                        nameOfToken = nameOfToken.substr(0, 9) + "..."
+                                      }
+                                      if (symbolOfToken.length > 10) {
+                                        symbolOfToken = symbolOfToken.substr(0, 9) + "..."
+                                      }
                                       this.tokenInfo.push({ name: nameOfToken,
                                                             symbol: symbolOfToken,
                                                             decimals: decimalsOfToken * 1,
@@ -440,19 +452,22 @@ const VueApp = new Vue({
       let fullArr = fileTxt.split(/\;|\n/);
       arrOfAddresses = [];
       arrOfValues = [];
+      /*console.log(fullArr)*/
       if (fullArr.length > 200) {
         fullArr = fullArr.slice(0, 200);
       };
       for (let i = 0; i < fullArr.length; i++) {
         if (i % 2) {
-          arrOfValues.push(fullArr[i]);
+          arrOfValues.push(fullArr[i] * 10 ** this.tokenInfo[0].decimals);
         } else {
           arrOfAddresses.push(fullArr[i]);
         }; 
       };
+      /*console.log(arrOfValues)
+      console.log(arrOfAddresses)*/
       if (arrOfAddresses.length > 0) {
         const airdropInstance = AirdropContract.at(this.selectedAddress);
-        airdropInstance.airdrop(arrOfAddresses, arrOfValues.map((item)=>{return parseFloat(item + 'E' + this.tokenInfo[0].decimals);}), console.log); 
+        airdropInstance.airdrop(arrOfAddresses, arrOfValues, console.log); 
       };
     },
     checkBalance() {
@@ -534,11 +549,33 @@ const VueApp = new Vue({
       window.AirdropContract = web3.eth.contract(abiAirdrop);
       window.StandardToken = web3.eth.contract(abiStandardToken);
       window.MintableToken = web3.eth.contract(abiMintableToken);
-      window.tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
       web3.eth.getAccounts((err, result) => {
         if (!err) {
-          window.accounts = result;
-          this.showTokens()
+          window.accounts = result;   
+          web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                this.network = 'Mainnet';
+                window.tokenCreatorInstance = TokenCreator.at('0xB6491C0447bE51aA14a76Bc23811900e5d49192f');
+                this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);
+                this.showTokens();
+                break
+              case "4":
+                this.network = 'Rinkeby';
+                window.tokenCreatorInstance = TokenCreator.at('0x2c8a58ddba2Dc097EA0f95db6CD51ac7d31D1518');
+                this.userAddress = accounts[0].substr(0, 6) + "..." + accounts[0].substr(38);
+                this.showTokens();
+                break
+              /*case "3":
+                this.network = 'Ropsten';
+                break
+              case "42":
+                this.network = 'Kovan';
+                break*/
+              default:
+                this.userAddress = '';
+            }
+          })
         };
       })
     }

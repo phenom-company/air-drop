@@ -9,9 +9,16 @@ body {
   left: 0px;
   top: 0px;
   width: 100%;
+  min-width: 1040px;
   min-height: 100%;
   padding-left: 0px;
   padding-right: 0px;
+}
+
+@media screen and (max-width: 1042px) {
+  .container {
+    min-width: 768px;
+  }
 }
 
 #header {
@@ -29,6 +36,12 @@ body {
   margin: auto;
   max-width: 1024px;
   height: 80px;
+}
+
+@media screen and (max-width: 1042px) {
+  #header > div {
+    max-width: 760px;
+  }
 }
 
 #header > div > a img {
@@ -49,6 +62,15 @@ body {
 #header > div > ul.online li {
   float: left;
   padding-left: 30px;
+}
+
+@media screen and (max-width: 1042px) {
+  #header > div > ul.online li {
+    padding-left: 20px;
+  }
+  #header > div > ul.online li:nth-child(3) {
+    display: none;
+  }
 }
 
 #header > div > ul.online .key {
@@ -75,14 +97,53 @@ body {
   float: left;
 }
 
+#header > div > ul.offline li:hover {
+  opacity: 1;
+  cursor: help;
+}
+
+#header > div > ul.offline li:hover:after {
+  content: attr(data-title);
+  position: absolute;
+  width: 300px;
+  margin-top: 24px;
+  margin-left: -275px;
+  z-index: 1;
+  font-size: 13px;
+  color: #D0D6ED;
+}
+
 #header > div > ul.offline .status-lamp {
   padding-left: 5px;
   margin-top: 3px;
 }
 
+#header i {
+  color: #5E6B9C;
+}
+
+#header i:hover {
+  cursor: pointer;
+}
+
+#header i:hover:after {
+  content: attr(data-title);
+  position: absolute;
+  margin-top: 20px;
+  margin-left: -28px;
+  font-size: 16px;
+  font-family: Avenir Next Cyr Regular;
+}
+
 #wrapper {
   margin: auto;
   max-width: 1024px;
+}
+
+@media screen and (max-width: 1042px) {
+  #wrapper {
+    max-width: 760px;
+  }
 }
 
 #wrapper img {
@@ -93,7 +154,13 @@ body {
 
 #wrapper .parashut-large {
   margin-top: 140px;
-  max-width: 340px;
+  width: 340px;
+}
+
+@media screen and (max-width: 1042px) {
+  #wrapper .parashut-large {
+    width: 260px;
+  }
 }
 
 #wrapper .parashut-medium {
@@ -102,10 +169,24 @@ body {
   width: 240px;
 }
 
+@media screen and (max-width: 1042px) {
+  #wrapper .parashut-medium {
+    margin-left: 500px;
+    width: 180px;
+  }
+}
+
 #wrapper .parashut-small {
   margin-top: 140px;
   margin-left: 860px;
   width: 140px;
+}
+
+@media screen and (max-width: 1042px) {
+  #wrapper .parashut-small {
+    margin-left: 640px;
+    width: 120px;
+  }
 }
 
 #menu {
@@ -169,6 +250,12 @@ body {
   font-size: 58px;
 }
 
+@media screen and (max-width: 1042px) {
+  #home > h2 {
+    font-size: 50px;
+  }
+}
+
 #home > h2 span {
   font-family: Avenir Next Cyr Medium;
   color: #FB5551;
@@ -177,6 +264,12 @@ body {
 #home h3 {
   margin: 100px 0 0 0;
   font-size: 40px;
+}
+
+@media screen and (max-width: 1042px) {
+  #home h3 {
+    font-size: 38px;
+  }
 }
 
 #home h3 span {
@@ -195,7 +288,7 @@ body {
 
 #home h5 .learn-more {
   color: #FB5551;
-  border-bottom: 1px solid #FB5551;
+  border-bottom: 0px;
   display: inline-block;
   line-height: 0.8;
   cursor: pointer;
@@ -203,6 +296,7 @@ body {
 
 #home h5 .learn-more:hover {
   opacity: 0.7;
+  border-bottom: 1px solid #FB5551;
 }
 
 #home h5 .learn-more a {
@@ -276,6 +370,11 @@ body {
   color: #fff;
 }
 
+#create .tab-content h3 > span {
+  font-size: 22px;
+  color: #5E6B9C;
+}
+
 #create .tab-content input {
   background: #121C42;
 }
@@ -308,7 +407,7 @@ body {
 
 #select {
   margin: auto;
-  max-width: 960px;
+  max-width: 900px;
   min-height: 500px;
   position: relative;
 }
@@ -429,7 +528,7 @@ body {
 
 #interact .token-info-stuff tr td {
   padding-bottom: 20px;
-  padding-left: 30px;
+  padding-left: 20px;
   font-size: 17px;
 }
 
@@ -454,6 +553,12 @@ body {
   font-size: 32px;
 }
 
+@media screen and (max-width: 1042px) {
+  #interact .token-methods {
+    width: 350px;
+  }
+}
+
 #interact .choice-of-method > span {
   font-size: 16px;
 }
@@ -475,6 +580,23 @@ body {
   font-weight: normal;
   font-size: 19px;
   color: #BEC5E1;
+}
+
+#interact label .download-file {
+  color: #FB5551;
+  border-bottom: 0px;
+  display: inline-block;
+  line-height: 0.8;
+  cursor: pointer;
+}
+
+#interact label .download-file:hover {
+  opacity: 0.7;
+  border-bottom: 1px solid #FB5551;
+}
+
+#interact label a {
+  color: #457AFF;
 }
 
 #interact input {
@@ -532,10 +654,17 @@ body {
   height: 80px;
 }
 
+@media screen and (max-width: 1042px) {
+  #footer > div {
+    max-width: 760px;
+  }
+}
+
 #footer > div > span {
   position: absolute;
   margin-top: 34px;
-  font-size: 14px;
+  font-size: 15px;
+  opacity: 0.2;
 }
 
 #footer > div > ul {
@@ -554,7 +683,7 @@ body {
   color: #fff;
 }
 
-#footer > div > ul li a:hover {
+#footer i:hover {
   opacity: 0.7;
 }
 /*# sourceMappingURL=no-bootstrap.css.map */

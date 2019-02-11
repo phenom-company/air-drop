@@ -5,3 +5,5 @@
 truffle.js
 truffle-config.js
 addresses.csv
+test.sh
+.DS_Store
